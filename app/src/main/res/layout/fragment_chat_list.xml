@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="edu.android.chatting_game.ChatListFragment">
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="검색"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:id="@+id/btnSearch"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editNameSearch"
+        android:layout_alignBaseline="@+id/btnSearch"
+        android:layout_alignBottom="@+id/btnSearch"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:hint="친구검색" />
+</RelativeLayout>
