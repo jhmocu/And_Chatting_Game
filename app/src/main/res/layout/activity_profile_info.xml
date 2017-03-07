@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="edu.android.chatting_game.Profile_info">
+    tools:context="edu.android.chatting_game.ProfileInfoActivity">
 
 
     <include layout="@layout/content_profile_info"

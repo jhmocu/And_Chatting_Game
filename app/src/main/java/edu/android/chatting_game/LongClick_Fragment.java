@@ -1,17 +1,18 @@
 package edu.android.chatting_game;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 
-public class LongClick_Fragment extends DialogFragment {
+public class LongClick_Fragment
+        extends DialogFragment {
 
-    private SelectedListener listener;
+    private onItemSelectedListener listener;
 
     public LongClick_Fragment() {
         // Required empty public constructor
@@ -20,42 +21,40 @@ public class LongClick_Fragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof SelectedListener){
-            listener=(SelectedListener)context;
+        if(context instanceof onItemSelectedListener){
+            listener = (onItemSelectedListener) context;
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener=null;
+        listener = null;
     }
 
     public static LongClick_Fragment newInstance(){
         return new LongClick_Fragment();
     }
 
-    @NonNull
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("수정");
-        final String[]update=getResources().getStringArray(R.array.long_click);
+        final String[] update = getResources().getStringArray(R.array.long_click);
         builder.setItems(update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(listener!=null){
-                    listener.Selected(which);
+                if(listener != null){
+                    listener.itemSelected(which);
                 }
             }
         });
         return builder.create();
     }
 
-
-
-    public interface SelectedListener{
-        void Selected(int which);
+    public interface onItemSelectedListener {
+        void itemSelected(int which);
     }
 
 }
