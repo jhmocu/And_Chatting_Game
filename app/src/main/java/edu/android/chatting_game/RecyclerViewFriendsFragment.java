@@ -44,8 +44,9 @@ public class RecyclerViewFriendsFragment
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: 2017-03-07 position 정보 넘기기
 //                    int position = getAdapterPosition();
-                    Intent intent = new Intent(getActivity(), ProfileInfoActivity.class);
+                    Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
 //                    intent.putExtra(KEY_EXTRA_INDEX, position);
                     startActivity(intent);
                 }
@@ -57,7 +58,6 @@ public class RecyclerViewFriendsFragment
 //                    int position = getAdapterPosition();
                     DialogFragment longClickFragment = LongClick_Fragment.newInstance();
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
-
                     return true;
                 }
             });
