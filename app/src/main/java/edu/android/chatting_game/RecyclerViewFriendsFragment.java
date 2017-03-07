@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class RecyclerViewFriendsFragment
-        extends Fragment {
+        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
 //        implements LongClick_Fragment.onItemSelectedListener {
 
     public static final String KEY_EXTRA_NAME = "key_name";
@@ -30,6 +30,7 @@ public class RecyclerViewFriendsFragment
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
+
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
@@ -66,6 +67,22 @@ public class RecyclerViewFriendsFragment
             });
         }
     } // end class FriendViewHolder
+    @Override
+    public void itemSelected(int which) {
+        switch (which){
+            case 0:
+                nameUpdate();
+                break;
+            case 1:
+
+                break;
+        }
+
+    }
+    private void nameUpdate(){
+
+    }
+
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
