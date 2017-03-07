@@ -26,6 +26,10 @@
         <activity
             android:name=".Profile_My_info"
             android:label="@string/title_activity_profile__my_info"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Long_Click_name_Update"
+            android:label="@string/title_activity_long__click_name__update"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
