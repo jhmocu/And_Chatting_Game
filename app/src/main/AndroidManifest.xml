@@ -26,7 +26,7 @@
         <activity
             android:name=".Profile_My_info"
             android:label="@string/title_activity_profile__my_info"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
