@@ -23,7 +23,10 @@ public class RecyclerViewFriendsFragment
         extends Fragment {
 //        implements LongClick_Fragment.onItemSelectedListener {
 
-//    public static final String KEY_EXTRA_INDEX = "key_extra";
+    public static final String KEY_EXTRA_NAME = "key_name";
+    public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
+    public static final String KEY_EXTRA_MESSAGE = "key_msg";
+    public static final String KEY_EXTRA_IMAGEID = "key_image";
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
@@ -43,10 +46,11 @@ public class RecyclerViewFriendsFragment
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기
-//                    int position = getAdapterPosition();
+                    // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
+                    int position = getAdapterPosition();
                     Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-//                    intent.putExtra(KEY_EXTRA_INDEX, position);
+                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
+                    intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
                     startActivity(intent);
                 }
             });

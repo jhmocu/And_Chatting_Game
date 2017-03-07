@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:id="@+id/Phone"
+        android:id="@+id/textMsg"
         android:layout_below="@+id/Name"
         android:layout_centerHorizontal="true" />
 
@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_send"
         android:layout_alignBottom="@+id/imageButton"
-        android:layout_toRightOf="@+id/Phone"
-        android:layout_toEndOf="@+id/Phone"
+        android:layout_toRightOf="@+id/textMsg"
+        android:layout_toEndOf="@+id/textMsg"
         android:layout_marginLeft="34dp"
         android:layout_marginStart="34dp"
         android:id="@+id/imageButton2" />
@@ -54,7 +54,7 @@
         android:layout_marginBottom="17dp"
         android:id="@+id/imageButton"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/Phone"
-        android:layout_toStartOf="@+id/Phone" />
+        android:layout_toLeftOf="@+id/textMsg"
+        android:layout_toStartOf="@+id/textMsg" />
 
 </RelativeLayout>
