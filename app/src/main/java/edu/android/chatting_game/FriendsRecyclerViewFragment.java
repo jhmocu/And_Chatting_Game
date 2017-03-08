@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class RecyclerViewFriendsFragment
-        extends Fragment
-        implements LongClick_Fragment.onItemSelectedListener{
+        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
+//        implements LongClick_Fragment.onItemSelectedListener {
 
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
@@ -33,7 +33,7 @@ public class RecyclerViewFriendsFragment
 
 
     class FriendViewHolder
-            extends RecyclerView.ViewHolder{
+            extends RecyclerView.ViewHolder {
 
         private ImageView photo;
         private TextView name, message;
@@ -50,12 +50,7 @@ public class RecyclerViewFriendsFragment
                 public void onClick(View v) {
                     // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
-                    Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-                    intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
-                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-                    intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
-                    intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
-                    startActivity(intent);
+                    startProfileActivity(position);
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -84,11 +79,8 @@ public class RecyclerViewFriendsFragment
     }
     private void nameUpdate(){
 
-//        Intent intent=new Intent( ,Long_Click_name_Update.class);
-
-//        startActivity(intent);
-
     }
+
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
@@ -131,5 +123,12 @@ public class RecyclerViewFriendsFragment
         return view;
     }
 
-
+    private void startProfileActivity(int position) {
+        Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
+        intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+        intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
+        intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
+        intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+        startActivity(intent);
+    }
 }

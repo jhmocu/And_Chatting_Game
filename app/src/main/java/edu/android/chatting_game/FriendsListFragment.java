@@ -1,7 +1,9 @@
 package edu.android.chatting_game;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
  */
 public class FriendsListFragment
         extends Fragment {
+    private FloatingActionButton floatingBtn;
 
 
     public FriendsListFragment() {
@@ -27,13 +30,28 @@ public class FriendsListFragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_friends_list, container, false);
-        RecyclerViewFriendsFragment fragment = new RecyclerViewFriendsFragment();
+        FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
 
+        floatingBtn = (FloatingActionButton) view.findViewById(R.id.floatingBtn);
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddFriendsActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
+
+
+
+
 
 }

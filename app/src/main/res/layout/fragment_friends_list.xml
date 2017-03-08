@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.FriendsListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -38,6 +36,21 @@
         android:layout_toEndOf="@+id/imageView_ProfileInfo"
         android:hint="친구검색" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        app:backgroundTint="?android:attr/colorPressedHighlight"
+        app:srcCompat="@drawable/plus"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,18 +62,5 @@
 
 
     </FrameLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        app:backgroundTint="?android:attr/colorPressedHighlight"
-        app:srcCompat="@drawable/plus"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
