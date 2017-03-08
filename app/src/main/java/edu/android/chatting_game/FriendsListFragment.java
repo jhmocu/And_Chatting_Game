@@ -49,11 +49,7 @@ public class FriendsListFragment
         return view;
     }
 
-//    public void onClickAddFriendsFloating(View view) {
-//        Intent intent = new Intent(getContext(), AddFriendsActivity.class);
-//
-//        getContext().startActivity(intent);
-//    } // end onClickAddFriendsFloating()
+
 
 
 
