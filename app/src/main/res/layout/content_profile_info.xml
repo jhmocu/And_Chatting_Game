@@ -13,7 +13,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.android.chatting_game.ProfileInfoActivity"
     tools:showIn="@layout/activity_profile_info">
-
+<!-- 수정 push -->
 
     <TextView
         android:hint="이름들어가는 곳"
@@ -37,27 +37,27 @@
         android:id="@+id/textMsg" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_toRightOf="@+id/textMsg"
-        android:layout_toEndOf="@+id/textMsg"
+        android:id="@+id/btnMessage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/btnCall"
         android:layout_marginLeft="34dp"
         android:layout_marginStart="34dp"
-        android:id="@+id/imageButton2" />
+        android:layout_toEndOf="@+id/textMsg"
+        android:layout_toRightOf="@+id/textMsg"
+        app:srcCompat="@android:drawable/stat_notify_chat" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_call"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/imageButton"
+        android:id="@+id/btnCall"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:layout_toLeftOf="@+id/textMsg"
-        android:layout_toStartOf="@+id/textMsg" />
+        android:layout_toStartOf="@+id/textMsg"
+        app:srcCompat="@android:drawable/ic_menu_call" />
 
     <TextView
         android:hint="전화번호 들어가는 곳"
