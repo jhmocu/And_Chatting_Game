@@ -10,9 +10,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.android.chatting_game.ProfileInfoActivity"
+    tools:context="edu.android.chatting_game.Profile_My_info"
     tools:showIn="@layout/activity_profile__my_info">
 
+    <!-- 수정 push -->
 
     <TextView
         android:hint="이름들어가는 곳"
@@ -23,38 +24,24 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="133dp"
         android:layout_marginStart="133dp"
-        android:id="@+id/Name" />
+        android:id="@+id/myName" />
 
     <TextView
         android:hint="상태메세지"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:id="@+id/textMsg"
+        android:id="@+id/myStatusMsg"
         android:layout_below="@+id/Name"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_toRightOf="@+id/textMsg"
-        android:layout_toEndOf="@+id/textMsg"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:id="@+id/imageButton2" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_call"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/imageButton"
+        android:id="@+id/editInfo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/textMsg"
-        android:layout_toStartOf="@+id/textMsg" />
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
 
 </RelativeLayout>
