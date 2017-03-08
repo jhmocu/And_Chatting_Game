@@ -15,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity{
+        //implements LongClick_Fragment.onItemSelectedListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -76,6 +77,25 @@ public class Main2Activity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void itemSelected(int which) {
+//        switch (which){
+//            case 0:
+//                nameUpdate();
+//                break;
+//            case 1:
+//
+//                break;
+//        }
+//    }
+//    private void nameUpdate(){
+//
+//
+//        Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
+////        intent.putExtra("name",position);
+//        startActivity(intent);
+//    }
 
     /**
      * A placeholder fragment containing a simple view.

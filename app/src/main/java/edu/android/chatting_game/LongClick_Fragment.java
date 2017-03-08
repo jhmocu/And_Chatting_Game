@@ -40,7 +40,6 @@ public class LongClick_Fragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("수정");
         final String[] update = getResources().getStringArray(R.array.long_click);
         builder.setItems(update, new DialogInterface.OnClickListener() {
             @Override

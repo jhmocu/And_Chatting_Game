@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class RecyclerViewFriendsFragment
-        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
-//        implements LongClick_Fragment.onItemSelectedListener {
+        extends Fragment
+        implements LongClick_Fragment.onItemSelectedListener{
 
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
@@ -33,7 +33,7 @@ public class RecyclerViewFriendsFragment
 
 
     class FriendViewHolder
-            extends RecyclerView.ViewHolder {
+            extends RecyclerView.ViewHolder{
 
         private ImageView photo;
         private TextView name, message;
@@ -84,8 +84,11 @@ public class RecyclerViewFriendsFragment
     }
     private void nameUpdate(){
 
-    }
+//        Intent intent=new Intent( ,Long_Click_name_Update.class);
 
+//        startActivity(intent);
+
+    }
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
