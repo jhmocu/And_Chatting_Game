@@ -20,33 +20,41 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class RecyclerViewFriendsFragment
-        extends Fragment {
+        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
 //        implements LongClick_Fragment.onItemSelectedListener {
 
-//    public static final String KEY_EXTRA_INDEX = "key_extra";
+    public static final String KEY_EXTRA_NAME = "key_name";
+    public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
+    public static final String KEY_EXTRA_MESSAGE = "key_msg";
+    public static final String KEY_EXTRA_IMAGEID = "key_image";
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
+
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
 
         private ImageView photo;
-        private TextView name;
+        private TextView name, message;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
 
-            photo = (ImageView) itemView.findViewById(R.id.imageView_recycler);
-            name = (TextView) itemView.findViewById(R.id.textView_recycler);
+            photo = (ImageView) itemView.findViewById(R.id.imageView_list);
+            name = (TextView) itemView.findViewById(R.id.textName_list);
+            message = (TextView) itemView.findViewById(R.id.textMsg_list);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기
-//                    int position = getAdapterPosition();
+                    // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
+                    int position = getAdapterPosition();
                     Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-//                    intent.putExtra(KEY_EXTRA_INDEX, position);
+                    intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
+                    intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
+                    intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
                     startActivity(intent);
                 }
             });
@@ -62,6 +70,22 @@ public class RecyclerViewFriendsFragment
             });
         }
     } // end class FriendViewHolder
+    @Override
+    public void itemSelected(int which) {
+        switch (which){
+            case 0:
+                nameUpdate();
+                break;
+            case 1:
+
+                break;
+        }
+
+    }
+    private void nameUpdate(){
+
+    }
+
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
@@ -79,6 +103,7 @@ public class RecyclerViewFriendsFragment
             Friend friend = list.get(position);
             holder.photo.setImageResource(friend.getImageId());
             holder.name.setText(friend.getName());
+            holder.message.setText(friend.getMessage());
         }
 
         @Override
