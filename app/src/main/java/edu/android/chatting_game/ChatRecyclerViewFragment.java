@@ -22,9 +22,31 @@ public class ChatRecyclerViewFragment
 
         public ChattingViewHolder(View itemView) {
             super(itemView);
-
         }
     } // end class ChattingViewHolder
+
+    class ChattingAdapter extends RecyclerView.Adapter<ChattingViewHolder> {
+
+        @Override
+        public ChattingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            // TODO: 2017-03-08  
+            
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(ChattingViewHolder chattingViewHolder, int i) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+    }
+
 
     public ChatRecyclerViewFragment() {
 
