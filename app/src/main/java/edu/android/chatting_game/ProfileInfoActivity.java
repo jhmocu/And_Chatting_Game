@@ -25,6 +25,9 @@ public class ProfileInfoActivity
 
         imageView = (ImageView) findViewById(R.id.imageView_ProfileInfo);
         textName = (TextView) findViewById(R.id.textName);
+        textPhone = (TextView) findViewById(R.id.textPhone);
+        textMsg = (TextView) findViewById(R.id.textMsg);
+
 
         btnCall = (ImageButton) findViewById(R.id.btnCall); // 수정
         btnMessage = (ImageButton) findViewById(R.id.btnMessage); // 수정
@@ -33,11 +36,15 @@ public class ProfileInfoActivity
         // TODO: 2017-03-07 RecyclerViewFriendsFragment에서 정보 제대로 오는 지 확인
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            String name = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_NAME);
             int imageId = extra.getInt(RecyclerViewFriendsFragment.KEY_EXTRA_IMAGEID);
-
-            textName.setText(name);
+            String name = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_NAME);
+            String phoneNumber = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_PHONENUMBER);
+            String message = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_MESSAGE);
             imageView.setImageResource(imageId);
+            textName.setText(name);
+            textPhone.setText(phoneNumber);
+            textMsg.setText(message);
+        }
 
             btnCall.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -45,8 +52,6 @@ public class ProfileInfoActivity
                     btnOnClickCall();
                 }
             });
-
-        }
     }
 
     private void btnOnClickCall() { // 수정
@@ -59,5 +64,4 @@ public class ProfileInfoActivity
             Toast.makeText(this, "번호 입력이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
