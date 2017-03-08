@@ -37,7 +37,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="TextView" />
+            android:text="참여자 수" />
 
         <TextView
             android:id="@+id/textRoomName"

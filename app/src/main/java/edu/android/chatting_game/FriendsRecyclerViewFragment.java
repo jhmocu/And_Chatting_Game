@@ -50,12 +50,7 @@ public class FriendsRecyclerViewFragment
                 public void onClick(View v) {
                     // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
-                    Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-                    intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
-                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-                    intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
-                    intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
-                    startActivity(intent);
+                    startProfileActivity(position);
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -126,6 +121,15 @@ public class FriendsRecyclerViewFragment
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new FriendAdapter());
         return view;
+    }
+
+    private void startProfileActivity(int position) {
+        Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
+        intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+        intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
+        intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
+        intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+        startActivity(intent);
     }
 
 
