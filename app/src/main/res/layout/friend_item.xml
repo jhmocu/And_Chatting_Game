@@ -3,19 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <ImageView
-        android:id="@+id/imageView_recycler"
+        android:id="@+id/imageView_list"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:srcCompat="@drawable/p1" />
 
     <TextView
-        android:id="@+id/textView_recycler"
+        android:id="@+id/textName_list"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="이름" />
+
+    <TextView
+        android:id="@+id/textMsg_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="TextView" />
+
+
 </LinearLayout>
