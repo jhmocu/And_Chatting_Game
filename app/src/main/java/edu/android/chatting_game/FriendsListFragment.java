@@ -35,6 +35,7 @@ public class FriendsListFragment
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
+
         floatingBtn = (FloatingActionButton) view.findViewById(R.id.floatingBtn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override

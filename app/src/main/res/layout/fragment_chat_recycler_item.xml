@@ -32,17 +32,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textFriendsCount"
+            android:id="@+id/txtFriendCount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_above="@+id/textLasttMsg"
+            android:layout_above="@+id/txtLastMsg"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="참여자 수" />
 
         <TextView
-            android:id="@+id/textRoomName"
+            android:id="@+id/txtRoom"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
@@ -52,10 +52,10 @@
             android:text="대화방 이름" />
 
         <TextView
-            android:id="@+id/textLasttMsg"
+            android:id="@+id/txtLastMsg"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/textRoomName"
+            android:layout_below="@+id/txtRoom"
             android:text="마지막 메세지" />
     </RelativeLayout>
 
@@ -67,13 +67,13 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textTime"
+            android:id="@+id/txtTime"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="마지막 대화 시간" />
 
         <TextView
-            android:id="@+id/textMsgCont"
+            android:id="@+id/txtMsgCont"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="안 읽은 메시지" />
