@@ -36,13 +36,14 @@ public class RecyclerViewFriendsFragment
             extends RecyclerView.ViewHolder {
 
         private ImageView photo;
-        private TextView name;
+        private TextView name, message;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
 
-            photo = (ImageView) itemView.findViewById(R.id.imageView_recycler);
-            name = (TextView) itemView.findViewById(R.id.textView_recycler);
+            photo = (ImageView) itemView.findViewById(R.id.imageView_list);
+            name = (TextView) itemView.findViewById(R.id.textName_list);
+            message = (TextView) itemView.findViewById(R.id.textMsg_list);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -50,8 +51,10 @@ public class RecyclerViewFriendsFragment
                     // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
                     Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
                     intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+                    intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
+                    intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
+                    intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
                     startActivity(intent);
                 }
             });
@@ -100,6 +103,7 @@ public class RecyclerViewFriendsFragment
             Friend friend = list.get(position);
             holder.photo.setImageResource(friend.getImageId());
             holder.name.setText(friend.getName());
+            holder.message.setText(friend.getMessage());
         }
 
         @Override
