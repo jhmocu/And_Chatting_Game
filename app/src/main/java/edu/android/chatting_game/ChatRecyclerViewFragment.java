@@ -53,7 +53,7 @@ public class ChatRecyclerViewFragment
 
         @Override
         public int getItemCount() {
-            return 10; /* 임의 */
+            return 10; /* 임의 --> list.size()*/
         }
     }
 

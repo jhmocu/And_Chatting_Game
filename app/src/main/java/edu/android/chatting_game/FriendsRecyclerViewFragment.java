@@ -75,7 +75,6 @@ public class FriendsRecyclerViewFragment
 
                 break;
         }
-
     }
     private void nameUpdate(){
 
@@ -106,6 +105,7 @@ public class FriendsRecyclerViewFragment
             return list.size();
         }
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +131,4 @@ public class FriendsRecyclerViewFragment
         intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
         startActivity(intent);
     }
-
-
 }

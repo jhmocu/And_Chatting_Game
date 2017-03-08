@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.FriendsListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -51,7 +49,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
-
 
 
     <FrameLayout
