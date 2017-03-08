@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecyclerViewFriendsFragment
+public class FriendsRecyclerViewFragment
         extends Fragment implements LongClick_Fragment.onItemSelectedListener{
 //        implements LongClick_Fragment.onItemSelectedListener {
 

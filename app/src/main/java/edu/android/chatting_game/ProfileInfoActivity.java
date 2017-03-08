@@ -25,10 +25,10 @@ public class ProfileInfoActivity
         // TODO: 2017-03-07 RecyclerViewFriendsFragment에서 정보 제대로 오는 지 확인
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            int imageId = extra.getInt(RecyclerViewFriendsFragment.KEY_EXTRA_IMAGEID);
-            String name = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_NAME);
-            String phoneNumber = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_PHONENUMBER);
-            String message = extra.getString(RecyclerViewFriendsFragment.KEY_EXTRA_MESSAGE);
+            int imageId = extra.getInt(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
+            String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            String phoneNumber = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            String message = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
             imageView.setImageResource(imageId);
             textName.setText(name);
             textPhone.setText(phoneNumber);

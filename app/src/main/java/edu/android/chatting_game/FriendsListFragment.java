@@ -27,7 +27,7 @@ public class FriendsListFragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_friends_list, container, false);
-        RecyclerViewFriendsFragment fragment = new RecyclerViewFriendsFragment();
+        FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_recyclerView, fragment);
