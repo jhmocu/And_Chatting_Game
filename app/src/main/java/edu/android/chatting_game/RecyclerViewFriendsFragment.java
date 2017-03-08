@@ -62,7 +62,7 @@ public class RecyclerViewFriendsFragment
                 @Override
                 public boolean onLongClick(View v) {
                     // TODO: 2017-03-07 position 정보 넘기기
-//                    int position = getAdapterPosition();
+                    int position = getAdapterPosition();
                     DialogFragment longClickFragment = LongClick_Fragment.newInstance();
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
                     return true;
