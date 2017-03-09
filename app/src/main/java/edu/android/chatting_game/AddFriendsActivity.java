@@ -64,6 +64,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                 } // end if()
 
+                // dummyGasngData이용
 //                while (run) {
 //                    for (int i = 0; i < dummyGasangData.length; i++) {
 //                        phoneNo = dummyGasangData[i];
@@ -89,8 +90,6 @@ public class AddFriendsActivity extends AppCompatActivity {
 
 
             } // onClick()
-
-        });
-
-    }
+        }); // end setOnClickListener()
+    } // end onCreate()
 }
