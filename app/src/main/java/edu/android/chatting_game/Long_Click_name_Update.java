@@ -1,14 +1,15 @@
 package edu.android.chatting_game;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class Long_Click_name_Update extends AppCompatActivity {
 
+    private TextView textView;
+    private Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,14 +17,13 @@ public class Long_Click_name_Update extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        textView=(TextView)findViewById(R.id.editName);
+        btn=(Button)findViewById(R.id.button) ;
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+            textView.setText(name);
+        }
     }
 
 }
