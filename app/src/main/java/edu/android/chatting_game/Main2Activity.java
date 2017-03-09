@@ -101,6 +101,9 @@ public class Main2Activity extends AppCompatActivity
     private void itemDelete(String name){
         Toast.makeText(this,"DB 삭제",Toast.LENGTH_SHORT).show();
         //TODO:DB 삭제 작업할 곳
+//         queryDelete = require("").delete;
+//        queryDelete(data, "#/**/*/data");
+
     }
     private void nameUpdate(String name){
 
