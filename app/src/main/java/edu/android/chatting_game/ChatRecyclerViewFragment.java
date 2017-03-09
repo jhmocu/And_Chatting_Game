@@ -1,10 +1,12 @@
 package edu.android.chatting_game;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,9 @@ import android.widget.TextView;
 public class ChatRecyclerViewFragment
         extends Fragment {
 
+    private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
+
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -31,6 +35,16 @@ public class ChatRecyclerViewFragment
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
             txtMsgCount = (TextView) itemView.findViewById(R.id.txtMsgCont);
 
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "onClick()\nStart------ChatRoomActivity");
+                    // TODO: 2017-03-09 아이템 클릭 -> ChatRoomActivity 실행
+                    Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     } // end class ChattingViewHolder
 
@@ -48,12 +62,13 @@ public class ChatRecyclerViewFragment
 
         @Override
         public void onBindViewHolder(ChattingViewHolder chattingViewHolder, int i) {
-            // TODO: 2017-03-08
+            // TODO: 2017-03-08 아이템 하나의 레이아웃
+
         }
 
         @Override
         public int getItemCount() {
-            return 10; /* 임의 --> list.size()*/
+            return 10; /* 임의 */
         }
     }
 
