@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsRecyclerViewFragment
-        extends Fragment implements LongClick_Fragment.OnItemSelectedListener {
+        extends Fragment implements LongClick_Fragment.onItemSelectedListener {
 //        implements LongClick_Fragment.onItemSelectedListener {
 
     public static final String TAG = "edu.android.chatting";

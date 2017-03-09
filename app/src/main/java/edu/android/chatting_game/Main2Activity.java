@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Main2Activity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class Main2Activity
+        extends AppCompatActivity
+        implements LongClick_Fragment.onItemSelectedListener {
+
+    private ArrayList<Friend> list = new ArrayList<Friend>();
+    FriendLab lab = FriendLab.getInstance();
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -54,7 +63,6 @@ public class Main2Activity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,6 +84,25 @@ public class Main2Activity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void itemSelected(int which, String name) {
+        switch (which){
+            case 0:
+                nameUpdate(name);
+                break;
+            case 1:
+                break;
+        }
+    }
+    private void nameUpdate(String name){
+        //Bundle extras=getIntent().getExtras();
+        Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, name);
+
+        startActivity(intent);
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.

@@ -14,21 +14,21 @@ public class LongClick_Fragment
 
     public static final String TAG = "edu.android.chatting";
 
-    private OnItemSelectedListener listener;
+    private onItemSelectedListener listener;
 
     public LongClick_Fragment() {
         // Required empty public constructor
     }
 
-    public void setListener(OnItemSelectedListener listener) {
+    public void setListener(onItemSelectedListener listener) {
         this.listener = listener;
     }
 
         @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            this.listener = (OnItemSelectedListener) context;
+        if (context instanceof onItemSelectedListener) {
+            this.listener = (onItemSelectedListener) context;
             Log.i(TAG, "onAttach()");
         }
     }
@@ -71,7 +71,7 @@ public class LongClick_Fragment
     }
 
 
-    public interface OnItemSelectedListener {
+    public interface onItemSelectedListener {
         void itemSelected(int which);
     }
 
