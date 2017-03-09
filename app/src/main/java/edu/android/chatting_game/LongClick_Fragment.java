@@ -47,7 +47,6 @@ public class LongClick_Fragment
             public void onClick(DialogInterface dialog, int which) {
                 if(listener != null){
                     listener.itemSelected(which, name);
-
                 }
             }
         });
