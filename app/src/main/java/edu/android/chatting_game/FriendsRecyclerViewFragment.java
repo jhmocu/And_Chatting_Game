@@ -29,6 +29,8 @@ public class FriendsRecyclerViewFragment
     public static final String KEY_EXTRA_NAME2="key_name2";
 
 
+
+
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
 
@@ -69,6 +71,7 @@ public class FriendsRecyclerViewFragment
         }
     } // end class FriendViewHolder
 
+
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
 
@@ -96,7 +99,11 @@ public class FriendsRecyclerViewFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
