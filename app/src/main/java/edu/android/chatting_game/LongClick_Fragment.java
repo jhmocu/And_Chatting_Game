@@ -14,22 +14,21 @@ public class LongClick_Fragment
 
     public static final String TAG = "edu.android.chatting";
 
-    private onItemSelectedListener listener;
+    private OnItemSelectedListener listener;
 
     public LongClick_Fragment() {
         // Required empty public constructor
-
     }
 
-    public void setListener(onItemSelectedListener listener) {
+    public void setListener(OnItemSelectedListener listener) {
         this.listener = listener;
     }
 
         @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof onItemSelectedListener) {
-            this.listener = (onItemSelectedListener) context;
+        if (context instanceof OnItemSelectedListener) {
+            this.listener = (OnItemSelectedListener) context;
             Log.i(TAG, "onAttach()");
         }
     }
@@ -38,14 +37,13 @@ public class LongClick_Fragment
 
     public static LongClick_Fragment newInstance() {
         LongClick_Fragment longClickFragment = new LongClick_Fragment();
-        Context context = longClickFragment.getContext();
-        longClickFragment.onAttach(context);
         return longClickFragment;
     }
 
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Log.i(TAG, "LongClick_Fragment :: onCreateDialog() ::\n savedInstanceState:" + savedInstanceState);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("수정");
         final String[] update = getResources().getStringArray(R.array.long_click);
@@ -53,14 +51,11 @@ public class LongClick_Fragment
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i(TAG, "LongClick_Fragment ::: onClick() :::\nwhich: " + which);
-
                 if (listener != null) {
-                    Log.i(TAG, "LongClick_Fragment\nlistener!=null\nwhich: " + which);
+                    Log.i(TAG, "LongClick_Fragment\nlistener NNNNOOOOOTTTT null\nwhich: " + which);
                     listener.itemSelected(which);
-                } else if (listener == null) {
-                    Log.i(TAG, "LongClick_Fragment\nlistener == null");
-
-
+//                } else if (listener == null) {
+//                    Log.i(TAG, "LongClick_Fragment\nlistener == null");
                 }
             }
         });
@@ -76,14 +71,8 @@ public class LongClick_Fragment
     }
 
 
-    public interface onItemSelectedListener {
+    public interface OnItemSelectedListener {
         void itemSelected(int which);
     }
-
-    /**
-     */
-
-
-
 
 }

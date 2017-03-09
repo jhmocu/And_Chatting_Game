@@ -28,7 +28,7 @@
             android:label="@string/title_activity_profile__my_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Long_Click_name_Update"
+            android:name=".LongClick_NameUpdate"
             android:label="@string/title_activity_long__click_name__update"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".StatusEditActivity" />

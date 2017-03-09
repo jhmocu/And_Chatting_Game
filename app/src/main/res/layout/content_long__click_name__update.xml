@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.android.chatting_game.Long_Click_name_Update"
+    tools:context="edu.android.chatting_game.LongClick_NameUpdate"
     tools:showIn="@layout/activity_long__click_name__update">
 
     <TextView

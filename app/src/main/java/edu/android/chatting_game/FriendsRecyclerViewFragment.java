@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsRecyclerViewFragment
-        extends Fragment implements LongClick_Fragment.onItemSelectedListener {
+        extends Fragment implements LongClick_Fragment.OnItemSelectedListener {
 //        implements LongClick_Fragment.onItemSelectedListener {
 
     public static final String TAG = "edu.android.chatting";
@@ -74,7 +74,7 @@ public class FriendsRecyclerViewFragment
         switch (which){
             case 0:
 //                nameUpdate();
-                Intent intent = new Intent(getContext(), /*ProfileInfoActivity*/Long_Click_name_Update.class);
+                Intent intent = new Intent(getContext(), LongClick_NameUpdate.class);
                 startActivity(intent);
                 break;
             case 1:
