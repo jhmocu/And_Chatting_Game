@@ -18,7 +18,7 @@ public class Long_Click_name_Update extends AppCompatActivity {
         textView=(TextView)findViewById(R.id.editName);
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            String name = extra.getString("name");
+            String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
             textView.setText(name);
         }
     }
