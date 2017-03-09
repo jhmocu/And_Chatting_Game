@@ -12,25 +12,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.android.chatting_game.AddFriendsActivity">
 
-    <Button
-        android:text="친구추가"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:id="@+id/button2"
-        android:layout_below="@+id/editPhoneSearch"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp" />
-
     <EditText
         android:layout_width="match_parent"
         android:ems="10"
-        android:id="@+id/editPhoneSearch"
+        android:id="@+id/editPhoneAdd"
         android:hint='전화번호를 "-" 빼고 입력하세요'
         android:gravity="center"
         android:layout_marginTop="66dp"
         android:layout_height="80dp"
+        android:inputType="phone"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:inputType="phone" />
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="친구추가"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:id="@+id/btnAddFriend"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/editPhoneAdd"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

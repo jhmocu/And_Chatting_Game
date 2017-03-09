@@ -33,8 +33,8 @@ public class AddFriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-//        editPhoneAdd = (EditText) findViewById(R.id.editPhoneAdd);
-//        btnAddFriend = (Button) findViewById(R.id.btnAddFriend);
+        editPhoneAdd = (EditText) findViewById(R.id.editPhoneAdd);
+        btnAddFriend = (Button) findViewById(R.id.btnAddFriend);
 
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
 

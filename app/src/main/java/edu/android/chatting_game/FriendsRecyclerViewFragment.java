@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +20,17 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsRecyclerViewFragment
-        extends Fragment implements LongClick_Fragment.onItemSelectedListener {
-//        implements LongClick_Fragment.onItemSelectedListener {
-
-    public static final String TAG = "edu.android.chatting";
+        extends Fragment {
 
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
     public static final String KEY_EXTRA_MESSAGE = "key_msg";
     public static final String KEY_EXTRA_IMAGEID = "key_image";
+    public static final String KEY_EXTRA_NAME2="key_name2";
+
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
-
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
@@ -41,7 +38,7 @@ public class FriendsRecyclerViewFragment
         private ImageView photo;
         private TextView name, message;
 
-        public FriendViewHolder(View itemView) {
+        public FriendViewHolder(final View itemView) {
             super(itemView);
 
             photo = (ImageView) itemView.findViewById(R.id.imageView_list);
@@ -51,6 +48,7 @@ public class FriendsRecyclerViewFragment
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
                     startProfileActivity(position);
                 }
@@ -61,31 +59,15 @@ public class FriendsRecyclerViewFragment
                     // TODO: 2017-03-07 position 정보 넘기기
                     int position = getAdapterPosition();
 
-                    DialogFragment longClickFragment = LongClick_Fragment.newInstance();
+                    DialogFragment longClickFragment = LongClick_Fragment.newInstance(name.getText().toString());
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
+
                     return true;
                 }
             });
+
         }
     } // end class FriendViewHolder
-    @Override
-    public void itemSelected(int which) {
-        Log.i(TAG, "FriendsRecyclerViewFragment\nwhich: " + which);
-        switch (which){
-            case 0:
-//                nameUpdate();
-                Intent intent = new Intent(getContext(), LongClick_NameUpdate.class);
-                startActivity(intent);
-                break;
-            case 1:
-
-                break;
-        }
-    }
-    private void nameUpdate(){
-
-    }
-
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
@@ -111,7 +93,6 @@ public class FriendsRecyclerViewFragment
             return list.size();
         }
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,4 +118,5 @@ public class FriendsRecyclerViewFragment
         intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
         startActivity(intent);
     }
+
 }
