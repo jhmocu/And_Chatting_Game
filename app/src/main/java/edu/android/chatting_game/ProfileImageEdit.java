@@ -40,6 +40,11 @@ public class ProfileImageEdit extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.imageView);
         button = (Button) view.findViewById(R.id.btnEdit);
 
+//        Bundle extra = getArguments();
+//        String imageString = extra.getString("image");
+//        int image = Integer.parseInt(imageString);
+//        imageView.setImageResource(image);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

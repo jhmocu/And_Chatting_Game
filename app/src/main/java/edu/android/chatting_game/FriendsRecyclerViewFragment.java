@@ -111,7 +111,7 @@ public class FriendsRecyclerViewFragment
     }
 
     private void startProfileActivity(int position) {
-        Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
+        Intent intent = new Intent(getContext(), Profile_My_info.class);   // 나의 정보창 Profile_My_Info.class  : 상대방 정보창 ProfileInfoActivity.class
         intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
         intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
         intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
