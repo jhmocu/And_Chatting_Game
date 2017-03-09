@@ -63,7 +63,6 @@ public class ChatRecyclerViewFragment
         @Override
         public void onBindViewHolder(ChattingViewHolder chattingViewHolder, int i) {
             // TODO: 2017-03-08 아이템 하나의 레이아웃
-
         }
 
         @Override
@@ -97,10 +96,6 @@ public class ChatRecyclerViewFragment
         recyclerView = (RecyclerView) view.findViewById(R.id.chatlist_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ChattingAdapter());
-
         return view;
     }
-
-
-
 }
