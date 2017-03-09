@@ -28,6 +28,7 @@ public class AddFriendsActivity extends AppCompatActivity {
             "1111", "2222", "3333", "4444"
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,6 @@ public class AddFriendsActivity extends AppCompatActivity {
                             Toast.makeText(AddFriendsActivity.this, "일치\nphoneNo:" + phoneNo + "\n" +
                                     "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                             found = true;
-
                             break;
                         } // end if()
 
@@ -73,8 +73,11 @@ public class AddFriendsActivity extends AppCompatActivity {
 //                            Toast.makeText(AddFriendsActivity.this, "일치" + "phone: " + phoneNo
 //                                    + "edit: " + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
 //                            found = true;
-//                friend.setPhoneNumber(dummyGasangData[i]);
-//                list.add(friend);
+//                            // TODO: 저장된 데이터를 불러서 리싸이클러 뷰에 추가해줘서 새로운 친구를 생성
+//
+//                            friend.setPhoneNumber(dummyGasangData[i]);
+//                            list.add(friend);
+//
 //                            break;
 //                        }
 //                    }
@@ -84,6 +87,8 @@ public class AddFriendsActivity extends AppCompatActivity {
 //                    Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
 //                            "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
 //                }
+
+
             } // onClick()
         }); // end setOnClickListener()
     } // end onCreate()
