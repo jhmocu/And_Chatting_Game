@@ -21,7 +21,6 @@ public class MessageListFragment
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
     public MessageListFragment() {
         // Required empty public constructor
     }
