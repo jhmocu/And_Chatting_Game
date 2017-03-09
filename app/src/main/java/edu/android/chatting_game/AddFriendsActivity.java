@@ -72,6 +72,11 @@ public class AddFriendsActivity extends AppCompatActivity {
 //                            Toast.makeText(AddFriendsActivity.this, "일치" + "phone: " + phoneNo
 //                                    + "edit: " + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
 //                            found = true;
+//                            // TODO: 저장된 데이터를 불러서 리싸이클러 뷰에 추가해줘서 새로운 친구를 생성
+//
+//                            friend.setPhoneNumber(dummyGasangData[i]);
+//                            list.add(friend);
+//
 //                            break;
 //                        }
 //                    }
