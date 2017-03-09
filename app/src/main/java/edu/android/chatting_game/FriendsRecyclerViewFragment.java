@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsRecyclerViewFragment
-        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
+        extends Fragment implements LongClick_Fragment.onItemSelectedListener {
 //        implements LongClick_Fragment.onItemSelectedListener {
+
+    public static final String TAG = "edu.android.chatting";
 
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
@@ -67,9 +70,12 @@ public class FriendsRecyclerViewFragment
     } // end class FriendViewHolder
     @Override
     public void itemSelected(int which) {
+        Log.i(TAG, "FriendsRecyclerViewFragment\nwhich: " + which);
         switch (which){
             case 0:
-                nameUpdate();
+//                nameUpdate();
+                Intent intent = new Intent(getContext(), /*ProfileInfoActivity*/Long_Click_name_Update.class);
+                startActivity(intent);
                 break;
             case 1:
 
