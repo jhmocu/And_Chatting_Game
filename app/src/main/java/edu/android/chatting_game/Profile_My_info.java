@@ -17,6 +17,9 @@ public class Profile_My_info
     private ImageButton editInfo;
     private TextView myName, myStatusMsg;
 
+    private int imageId;
+    private String name, statusMsg1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,17 @@ public class Profile_My_info
         myName = (TextView) findViewById(R.id.myName);
         myStatusMsg = (TextView) findViewById(R.id.myStatusMsg);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            imageId = extras.getInt(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
+            name = extras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            statusMsg1 = extras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+            myProfileInfo.setImageResource(imageId);
+            myName.setText(name);
+            myStatusMsg.setText(statusMsg1);
+        }
+
+
         editInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,18 +48,13 @@ public class Profile_My_info
             }
         });
     }
-      private void statusEdit() {
-//          Intent intent = new Intent(this, StatusEditActivity.class);
-//          BitmapDrawable image1 = (BitmapDrawable)myProfileInfo.getDrawable();
-//          Bitmap image2 = image1.getBitmap();
-//          intent.putExtra("bm", (Bitmap)image2);
-      }
-//    private void statusEdit() {
-//        Intent intent = new Intent(this, StatusEditActivity.class);
-//        intent.putExtra("myProfile", String.valueOf(myProfileInfo));
-//        intent.putExtra("myName", String.valueOf(myName));
-//        intent.putExtra("myStatusMsg", String.valueOf(myStatusMsg));
-//        startActivity(intent);
-//    }
+
+    private void statusEdit() {
+        Intent intent = new Intent(this, StatusEditActivity.class);
+        intent.putExtra("myProfile", imageId);
+        intent.putExtra("myName", name);
+        intent.putExtra("myStatusMsg", String.valueOf(statusMsg1));
+        startActivity(intent);
+    }
 
 }

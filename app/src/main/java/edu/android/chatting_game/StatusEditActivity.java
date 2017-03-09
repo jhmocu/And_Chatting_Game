@@ -16,21 +16,11 @@ public class StatusEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status_edit);
 
 
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            image = extras.getString("myProfile");
-//            name = extras.getString("myName");
-//            statusMsg = extras.getString("myStatusMsg");
-//        }
-//
-//        ProfileImageEdit imageFragment = new ProfileImageEdit();
-//        Bundle bundle1 = new Bundle();
-//        bundle1.putString("image", image);
-//
-//        ProfileTextEdit textFragment = new ProfileTextEdit();
-//        Bundle bundle2 = new Bundle();
-//        bundle2.putString("name", name);
-//        bundle2.putString("statusMsg", statusMsg);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            image = extras.getString("myProfile");
+            name = extras.getString("myName");
+            statusMsg = extras.getString("myStatusMsg");
+        }
     }
 }
