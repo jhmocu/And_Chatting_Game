@@ -24,6 +24,10 @@ public class AddFriendsActivity extends AppCompatActivity {
 
     Friend friend = new Friend();
 
+    private String[] dummyGasangData = {
+            "1111", "2222", "3333", "4444"
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +54,36 @@ public class AddFriendsActivity extends AppCompatActivity {
                                     "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                             found = true;
                             break;
-                        } // end if
+                        } // end if()
 
-                    } //end for
+                    } //end for()
                     break;
-                }
+                } // end while()
                 if (!found) {
                     Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
                             "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
-                }
+                } // end if()
 
-            }
+//                while (run) {
+//                    for (int i = 0; i < dummyGasangData.length; i++) {
+//                        phoneNo = dummyGasangData[i];
+//
+//                        if (editPhoneAdd.getText().toString().equals(phoneNo)) {
+//                            Toast.makeText(AddFriendsActivity.this, "일치" + "phone: " + phoneNo
+//                                    + "edit: " + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+//                            found = true;
+//                            break;
+//                        }
+//                    }
+//                    break;
+//                }
+//                if (!found) {
+//                    Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
+//                            "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+//                }
+
+
+            } // onClick()
 
         });
 
