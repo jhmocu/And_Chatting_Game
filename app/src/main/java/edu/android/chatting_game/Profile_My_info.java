@@ -1,6 +1,8 @@
 package edu.android.chatting_game;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,13 +34,18 @@ public class Profile_My_info
             }
         });
     }
-
-    private void statusEdit() {
-        Intent intent = new Intent(this, StatusEditActivity.class);
-        intent.putExtra("myProfile", String.valueOf(myProfileInfo));
-        intent.putExtra("myName", String.valueOf(myName));
-        intent.putExtra("myStatusMsg", String.valueOf(myStatusMsg));
-        startActivity(intent);
-    }
+      private void statusEdit() {
+//          Intent intent = new Intent(this, StatusEditActivity.class);
+//          BitmapDrawable image1 = (BitmapDrawable)myProfileInfo.getDrawable();
+//          Bitmap image2 = image1.getBitmap();
+//          intent.putExtra("bm", (Bitmap)image2);
+      }
+//    private void statusEdit() {
+//        Intent intent = new Intent(this, StatusEditActivity.class);
+//        intent.putExtra("myProfile", String.valueOf(myProfileInfo));
+//        intent.putExtra("myName", String.valueOf(myName));
+//        intent.putExtra("myStatusMsg", String.valueOf(myStatusMsg));
+//        startActivity(intent);
+//    }
 
 }
