@@ -85,18 +85,19 @@ public class Main2Activity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int which) {
+    public void itemSelected(int which, String name) {
         switch (which){
             case 0:
-                nameUpdate();
+                nameUpdate(name);
                 break;
             case 1:
                 break;
         }
     }
-    private void nameUpdate(){
-
+    private void nameUpdate(String name){
+        //Bundle extras=getIntent().getExtras();
         Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, name);
 
         startActivity(intent);
     }

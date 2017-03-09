@@ -26,6 +26,8 @@ public class FriendsRecyclerViewFragment
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
     public static final String KEY_EXTRA_MESSAGE = "key_msg";
     public static final String KEY_EXTRA_IMAGEID = "key_image";
+    public static final String KEY_EXTRA_NAME2="key_name2";
+
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
@@ -36,7 +38,7 @@ public class FriendsRecyclerViewFragment
         private ImageView photo;
         private TextView name, message;
 
-        public FriendViewHolder(View itemView) {
+        public FriendViewHolder(final View itemView) {
             super(itemView);
 
             photo = (ImageView) itemView.findViewById(R.id.imageView_list);
@@ -57,7 +59,7 @@ public class FriendsRecyclerViewFragment
                     // TODO: 2017-03-07 position 정보 넘기기
                     int position = getAdapterPosition();
 
-                    DialogFragment longClickFragment = LongClick_Fragment.newInstance();
+                    DialogFragment longClickFragment = LongClick_Fragment.newInstance(name.getText().toString());
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
 
                     return true;
