@@ -19,9 +19,8 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecyclerViewFriendsFragment
-        extends Fragment implements LongClick_Fragment.onItemSelectedListener{
-//        implements LongClick_Fragment.onItemSelectedListener {
+public class FriendsRecyclerViewFragment
+        extends Fragment {
 
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
@@ -30,7 +29,6 @@ public class RecyclerViewFriendsFragment
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
-
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
@@ -58,29 +56,16 @@ public class RecyclerViewFriendsFragment
                 public boolean onLongClick(View v) {
                     // TODO: 2017-03-07 position 정보 넘기기
                     int position = getAdapterPosition();
+
                     DialogFragment longClickFragment = LongClick_Fragment.newInstance();
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
+
                     return true;
                 }
             });
+
         }
     } // end class FriendViewHolder
-    @Override
-    public void itemSelected(int which) {
-        switch (which){
-            case 0:
-                nameUpdate();
-                break;
-            case 1:
-
-                break;
-        }
-
-    }
-    private void nameUpdate(){
-
-    }
-
 
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
@@ -131,4 +116,5 @@ public class RecyclerViewFriendsFragment
         intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
         startActivity(intent);
     }
+
 }
