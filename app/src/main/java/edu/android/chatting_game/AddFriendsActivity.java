@@ -28,7 +28,6 @@ public class AddFriendsActivity extends AppCompatActivity {
             "1111", "2222", "3333", "4444"
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +52,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             Toast.makeText(AddFriendsActivity.this, "일치\nphoneNo:" + phoneNo + "\n" +
                                     "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                             found = true;
+
                             break;
                         } // end if()
 
@@ -64,6 +64,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                 } // end if()
 
+                // dummyGasngData이용
 //                while (run) {
 //                    for (int i = 0; i < dummyGasangData.length; i++) {
 //                        phoneNo = dummyGasangData[i];
@@ -72,6 +73,8 @@ public class AddFriendsActivity extends AppCompatActivity {
 //                            Toast.makeText(AddFriendsActivity.this, "일치" + "phone: " + phoneNo
 //                                    + "edit: " + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
 //                            found = true;
+//                friend.setPhoneNumber(dummyGasangData[i]);
+//                list.add(friend);
 //                            break;
 //                        }
 //                    }
@@ -81,11 +84,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 //                    Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
 //                            "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
 //                }
-
-
             } // onClick()
-
-        });
-
-    }
+        }); // end setOnClickListener()
+    } // end onCreate()
 }
