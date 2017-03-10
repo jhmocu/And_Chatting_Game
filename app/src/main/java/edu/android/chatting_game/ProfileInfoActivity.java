@@ -29,9 +29,8 @@ public class ProfileInfoActivity
         textMsg = (TextView) findViewById(R.id.textMsg);
 
 
-        btnCall = (ImageButton) findViewById(R.id.btnCall); // 수정
-        btnMessage = (ImageButton) findViewById(R.id.btnMessage); // 수정
-
+        btnCall = (ImageButton) findViewById(R.id.btnCall);
+        btnMessage = (ImageButton) findViewById(R.id.btnMessage);
 
         // TODO: 2017-03-07 RecyclerViewFriendsFragment에서 정보 제대로 오는 지 확인
         Bundle extra = getIntent().getExtras();

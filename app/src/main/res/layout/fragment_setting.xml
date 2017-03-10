@@ -1,13 +1,52 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btnNotice"
+        android:textSize="23sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="공 지 사 항" />
+
+    <Button
+        android:id="@+id/btnFontChange"
+        android:textSize="23sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnNotice"
+        android:layout_marginTop="20dp"
+        android:text="폰트" />
+
+    <Button
+        android:id="@+id/btnBackgroundColorChange"
+        android:layout_width="match_parent"
+        android:textSize="23sp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnFontChange"
+        android:layout_marginTop="20dp"
+        android:text="채 팅 방 배 경 변 경" />
+
+    <Button
+        android:id="@+id/btnVersion"
+        android:textSize="23sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnBackgroundColorChange"
+        android:layout_marginTop="20dp"
+        android:text="버 전 정 보" />
+</RelativeLayout>
