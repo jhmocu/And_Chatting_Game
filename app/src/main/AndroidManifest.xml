@@ -30,10 +30,13 @@
         <activity
             android:name=".Long_Click_name_Update"
             android:label="@string/title_activity_long__click_name__update"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".StatusEditActivity"></activity>
-        <activity android:name=".AddFriendsActivity"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StatusEditActivity" />
+        <activity android:name=".AddFriendsActivity" />
+        <activity android:name=".NoticeActivity" />
+        <activity android:name=".FontChangeActivity" />
+        <activity android:name=".BackgroundColorChangeActivity" />
+        <activity android:name=".VersionActivity"></activity>
     </application>
 
 </manifest>
