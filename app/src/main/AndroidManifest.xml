@@ -33,7 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".StatusEditActivity" />
         <activity android:name=".AddFriendsActivity" />
-        <activity android:name=".ChatRoomActivity">
+        <activity android:name=".ChatRoomActivity"/>
         <activity android:name=".NoticeActivity" />
         <activity android:name=".FontChangeActivity" />
         <activity android:name=".BackgroundColorChangeActivity" />
