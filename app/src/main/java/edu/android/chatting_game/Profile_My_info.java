@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class Profile_My_info
-        extends AppCompatActivity {
+public class Profile_My_info extends AppCompatActivity {
+    public static final int REQ_CODE_SAVE=1002;
 
     private ImageView myProfileInfo;
     private ImageButton editInfo;
@@ -54,7 +55,18 @@ public class Profile_My_info
         intent.putExtra("myProfile", imageId);
         intent.putExtra("myName", name);
         intent.putExtra("myStatusMsg", String.valueOf(statusMsg1));
-        startActivity(intent);
+        startActivityForResult(intent,REQ_CODE_SAVE);
+
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==REQ_CODE_SAVE &&resultCode==RESULT_OK){
+            String image=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
+            String name=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            String status=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+            Toast.makeText(this,"변경사항 넘김"+name+status,Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-
+import static edu.android.chatting_game.StatusEditActivity.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +40,6 @@ public class ProfileImageEdit extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile_image_edit, container, false);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         button = (Button) view.findViewById(R.id.btnEdit);
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
