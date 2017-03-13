@@ -32,7 +32,7 @@ public class ChatListFragment
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
 
-        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
+               ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_chat_recyclerView, fragment);
