@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 
 public class ChatRoomActivity
-        extends AppCompatActivity {
+        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener{
 
     private ListView listView;
     private EditText writeMsg;
@@ -84,5 +84,15 @@ public class ChatRoomActivity
     }// end onCreate()
 
 
+    @Override
+    public void optionItemSelected(int which) {
+        switch (which){
+            case 0:
 
+                break;
+            case 1:
+
+                break;
+        }
+    }
 }
