@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -91,8 +92,12 @@ public class ChatRoomActivity
 
                 break;
             case 1:
-
+                mapOpen();
                 break;
         }
+    }
+    public void mapOpen(){
+        Intent intent=new Intent(this,MapsActivity.class);
+        startActivity(intent);
     }
 }
