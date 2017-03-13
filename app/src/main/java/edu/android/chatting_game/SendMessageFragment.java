@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -17,6 +20,11 @@ import android.widget.ImageButton;
  */
 public class SendMessageFragment
         extends Fragment {
+    /////////////
+    private ArrayList<ChatMessage> messages;
+    private ChatMessage chatMessage;
+    /////////////
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,6 +50,11 @@ public class SendMessageFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //
+        chatMessage = new ChatMessage();
+        messages = new ArrayList<>();
+        //
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_send_message, container, false);
 
@@ -59,6 +72,10 @@ public class SendMessageFragment
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-09 전송버튼 클릭
+                String msg = writeMsg.getText().toString();
+                chatMessage.setMessage(msg);
+                messages.add(chatMessage);
+                Toast.makeText(getContext(), "chatMessage:\n" + msg, Toast.LENGTH_SHORT).show();
             }
         });
 
