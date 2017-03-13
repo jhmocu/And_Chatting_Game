@@ -10,6 +10,7 @@
     <string-array name="option_Click">
         <item>연락처</item>
         <item>지도</item>
+        <item>프로필 보내기</item>
     </string-array>
     <string-array name="long_click">
         <item>이름변경</item>
