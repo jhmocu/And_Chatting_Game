@@ -40,24 +40,20 @@
         android:id="@+id/btnMessage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignBottom="@+id/btnCall"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_toEndOf="@+id/textMsg"
+        app:srcCompat="@android:drawable/stat_notify_chat"
+        android:layout_alignTop="@+id/btnCall"
         android:layout_toRightOf="@+id/textMsg"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        android:layout_toEndOf="@+id/textMsg" />
 
     <ImageButton
         android:id="@+id/btnCall"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginBottom="19dp"
+        app:srcCompat="@android:drawable/ic_menu_call"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="17dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
         android:layout_toLeftOf="@+id/textMsg"
-        android:layout_toStartOf="@+id/textMsg"
-        app:srcCompat="@android:drawable/ic_menu_call" />
+        android:layout_toStartOf="@+id/textMsg" />
 
     <TextView
         android:hint="전화번호 들어가는 곳"

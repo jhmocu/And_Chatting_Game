@@ -12,9 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
-
+import static edu.android.chatting_game.StatusEditActivity.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +24,9 @@ public class ProfileImageEdit extends Fragment {
 
     private static final int PICK_FROM_ALBUM = 100;
 
-    private File photoFile;
     private ImageView imageView;
     private Button button;
+
 
     public ProfileImageEdit() {
         // Required empty public constructor
@@ -44,7 +45,6 @@ public class ProfileImageEdit extends Fragment {
             @Override
             public void onClick(View v) {
                 albumSelect();
-
             }
         });
         return view;
