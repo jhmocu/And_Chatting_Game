@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -96,6 +99,20 @@ public class ChatRoomActivity
             case 1:
 
                 break;
+
+            case 2:
+                ProfileSendFragment fragment = new ProfileSendFragment();
+                fragment.show(getSupportFragmentManager(), "show");
+
+
+//                Bundle extra = getIntent().getExtras();
+//                Toast.makeText(this, "extra: " + extra, Toast.LENGTH_SHORT).show();
+//                if(extra != null) {
+//                    int imageId = extra.getInt(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
+//                    String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+//                    Toast.makeText(this, "imageId: " + imageId + "\n" + "name: " + name, Toast.LENGTH_SHORT).show();
+//                }
+                break;
         }
     }
 
@@ -104,8 +121,10 @@ public class ChatRoomActivity
         intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, 0);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO: 2013-03-13 플러스 버튼 연락처 보내기.
         String name = null;
         String number = null;
         if(resultCode == RESULT_OK)
