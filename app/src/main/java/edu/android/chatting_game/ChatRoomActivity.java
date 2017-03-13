@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,9 @@ public class ChatRoomActivity
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017-03-13 ' + ' 버튼 이벤트 처리 
+                // TODO: 2017-03-13 ' + ' 버튼 이벤트 처리
+                DialogFragment optionClickFragment=OptionBtnFragment.newInstance();
+                optionClickFragment.show(getFragmentManager(),"optionClick_dialog");
             }
         });
         
