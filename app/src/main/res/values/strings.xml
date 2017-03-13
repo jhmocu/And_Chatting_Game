@@ -7,6 +7,10 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="nameChange">이름변경</string>
+    <string-array name="option_Click">
+        <item>연락처</item>
+        <item>지도</item>
+    </string-array>
     <string-array name="long_click">
         <item>이름변경</item>
         <item>삭제</item>
