@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.android.chatting_game">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,10 +29,9 @@
         <activity
             android:name=".Long_Click_name_Update"
             android:label="@string/title_activity_long__click_name__update"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".StatusEditActivity"></activity>
-        <activity android:name=".AddFriendsActivity"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StatusEditActivity" />
+        <activity android:name=".AddFriendsActivity" />
     </application>
 
 </manifest>
