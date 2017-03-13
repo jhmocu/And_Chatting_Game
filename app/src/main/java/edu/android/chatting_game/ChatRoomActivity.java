@@ -90,14 +90,15 @@ public class ChatRoomActivity
         actionBar.setTitle(title);
     }// end onCreate()
 
+
     @Override
     public void optionItemSelected(int which) {
         switch (which){
             case 0:
-                sendContact();
+
                 break;
             case 1:
-
+                mapOpen();
                 break;
 
             case 2:
@@ -114,6 +115,10 @@ public class ChatRoomActivity
 //                }
                 break;
         }
+    }
+    public void mapOpen(){
+        Intent intent=new Intent(this,MapsActivity.class);
+        startActivity(intent);
     }
 
     private void sendContact() {
