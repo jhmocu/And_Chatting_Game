@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,8 +16,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -24,6 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button mapBtn;
     private EditText Address;
     private Geocoder geocoder;
+    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          mapBtn = (Button)findViewById(R.id.mapBtn);
          Address = (EditText)findViewById(R.id.editAddress);
          geocoder = new Geocoder(this);
+        imageButton=(ImageButton)findViewById(R.id.imageButton);
 
 
     }
@@ -62,17 +68,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         double lat = addr.getLatitude();
                         double lon = addr.getLongitude();
 
-                        LatLng mM=new LatLng(lat, lon);
+                        final LatLng mM=new LatLng(lat, lon);
                         CameraUpdate camera= CameraUpdateFactory.newLatLngZoom(mM,16);
                         mMap.animateCamera(camera);
-
-//                        Intent intent = new Intent(
-//                                Intent.ACTION_VIEW,
-//                                Uri.parse(sss));
-//                        startActivity(intent);
                     }
                 }
             }
         });
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+//               String s="latlng"+latLng;
+//                Address.setText(s);
+                MarkerOptions options=new MarkerOptions();
+                options.position(latLng);
+                options.title("선택장소"+latLng);
+                mMap.addMarker(options);
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MapsActivity.this,ChatRoomActivity.class);
+                           intent.putExtra("uri", URI.create(String.valueOf(mMap)));
+                       startActivity(intent);
+            }
+        });
     }
+
 }

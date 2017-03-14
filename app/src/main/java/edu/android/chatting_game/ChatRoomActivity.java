@@ -85,6 +85,7 @@ public class ChatRoomActivity
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
+
 //         TODO: 2017-03-13 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
 //        adapter.registerDataSetObserver(new DataSetObserver() {
 //            @Override
@@ -128,6 +129,12 @@ public class ChatRoomActivity
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
+
+        Bundle extras=getIntent().getExtras();
+        if (extras != null) {
+            String uri = extras.getString("uri");
+            writeMsg.setText(uri);
+        }
 
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
