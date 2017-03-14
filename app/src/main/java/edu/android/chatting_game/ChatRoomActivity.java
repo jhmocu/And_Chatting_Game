@@ -38,9 +38,11 @@ public class ChatRoomActivity
     private TextView textMyMsg;
     private ImageButton btnOption, btnSend;
     private String title;
+
     private ListView listView;
     private ChatMessageLab lab;
     private ArrayList<ChatMessage> chatMessageArrayList;
+
 
     class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
@@ -157,6 +159,12 @@ public class ChatRoomActivity
             }
         });
 
+        Bundle extras=getIntent().getExtras();
+        if (extras != null) {
+            String map = extras.getString(MapsActivity.EXTRA_MAP);
+            writeMsg.setText(map);
+        }
+
 //        MessageListFragment messageListFragment = new MessageListFragment();
 //        SendMessageFragment sendMessageFragment = new SendMessageFragment();
 //        FragmentManager fm = getSupportFragmentManager();
@@ -165,6 +173,7 @@ public class ChatRoomActivity
 //        transaction.add(R.id.messageListFrame, messageListFragment);
 //        transaction.commit();
 
+
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
@@ -172,18 +181,21 @@ public class ChatRoomActivity
         actionBar.setTitle(title);
     }// end onCreate()
 
+
     @Override
     public void optionItemSelected(int which) {
         switch (which) {
             case 0:
-
+                sendContact();
                 break;
             case 1:
                 mapOpen();
                 break;
+
             case 2:
                 ProfileSendFragment fragment = new ProfileSendFragment();
-                fragment.show(getSupportFragmentManager(), "show_profile_send_fragment");
+                fragment.show(getSupportFragmentManager(), "show");
+                // TODO: 여기부터 다시 시작~ ProfieSendFragment + + + +
 
 
 //                Bundle extra = getIntent().getExtras();
