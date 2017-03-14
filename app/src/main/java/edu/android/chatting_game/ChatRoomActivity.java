@@ -174,7 +174,7 @@ public class ChatRoomActivity
     public void optionItemSelected(int which) {
         switch (which) {
             case 0:
-
+                sendContact();
                 break;
             case 1:
                 mapOpen();
@@ -183,15 +183,9 @@ public class ChatRoomActivity
             case 2:
                 ProfileSendFragment fragment = new ProfileSendFragment();
                 fragment.show(getSupportFragmentManager(), "show");
+                // TODO: 여기부터 다시 시작~ ProfieSendFragment + + + +
 
 
-//                Bundle extra = getIntent().getExtras();
-//                Toast.makeText(this, "extra: " + extra, Toast.LENGTH_SHORT).show();
-//                if(extra != null) {
-//                    int imageId = extra.getInt(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
-//                    String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
-//                    Toast.makeText(this, "imageId: " + imageId + "\n" + "name: " + name, Toast.LENGTH_SHORT).show();
-//                }
                 break;
         }
     }
