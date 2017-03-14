@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -29,6 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText Address;
     private Geocoder geocoder;
     private ImageButton imageButton;
+    public static final String EXTRA_MAP="map";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,23 +77,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng) {
+            public void onMapLongClick(final LatLng latLng) {
 //               String s="latlng"+latLng;
 //                Address.setText(s);
-                MarkerOptions options=new MarkerOptions();
+                final MarkerOptions options=new MarkerOptions();
                 options.position(latLng);
-                options.title("선택장소"+latLng);
+                options.title("선택장소");
                 mMap.addMarker(options);
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MapsActivity.this,ChatRoomActivity.class);
+                        String msg=""+latLng;
+                        intent.putExtra(EXTRA_MAP,msg);
+                        startActivity(intent);
+                    }
+                });
             }
         });
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this,ChatRoomActivity.class);
-                           intent.putExtra("uri", URI.create(String.valueOf(mMap)));
-                       startActivity(intent);
-            }
-        });
+
     }
 
 }

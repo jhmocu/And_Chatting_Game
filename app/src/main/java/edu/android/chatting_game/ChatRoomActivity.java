@@ -130,11 +130,7 @@ public class ChatRoomActivity
         btnOption = (ImageButton) findViewById(R.id.btnOption);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
 
-        Bundle extras=getIntent().getExtras();
-        if (extras != null) {
-            String uri = extras.getString("uri");
-            writeMsg.setText(uri);
-        }
+
 
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +155,12 @@ public class ChatRoomActivity
                 writeMsg.setText("");
             }
         });
+
+        Bundle extras=getIntent().getExtras();
+        if (extras != null) {
+            String map = extras.getString(MapsActivity.EXTRA_MAP);
+            writeMsg.setText(map);
+        }
 
 //        MessageListFragment messageListFragment = new MessageListFragment();
 //        SendMessageFragment sendMessageFragment = new SendMessageFragment();

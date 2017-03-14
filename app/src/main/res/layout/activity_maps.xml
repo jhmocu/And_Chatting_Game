@@ -9,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="검색"
-        android:layout_alignTop="@+id/editAddress"
+        android:layout_alignBottom="@+id/imageButton"
         android:layout_toRightOf="@+id/editAddress"
         android:layout_toEndOf="@+id/editAddress"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 
     <fragment
         android:id="@+id/map"
@@ -31,21 +31,21 @@
         android:layout_height="wrap_content"
         android:text="주소"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_alignParentTop="true"
+        android:layout_alignBaseline="@+id/mapBtn"
+        android:layout_alignBottom="@+id/mapBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp" />
 
     <EditText
         android:id="@+id/editAddress"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
-        android:ems="10"
-        android:layout_alignBottom="@+id/textAddress"
+        android:layout_alignBottom="@+id/mapBtn"
+        android:layout_toEndOf="@+id/textAddress"
         android:layout_toRightOf="@+id/textAddress"
-        android:layout_toEndOf="@+id/textAddress">
+        android:ems="10">
 
         <requestFocus />
     </EditText>
@@ -55,11 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         map:srcCompat="@android:drawable/ic_menu_set_as"
-        android:layout_above="@+id/map"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="19dp"
-        android:layout_marginEnd="19dp" />
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/mapBtn"
+        android:layout_toEndOf="@+id/mapBtn" />
 
 
 </RelativeLayout>
