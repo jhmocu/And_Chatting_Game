@@ -1,48 +1,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
-    <TextView
-        android:id="@+id/textAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="26dp"
-        android:text="주소"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/editAddress"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_alignBaseline="@+id/textAddress"
-        android:layout_alignBottom="@+id/textAddress"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="17dp"
-        android:layout_marginEnd="17dp">
-
-        <requestFocus />
-    </EditText>
-
 
     <Button
         android:id="@+id/mapBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editAddress"
-        android:layout_alignBottom="@+id/editAddress"
-        android:layout_alignRight="@+id/editAddress"
-        android:text="찾기" />
+        android:text="검색"
+        android:layout_alignBottom="@+id/imageButton"
+        android:layout_toRightOf="@+id/editAddress"
+        android:layout_toEndOf="@+id/editAddress"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        tools:context="edu.android.and68_googlemap.MapsActivity"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/textResult"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/textAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주소"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignBaseline="@+id/mapBtn"
+        android:layout_alignBottom="@+id/mapBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/mapBtn"
-        android:layout_marginTop="41dp" />
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp" />
+
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/mapBtn"
+        android:layout_toEndOf="@+id/textAddress"
+        android:layout_toRightOf="@+id/textAddress"
+        android:ems="10">
+
+        <requestFocus />
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        map:srcCompat="@android:drawable/ic_menu_set_as"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/mapBtn"
+        android:layout_toEndOf="@+id/mapBtn" />
+
 
 </RelativeLayout>

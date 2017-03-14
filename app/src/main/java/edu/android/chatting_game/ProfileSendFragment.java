@@ -2,10 +2,12 @@ package edu.android.chatting_game;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ public class ProfileSendFragment extends DialogFragment {
     private ArrayList<Friend> list;
     private RecyclerView recyclerView;
 
+    private ProfileSendCallback callback;
 
     public ProfileSendFragment() {
         // Required empty public constructor
@@ -36,18 +39,21 @@ public class ProfileSendFragment extends DialogFragment {
 
             private ImageView image;
             private TextView name;
+            private TextView phone;
 
             public ProfileSendViewHolder(final View itemView) {
                 super(itemView);
 
                 image = (ImageView) itemView.findViewById(R.id.imageView_list1);
                 name = (TextView) itemView.findViewById(R.id.textName_list1);
+                phone = (TextView) itemView.findViewById(R.id.textPhone_list1);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        profileSend(position);
+                        callback.profilesend(position);
+
                     }
                 });
 
@@ -68,6 +74,7 @@ public class ProfileSendFragment extends DialogFragment {
                 Friend friend = list.get(position);
                 holder.image.setImageResource(friend.getImageId());
                 holder.name.setText(friend.getName());
+                holder.phone.setText(friend.getPhoneNumber());
             }
 
             @Override
@@ -75,6 +82,20 @@ public class ProfileSendFragment extends DialogFragment {
                 return list.size();
             }
         }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof ProfileSendCallback) {
+            callback = (ProfileSendCallback) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,10 +109,14 @@ public class ProfileSendFragment extends DialogFragment {
         return view;
     }
 
-    private void profileSend(int position) {
-        Intent intent = new Intent(getContext(), ChatRoomActivity.class);
-        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, list.get(position).getImageId());
-        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, list.get(position).getName());
-        startActivity(intent);
+//    private void profileSend(int position) { 아님.
+//        Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+//        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+//        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, list.get(position).getName());
+//        startActivity(intent);
+//    }
+
+    public interface ProfileSendCallback {
+        void profilesend(int position);
     }
 }
