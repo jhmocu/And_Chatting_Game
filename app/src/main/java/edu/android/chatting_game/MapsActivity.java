@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(final LatLng latLng) {
-//               String s="latlng"+latLng;
+//              String s="latlng"+latLng;
 //                Address.setText(s);
                 final MarkerOptions options=new MarkerOptions();
                 options.position(latLng);
