@@ -218,6 +218,7 @@ public class ChatRoomActivity
     public void mapOpen() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void sendContact() {
