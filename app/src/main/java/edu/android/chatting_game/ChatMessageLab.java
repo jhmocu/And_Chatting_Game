@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class ChatMessageLab {
     private static ChatMessageLab instance;
-    private ArrayList<ChatMessage> chatMessageList;
+    private ArrayList<ChatMessageVO> chatMessageVOList;
 
     private ChatMessageLab() {
-        chatMessageList = new ArrayList<>();
+        chatMessageVOList = new ArrayList<>();
         makeDummyList();
     }
     public static ChatMessageLab getInstance(){
@@ -21,23 +21,23 @@ public class ChatMessageLab {
         return instance;
     }
 
-    public ArrayList<ChatMessage> getChatMessageList() {
-        return chatMessageList;
+    public ArrayList<ChatMessageVO> getChatMessageVOList() {
+        return chatMessageVOList;
     }
 
     private void makeDummyList(){
 //        for (int i = 0; i < 30; i++) {
-            ChatMessage c1 = new ChatMessage("1. hello");
-            chatMessageList.add(c1);
-//            ChatMessage c2 = new ChatMessage("2. hello stranger");
-//            chatMessageList.add(c2);
-//            ChatMessage c3 = new ChatMessage("3. what's your name");
-//            chatMessageList.add(c3);
+            ChatMessageVO c1 = new ChatMessageVO("1. hello");
+            chatMessageVOList.add(c1);
+//            ChatMessageVO c2 = new ChatMessageVO("2. hello stranger");
+//            chatMessageVOList.add(c2);
+//            ChatMessageVO c3 = new ChatMessageVO("3. what's your name");
+//            chatMessageVOList.add(c3);
 
-//            ChatMessage chatMessage = new ChatMessage();
+//            ChatMessageVO chatMessage = new ChatMessageVO();
 //            String msg = "Hello" + i;
 //            chatMessage.setMessage(msg);
-//            chatMessageList.add(chatMessage);
+//            chatMessageVOList.add(chatMessage);
 //        }
     }
 }
