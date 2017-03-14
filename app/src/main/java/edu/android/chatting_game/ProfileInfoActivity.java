@@ -48,12 +48,19 @@ public class ProfileInfoActivity
             btnCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnOnClickCall();
+                    onClickBtnCall();
                 }
             });
+
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickBtnMessage();
+            }
+        });
     }
 
-    private void btnOnClickCall() { // 수정
+    private void onClickBtnCall() { // 수정
         if(textPhone != null) {
             String phoneNo = textPhone.getText().toString();
             Uri uri = Uri.parse("tel: " + phoneNo);
@@ -62,5 +69,8 @@ public class ProfileInfoActivity
         } else {
             Toast.makeText(this, "번호 입력이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void onClickBtnMessage() {
+        // TODO: 2017-03-14 친구 프로필에서 채팅 연결하기
     }
 }

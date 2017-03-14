@@ -98,6 +98,7 @@ public class FriendsRecyclerViewFragment
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,4 +128,5 @@ public class FriendsRecyclerViewFragment
             startActivity(intent);
         }
     }
+
 }
