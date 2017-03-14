@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,10 +51,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.555744,126.970431)));
+       CameraUpdate zoom=CameraUpdateFactory.zoomTo(6);
+        mMap.animateCamera(zoom);
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Address> list = null;
+
                 String str = Address.getText().toString();
                 try {
                     list = geocoder.getFromLocationName(str, 15);
@@ -67,10 +72,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Address addr = list.get(0);
                         double lat = addr.getLatitude();
                         double lon = addr.getLongitude();
-
                         final LatLng mM=new LatLng(lat, lon);
-                        CameraUpdate camera= CameraUpdateFactory.newLatLngZoom(mM,16);
-                        mMap.animateCamera(camera);
+                        CameraUpdate camera1= CameraUpdateFactory.newLatLngZoom(mM,16);
+                        mMap.animateCamera(camera1);
                     }
                 }
             }
@@ -78,18 +82,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(final LatLng latLng) {
-//              String s="latlng"+latLng;
-//                Address.setText(s);
-                final MarkerOptions options=new MarkerOptions();
+                MarkerOptions options=new MarkerOptions();
                 options.position(latLng);
                 options.title("선택장소");
                 mMap.addMarker(options);
+
                 imageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        StringBuffer bf = new StringBuffer();
+                        List<Address> address;
+                        try {
+                            if (geocoder != null) {
+                                address = geocoder.getFromLocation(latLng.latitude,latLng.longitude, 1);
+                                if (address != null && address.size() > 0) {
+                                    String s = address.get(0).getAddressLine(0).toString();
+                                    bf.append(s);
+                                }
+                            }
+
+                        } catch (IOException e) {
+                            Toast.makeText(MapsActivity.this, "주소취득 실패", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
                         Intent intent = new Intent(MapsActivity.this,ChatRoomActivity.class);
-                        String msg=""+latLng;
-                        intent.putExtra(EXTRA_MAP,msg);
+                        intent.putExtra(EXTRA_MAP,bf.toString());
                         startActivity(intent);
                     }
                 });

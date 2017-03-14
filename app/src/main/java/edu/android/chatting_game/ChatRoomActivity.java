@@ -162,6 +162,7 @@ public class ChatRoomActivity
             writeMsg.setText(map);
         }
 
+
 //        MessageListFragment messageListFragment = new MessageListFragment();
 //        SendMessageFragment sendMessageFragment = new SendMessageFragment();
 //        FragmentManager fm = getSupportFragmentManager();
