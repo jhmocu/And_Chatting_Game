@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final String TAG = "chat";
     private GoogleMap mMap;
     private Button mapBtn;
     private EditText Address;
@@ -50,10 +52,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.i(TAG, "onMapReady");
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.555744,126.970431)));
-       CameraUpdate zoom=CameraUpdateFactory.zoomTo(6);
-        mMap.animateCamera(zoom);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.555744,126.970431), 10));
+//       CameraUpdate zoom=CameraUpdateFactory.zoomTo(6);
+//        mMap.animateCamera(zoom);
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
