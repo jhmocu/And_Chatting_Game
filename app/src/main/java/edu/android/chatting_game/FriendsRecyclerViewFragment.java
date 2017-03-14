@@ -111,7 +111,7 @@ public class FriendsRecyclerViewFragment
     }
 
     private void startProfileActivity(int position) {
-        if (position == 0) {
+        if (position == list.size() - 1) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
             intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
             intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());

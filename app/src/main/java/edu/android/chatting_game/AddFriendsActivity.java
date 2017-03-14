@@ -15,7 +15,6 @@ public class AddFriendsActivity extends AppCompatActivity {
     public static final String KEY_EXTRA_MESSAGE = "key_msg";
     public static final String KEY_EXTRA_IMAGEID = "key_image";
 
-
     private EditText editPhoneAdd;
     private Button btnAddFriend;
 
