@@ -4,12 +4,12 @@ package edu.android.chatting_game;
  * Created by stu on 2017-03-13.
  */
 
-public class ChatMessage {
+public class ChatMessageVO {
     private String message;
 
-    public ChatMessage(){}
+    public ChatMessageVO(){}
 
-    public ChatMessage(String messge) {
+    public ChatMessageVO(String messge) {
         this.message = messge;
     }
 

@@ -8,7 +8,6 @@ public class Friend {
     private String name, message, phoneNumber;
     private int imageId;
 
-
     public Friend() {
     }
 
