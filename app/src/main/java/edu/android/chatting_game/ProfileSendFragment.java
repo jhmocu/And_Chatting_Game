@@ -26,7 +26,7 @@ public class ProfileSendFragment extends DialogFragment {
 
     private ArrayList<Friend> list;
     private RecyclerView recyclerView;
-
+    int position;
 
     public ProfileSendFragment() {
         // Required empty public constructor
@@ -46,8 +46,9 @@ public class ProfileSendFragment extends DialogFragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int position = getAdapterPosition();
+                        position = getAdapterPosition();
                         profileSend(position);
+
                     }
                 });
 
@@ -94,4 +95,6 @@ public class ProfileSendFragment extends DialogFragment {
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, list.get(position).getName());
         startActivity(intent);
     }
+
+
 }
