@@ -26,8 +26,6 @@ public class Main2Activity extends AppCompatActivity
     FriendLab lab = FriendLab.getInstance();
     public static final int REQ_CODE=1001;
 
-
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -60,8 +58,6 @@ public class Main2Activity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        String gi = "hi";
 
     }
 
@@ -183,7 +179,6 @@ public class Main2Activity extends AppCompatActivity
                     fragment = new SettingFragment();
                     break;
             }
-
             return fragment;
         }
 

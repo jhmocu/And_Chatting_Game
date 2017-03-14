@@ -4,13 +4,15 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -43,15 +46,17 @@ public class ChatRoomActivity
 
     private ListView listView;
     private ChatMessageLab lab;
-    private ArrayList<ChatMessage> chatMessageArrayList;
+    private ArrayList<ChatMessageVO> chatMessageVOArrayList;
 
+    private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
-    class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
-        private List<ChatMessage> list;
+    class ChatMessageAdapter extends ArrayAdapter<ChatMessageVO> {
 
-        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessage> objects) {
+        private List<ChatMessageVO> list;
+
+        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageVO> objects) {
             super(context, resource, objects);
             this.list = objects;
         }
@@ -72,6 +77,7 @@ public class ChatRoomActivity
 //                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
 //            }
             writeMsg.setCursorVisible(true);
+            writeMsg.requestFocus();
 
             return view;
         }// end getView()
@@ -84,7 +90,7 @@ public class ChatRoomActivity
 
         Log.i(TAG, "onCreateOptionsMenu()");
 
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageArrayList);
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -123,9 +129,9 @@ public class ChatRoomActivity
         Log.i(TAG, "onCreate()");
 
         lab = ChatMessageLab.getInstance();
-        chatMessageArrayList = lab.getChatMessageList();
+        chatMessageVOArrayList = lab.getChatMessageVOList();
 
-//        ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageArrayList);
+//        ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
 //        listView = (ListView) findViewById(R.id.chatMessageListView);
 //        listView.setAdapter(adapter);
 //        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -134,7 +140,9 @@ public class ChatRoomActivity
         btnOption = (ImageButton) findViewById(R.id.btnOption);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
 
-
+        //writeMsg(editText) 클릭하기 전에 키보드 숨기기
+        this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,31 +157,36 @@ public class ChatRoomActivity
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-13 'send' 버튼 이벤트 처리
-                String msg = writeMsg.getText().toString();
-                ChatMessage chatMessage = new ChatMessage(msg);
-                chatMessageArrayList = ChatMessageLab.getInstance().getChatMessageList();
-                chatMessageArrayList.add(chatMessage);
+                // 연결 가능한 네트워크 자원이 있는 지 체크
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo info = connMgr.getActiveNetworkInfo();
+                if (info != null && info.isAvailable()) {
+                    Log.i(TAG, info.getTypeName() + "사용 가능");
 
-//                writeMsg.setEnabled(true);
-                writeMsg.clearFocus();
-                writeMsg.setText("");
+                    String message = writeMsg.getText().toString();
+                    Log.i(TAG, "message: " + message);
+
+                    // 데이터 넣는곳
+//                    ProfileVO vo = new ProfileVO(editText.getText().toString(), editName.getText().toString(), pic_path, editMsg.getText().toString());
+                    ChatMessageVO chatMessageVO = new ChatMessageVO(message);
+                    HttpSendMessageAsyncTask task = new HttpSendMessageAsyncTask();
+                    task.execute(chatMessageVO);
+                }
+/**
+ String msg = writeMsg.getText().toString();
+ ChatMessageVO chatMessage = new ChatMessageVO(msg);
+ chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
+ chatMessageVOArrayList.add(chatMessage);
+ writeMsg.clearFocus();
+ writeMsg.setText("");*/
             }
         });
 
-        Bundle extras=getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String map = extras.getString(MapsActivity.EXTRA_MAP);
             writeMsg.setText(map);
         }
-
-//        MessageListFragment messageListFragment = new MessageListFragment();
-//        SendMessageFragment sendMessageFragment = new SendMessageFragment();
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction transaction = fm.beginTransaction();
-//        transaction.add(R.id.sendMessageFrame, sendMessageFragment);
-//        transaction.add(R.id.messageListFrame, messageListFragment);
-//        transaction.commit();
-
 
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
@@ -229,6 +242,94 @@ public class ChatRoomActivity
             writeMsg.setText("이름: " + name + "\n" + " 번호: " + number);
         }
     }
+
+    private class HttpSendMessageAsyncTask
+            extends AsyncTask<ChatMessageVO, String, String> {
+        @Override
+        protected String doInBackground(ChatMessageVO... params) {
+            Log.i("http", "연결되었다");
+            String result = sendData(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+//            txtResult.setText(s);
+        }
+    }// end class HttpSendMessageAsyncTask
+
+    private String sendData(ChatMessageVO vo) {
+//        String resultURL = "http://192.168.11.11:8081/Test3/InsertProfile";
+//        String result = "";
+
+        return null;
+    }
+
+    //        public String sendData(ProfileVO vo) {
+//
+//            String requestURL = "http://192.168.11.11:8081/Test3/InsertProfile";
+//            String result = "";
+//            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+//            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+//
+//            builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
+//            builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
+//            builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
+//            builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
+//            builder.addTextBody("friend_count", "0", ContentType.create("Multipart/related", "UTF-8"));
+//
+//            InputStream inputStream = null;
+//            HttpClient httpClient = null; //
+//            HttpPost httpPost = null; //new HttpPost(requestURL);
+//            HttpResponse httpResponse = null;
+//
+//            try {
+//                // http 통신 send
+//                httpClient = AndroidHttpClient.newInstance("Android");
+//                httpPost = new HttpPost(requestURL);
+//                httpPost.setEntity(builder.build());
+//
+//                httpResponse = httpClient.execute(httpPost); // 연결 실행
+//
+//                // http 통신 receive
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//                inputStream = httpEntity.getContent();
+//
+//                Log.i("gg", "good");
+//                BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+//                StringBuffer stringBuffer = new StringBuffer();
+//                String line = null;
+//
+//                while ((line = bufferdReader.readLine()) != null) {
+//                    stringBuffer.append(line + "\n");
+//                }
+//
+//                result = stringBuffer.toString();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                try {
+//                    inputStream.close();
+//                    httpPost.abort();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return result;
+//        }
+//
+//        public String getPathFromUri(Uri uri){
+//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null );
+//            cursor.moveToNext();
+//            String path = cursor.getString(cursor.getColumnIndex( "_data" ));
+//            cursor.close();
+//            return path;
+//        }
+//    }
+
+
 
     @Override
     public void profilesend(int position) {

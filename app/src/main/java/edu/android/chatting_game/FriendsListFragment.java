@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 
 /**
@@ -19,11 +20,9 @@ public class FriendsListFragment
         extends Fragment {
     private FloatingActionButton floatingBtn;
 
-
     public FriendsListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +44,9 @@ public class FriendsListFragment
                 startActivity(intent);
             }
         });
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         return view;

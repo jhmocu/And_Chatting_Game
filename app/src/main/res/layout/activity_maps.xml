@@ -52,13 +52,16 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        map:srcCompat="@android:drawable/ic_menu_set_as"
-        android:layout_marginTop="20dp"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/mapBtn"
         android:layout_toRightOf="@+id/mapBtn"
-        android:layout_toEndOf="@+id/mapBtn" />
+        android:elevation="0dp"
+        android:scaleType="matrix"
+        map:srcCompat="@android:drawable/checkbox_on_background" />
 
 
 </RelativeLayout>
