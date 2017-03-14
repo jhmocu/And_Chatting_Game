@@ -2,13 +2,10 @@ package edu.android.chatting_game;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,12 +120,6 @@ public class StatusEditActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         }
-//        if (data != null) {
-//            Uri uri = data.getData();
-//            Log.i("이미지 경로", uri.toString());
-//            imageView.setImageURI(uri);
-//        }
     }
-
 
 }

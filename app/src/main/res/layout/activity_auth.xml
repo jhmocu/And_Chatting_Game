@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.android.chatting_game.AuthActivity">
+
+    <EditText
+        android:id="@+id/inputPhoneNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="전화 번호 입력"
+        />
+
+    <Button
+        android:id="@+id/btnSendAuth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="인증 번호 보내기"
+        android:onClick="onSendAuthNum"/>
+
+    <EditText
+        android:id="@+id/inputAuthNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="인증 번호 입력"
+       />
+
+    <Button
+        android:id="@+id/btnCheckedAuth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="인증 번호 확인"
+        android:onClick="onCheckedAuth"
+        />
+</LinearLayout>
