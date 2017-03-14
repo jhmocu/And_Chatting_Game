@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,11 +38,9 @@ public class ChatRoomActivity
     private TextView textMyMsg;
     private ImageButton btnOption, btnSend;
     private String title;
-
     private ListView listView;
     private ChatMessageLab lab;
     private ArrayList<ChatMessage> chatMessageArrayList;
-
 
     class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
@@ -68,6 +67,7 @@ public class ChatRoomActivity
 //                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
 //            }
             writeMsg.setCursorVisible(true);
+            writeMsg.requestFocus();
 
             return view;
         }// end getView()
@@ -129,6 +129,10 @@ public class ChatRoomActivity
         btnOption = (ImageButton) findViewById(R.id.btnOption);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
 
+        //writeMsg(editText) 클릭하기 전에 키보드 숨기기
+        this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,14 +165,12 @@ public class ChatRoomActivity
 //        transaction.add(R.id.messageListFrame, messageListFragment);
 //        transaction.commit();
 
-
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         title = "대화방 이름";
         actionBar.setTitle(title);
     }// end onCreate()
-
 
     @Override
     public void optionItemSelected(int which) {
@@ -179,10 +181,9 @@ public class ChatRoomActivity
             case 1:
                 mapOpen();
                 break;
-
             case 2:
                 ProfileSendFragment fragment = new ProfileSendFragment();
-                fragment.show(getSupportFragmentManager(), "show");
+                fragment.show(getSupportFragmentManager(), "show_profile_send_fragment");
 
 
 //                Bundle extra = getIntent().getExtras();

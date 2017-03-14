@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 public class ChatListFragment
@@ -27,12 +28,12 @@ public class ChatListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_chat_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
 
-               ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
+        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_chat_recyclerView, fragment);
@@ -45,6 +46,9 @@ public class ChatListFragment
                 startActivity(intent);
             }
         });
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         return view;
     }
