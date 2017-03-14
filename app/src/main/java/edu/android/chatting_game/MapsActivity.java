@@ -108,6 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Intent intent = new Intent(MapsActivity.this,ChatRoomActivity.class);
                         intent.putExtra(EXTRA_MAP,bf.toString());
                         startActivity(intent);
+                        finish();
                     }
                 });
             }
