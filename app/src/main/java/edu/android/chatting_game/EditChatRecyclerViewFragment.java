@@ -1,10 +1,12 @@
 package edu.android.chatting_game;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,33 @@ import android.widget.TextView;
  */
 public class EditChatRecyclerViewFragment extends Fragment {
 
+    private onSelectedListener listener;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof onSelectedListener){
+            listener = (onSelectedListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
+    private int count = 0;
 
     class EditChattingViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView editChatImageRoom;
         private TextView editChatTxtRoom, editChatTxtLastMsg, editChatTxtFriendCount;
         private CheckBox editChatcheckBox;
+
+
 
         public EditChattingViewHolder(View itemView) {
             super(itemView);
@@ -35,6 +56,23 @@ public class EditChatRecyclerViewFragment extends Fragment {
             editChatcheckBox = (CheckBox) itemView.findViewById(R.id.editChatcheckBox);
 
             // TODO: 클릭시 checkBox가 선택되도록 설정하기
+            editChatcheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (editChatcheckBox.isChecked()) {
+                        count++;
+                        Log.i(TAG, "edu.android.iojklj");
+                        listener.itemSelected(count);
+                    }
+                    if (!editChatcheckBox.isChecked()) {
+                        count--;
+                        listener.itemSelected(count);
+                    }
+
+
+                }
+            });
+
         } // end class EditChattingViewHolder
     }
 
@@ -79,5 +117,11 @@ public class EditChatRecyclerViewFragment extends Fragment {
         recyclerView.setAdapter(new EditChattingAdapter());
         return view;
     }
+
+    public interface onSelectedListener {
+        void itemSelected(int count);
+    }
+
+
 
 }
