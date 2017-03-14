@@ -9,6 +9,8 @@ import android.provider.ContactsContract;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,13 +25,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ChatRoomActivity
-        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener {
+        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
 
     public static final String TAG = "edu.android.chatting";
 
@@ -42,6 +45,7 @@ public class ChatRoomActivity
     private ChatMessageLab lab;
     private ArrayList<ChatMessage> chatMessageArrayList;
 
+    private ProfileSendFragment profileSendFragment;
 
     class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
@@ -191,10 +195,9 @@ public class ChatRoomActivity
                 break;
 
             case 2:
-                ProfileSendFragment fragment = new ProfileSendFragment();
-                fragment.show(getSupportFragmentManager(), "show");
+                profileSendFragment = new ProfileSendFragment();
+                profileSendFragment.show(getSupportFragmentManager(), "profile_send_dialog");
                 // TODO: 여기부터 다시 시작~ ProfieSendFragment + + + +
-
 
                 break;
         }
@@ -227,4 +230,14 @@ public class ChatRoomActivity
             writeMsg.setText("이름: " + name + "\n" + " 번호: " + number);
         }
     }
+
+    @Override
+    public void profilesend(int position) {
+        Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
+        String name = FriendLab.getInstance().getFriendList().get(position).getName();
+        String phone = FriendLab.getInstance().getFriendList().get(position).getPhoneNumber();
+        writeMsg.setText("이름: " + name + "\n" + "핸드폰 번호: " + phone);
+        profileSendFragment.dismiss();  // 아이템뷰 클릭시 다이얼로그 창 닫기 위함~
+    }
+
 } // end class ChatRoomActivity

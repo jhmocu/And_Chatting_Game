@@ -38,4 +38,5 @@ public class FriendLab {
             friendList.add(friends);
         }
     }
+
 }

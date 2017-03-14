@@ -17,4 +17,11 @@
         android:layout_height="50dp"
         android:text="이름" />
 
+    <TextView
+        android:id="@+id/textPhone_list1"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:text="번호" />
+
 </LinearLayout>
