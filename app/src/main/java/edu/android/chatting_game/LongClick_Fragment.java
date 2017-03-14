@@ -53,7 +53,6 @@ public class LongClick_Fragment
         return builder.create();
     }
 
-
     public interface onItemSelectedListener {
         void itemSelected(int which, String name);
     }
