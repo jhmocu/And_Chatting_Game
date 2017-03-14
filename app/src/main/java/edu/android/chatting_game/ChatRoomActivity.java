@@ -1,18 +1,14 @@
 package edu.android.chatting_game;
 
-import android.content.Context;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.provider.Contacts;
-import android.provider.ContactsContract;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,7 +29,7 @@ import java.util.List;
 
 
 public class ChatRoomActivity
-        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener{
+        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener {
 
     public static final String TAG = "edu.android.chatting";
 
@@ -62,12 +58,12 @@ public class ChatRoomActivity
             Log.i(TAG, "getView()");
             View view = convertView;
 //            if(내 메세지){
-                if (view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(getContext());
-                    view = inflater.inflate(R.layout.content_my_message, parent, false);
-                }
-                textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                textMyMsg.setText(list.get(position).getMessage());
+            if (view == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                view = inflater.inflate(R.layout.content_my_message, parent, false);
+            }
+            textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+            textMyMsg.setText(list.get(position).getMessage());
 //            } else if (상대 메세지) {
 //                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
 //            }
@@ -132,16 +128,16 @@ public class ChatRoomActivity
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
-        
+
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-13 ' + ' 버튼 이벤트 처리
-                DialogFragment optionClickFragment=OptionBtnFragment.newInstance();
-                optionClickFragment.show(getFragmentManager(),"optionClick_dialog");
+                DialogFragment optionClickFragment = OptionBtnFragment.newInstance();
+                optionClickFragment.show(getFragmentManager(), "optionClick_dialog");
             }
         });
-        
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,7 +161,7 @@ public class ChatRoomActivity
 //        transaction.add(R.id.messageListFrame, messageListFragment);
 //        transaction.commit();
 
-        ActionBar actionBar = getSupportActionBar();
+
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
@@ -176,7 +172,7 @@ public class ChatRoomActivity
 
     @Override
     public void optionItemSelected(int which) {
-        switch (which){
+        switch (which) {
             case 0:
 
                 break;
@@ -199,8 +195,9 @@ public class ChatRoomActivity
                 break;
         }
     }
-    public void mapOpen(){
-        Intent intent=new Intent(this,MapsActivity.class);
+
+    public void mapOpen() {
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
@@ -215,8 +212,7 @@ public class ChatRoomActivity
         // TODO: 2013-03-13 플러스 버튼 연락처 보내기.
         String name = null;
         String number = null;
-        if(resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
             Cursor cursor = getContentResolver().query(data.getData(),
                     new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                             ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
@@ -227,5 +223,4 @@ public class ChatRoomActivity
             writeMsg.setText("이름: " + name + "\n" + " 번호: " + number);
         }
     }
-}
 } // end class ChatRoomActivity
