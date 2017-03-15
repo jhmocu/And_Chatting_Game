@@ -31,17 +31,17 @@
 
         <ImageButton
             android:id="@+id/btnOption"
+            style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@android:drawable/ic_input_add"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            />
+            app:srcCompat="@drawable/option" />
 
         <EditText
             android:id="@+id/writeMsg"
-            android:layout_width="280dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textMultiLine"
@@ -50,12 +50,13 @@
 
         <ImageButton
             android:id="@+id/btnSend"
+            style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@android:drawable/ic_menu_send"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            app:srcCompat="@drawable/sent1" />
 
     </RelativeLayout>
 
