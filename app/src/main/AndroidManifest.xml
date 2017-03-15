@@ -70,9 +70,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AuthActivity" />
-        <activity android:name=".InsertProfileActivity">
-
-        </activity>
+        <activity android:name=".InsertProfileActivity"></activity>
+        <activity
+            android:name=".LongClickDeleteFriendActivity"
+            android:label="@string/title_activity_long_click_delete_friend"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

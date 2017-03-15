@@ -23,4 +23,5 @@
     <string name="title_activity_profile__my_info">Profile_My_info</string>
     <string name="title_activity_long__click_name__update">Long_Click_name_Update</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_long_click_delete_friend">LongClickDeleteFriendActivity</string>
 </resources>

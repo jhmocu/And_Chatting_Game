@@ -102,6 +102,11 @@ public class Main2Activity extends AppCompatActivity
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
 
+        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
+
+        startActivityForResult(intent, REQ_CODE);
+
     }
     private void nameUpdate(String name){
 
