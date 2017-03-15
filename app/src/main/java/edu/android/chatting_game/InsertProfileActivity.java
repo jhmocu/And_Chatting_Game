@@ -222,9 +222,7 @@ public class InsertProfileActivity extends AppCompatActivity {
                         "사진 선택 완료",
                         Toast.LENGTH_SHORT).show();
             }
-
         }
-
     }
 
     public void writeToFile(String my_phone, String fileName) {
