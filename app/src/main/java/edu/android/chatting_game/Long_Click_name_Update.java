@@ -55,11 +55,14 @@ public class Long_Click_name_Update extends AppCompatActivity {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
+                    StartAppActivity startAppActivity = new StartAppActivity();
+                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i("gg", info.getTypeName() + "사용 가능");
+                    String friend_phone="111";
 
                     String friend_name = textView.getText().toString();
 
-                    FriendVO vo = new FriendVO(null,null,friend_name);
+                    FriendVO vo = new FriendVO(my_phone,friend_phone,friend_name);
                     HttpNameAsyncTask task = new HttpNameAsyncTask();
                     task.execute(vo);
 
