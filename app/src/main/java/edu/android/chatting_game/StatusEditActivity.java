@@ -2,24 +2,22 @@ package edu.android.chatting_game;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class StatusEditActivity extends AppCompatActivity {
 
     private static final int PICK_FROM_ALBUM = 100;
-
+    public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
 
     private int image;
     private String name;
@@ -28,7 +26,7 @@ public class StatusEditActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
-    private ImageButton btnEdit;
+    private ImageButton btnEdit, btnCamera;
     private Button btnSave;
 
     @Override
@@ -40,6 +38,7 @@ public class StatusEditActivity extends AppCompatActivity {
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
+        btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnSave = (Button) findViewById(R.id.btnSave);
 
         Bundle extras = getIntent().getExtras();
@@ -75,18 +74,52 @@ public class StatusEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                capturePhoto();
+            }
+        });
     }
-    private void albumSelect() {
+
+    private void albumSelect() {   // 앨범 선택
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
+
+    private void capturePhoto() { // 직접 찍은 사진 이미지로 선택
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (i.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(i, REQ_CODE_IMAGE_CAPTURE);
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             Uri uri = data.getData();
-            Log.i("이미지 경로", uri.toString());
+//            Log.i("이미지 경로", uri.toString());
             imageView.setImageURI(uri);
+
+            if (requestCode == REQ_CODE_IMAGE_CAPTURE &&
+                    resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap bitmap = (Bitmap) extras.get("data");
+                    imageView.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(this,
+                            "사진 이미지 데이터 없음",
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this,
+                        "NOT OK",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 }

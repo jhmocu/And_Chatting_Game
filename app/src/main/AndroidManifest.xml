@@ -8,11 +8,10 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -23,13 +22,7 @@
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         >
         <activity
             android:name=".ProfileInfoActivity"
@@ -49,11 +42,9 @@
         <activity android:name=".NoticeActivity" />
         <activity android:name=".FontChangeActivity" />
         <activity android:name=".BackgroundColorChangeActivity" />
-        <activity android:name=".VersionActivity"></activity>
+        <activity android:name=".VersionActivity" />
 
-
-
-            <!--
+        <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
@@ -67,10 +58,21 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
 
-        <!--<activity android:name=".VersionActivity"></activity>-->
-        <activity android:name=".EditChatListActivity"></activity>
+        <!-- <activity android:name=".VersionActivity"></activity> -->
+        <activity android:name=".EditChatListActivity" />
+        <activity android:name=".StartAppActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AuthActivity" />
+        <activity android:name=".InsertProfileActivity">
+
+        </activity>
     </application>
 
 </manifest>

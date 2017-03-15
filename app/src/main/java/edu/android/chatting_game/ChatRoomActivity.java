@@ -202,7 +202,6 @@ public class ChatRoomActivity
             case 2:
                 profileSendFragment = new ProfileSendFragment();
                 profileSendFragment.show(getSupportFragmentManager(), "profile_send_dialog");
-                // TODO: 여기부터 다시 시작~ ProfieSendFragment + + + +
 
                 break;
         }
@@ -211,6 +210,7 @@ public class ChatRoomActivity
     public void mapOpen() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void sendContact() {

@@ -10,11 +10,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class EditChatListActivity extends AppCompatActivity {
+public class EditChatListActivity extends AppCompatActivity implements EditChatRecyclerViewFragment.onSelectedListener {
+    private static final String TAG = "edu.android.chatting";
     private Button btnBack, btnEditChatFinish;
     private TextView textEditChatCount;
     private CheckBox editChatcheckBox;
-    private int count = 0;
+    private int count;
 
 
 
@@ -28,24 +29,13 @@ public class EditChatListActivity extends AppCompatActivity {
         btnEditChatFinish = (Button) findViewById(R.id.btnEditChatFinish);
         textEditChatCount = (TextView) findViewById(R.id.textEditChatCount);
         editChatcheckBox = (CheckBox) findViewById(R.id.editChatcheckBox);
+        textEditChatCount.setText(String.valueOf(count));
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         }); // 편집이라는 부분을 누르면 다시 이전 액티비티로 돌아가는 기능
-
-
-
-//        editChatcheckBox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (editChatcheckBox.isChecked()) {
-//                    count++;
-//                    textEditChatCount.setText(String.valueOf(count));
-//                }
-//            }
-//        });
 
         if (frag == null) {
             frag = new EditChatListFragment();
@@ -55,6 +45,10 @@ public class EditChatListActivity extends AppCompatActivity {
         }
 
 
+    }
 
+    @Override
+    public void itemSelected(int count) {
+        textEditChatCount.setText(String.valueOf(count));
     }
 }
