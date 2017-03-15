@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_collapseMode="pin"
-            />
+            tools:style="@style/Widget.Design.TabLayout" />
 
     </android.support.design.widget.AppBarLayout>
 
