@@ -13,12 +13,20 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class EditChatRecyclerViewFragment extends Fragment {
 
     private onSelectedListener listener;
+    private ArrayList<Boolean> selectedList = new ArrayList<>();
+    private int count;
+    private static final String KEY_CHAT_NAME = "key_chat_name";
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -36,17 +44,16 @@ public class EditChatRecyclerViewFragment extends Fragment {
 
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
-    private int count = 0;
 
     class EditChattingViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView editChatImageRoom;
         private TextView editChatTxtRoom, editChatTxtLastMsg, editChatTxtFriendCount;
         private CheckBox editChatcheckBox;
+        private int position;
 
 
-
-        public EditChattingViewHolder(View itemView) {
+        public EditChattingViewHolder(final View itemView) {
             super(itemView);
 
             editChatImageRoom = (ImageView) itemView.findViewById(R.id.editChatImageRoom);
@@ -59,14 +66,17 @@ public class EditChatRecyclerViewFragment extends Fragment {
             editChatcheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    Log.i(TAG, "position: " + position);
                     if (editChatcheckBox.isChecked()) {
+                        selectedList.set(position, true);
                         count++;
-                        Log.i(TAG, "edu.android.iojklj");
-                        listener.itemSelected(count);
-                    }
-                    if (!editChatcheckBox.isChecked()) {
+                        Log.i(TAG, "count = " + count);
+                        listener.itemSelected(count, selectedList);
+                    } else  {
+                        selectedList.set(position, false);
                         count--;
-                        listener.itemSelected(count);
+                        Log.i(TAG, "count = " + count);
+                        listener.itemSelected(count, selectedList);
                     }
 
 
@@ -79,6 +89,12 @@ public class EditChatRecyclerViewFragment extends Fragment {
 
     class EditChattingAdapter extends RecyclerView.Adapter<EditChattingViewHolder>{
 
+        public EditChattingAdapter() {
+            for (int i = 0; i < getItemCount(); i++) {
+                selectedList.add(false);
+            }
+        }
+
         @Override
         public EditChattingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -89,7 +105,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(EditChattingViewHolder editChattingViewHolder, int i) {
-
+            editChattingViewHolder.position = i;
         }
 
         @Override
@@ -115,11 +131,13 @@ public class EditChatRecyclerViewFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.edit_chat_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new EditChattingAdapter());
+
         return view;
+
     }
 
     public interface onSelectedListener {
-        void itemSelected(int count);
+        void itemSelected(int count, ArrayList<Boolean> selectedList);
     }
 
 
