@@ -4,10 +4,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.LayoutRes;
@@ -157,31 +154,28 @@ public class ChatRoomActivity
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-13 'send' 버튼 이벤트 처리
-                // 연결 가능한 네트워크 자원이 있는 지 체크
-                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-                NetworkInfo info = connMgr.getActiveNetworkInfo();
-                if (info != null && info.isAvailable()) {
-                    Log.i(TAG, info.getTypeName() + "사용 가능");
+                /**
+                 // 연결 가능한 네트워크 자원이 있는 지 체크
+                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                 NetworkInfo info = connMgr.getActiveNetworkInfo();
+                 if (info != null && info.isAvailable()) {
+                 Log.i(TAG, info.getTypeName() + "사용 가능");
 
-                    String message = writeMsg.getText().toString();
-                    Log.i(TAG, "message: " + message);
+                 String message = writeMsg.getText().toString();
+                 Log.i(TAG, "message: " + message);
 
-                    // 데이터 넣는곳
-//                    ProfileVO vo = new ProfileVO(editText.getText().toString(), editName.getText().toString(), pic_path, editMsg.getText().toString());
-                    ChatMessageVO chatMessageVO = new ChatMessageVO(message);
-                    HttpSendMessageAsyncTask task = new HttpSendMessageAsyncTask();
-                    task.execute(chatMessageVO);
-                }
-/**
- String msg = writeMsg.getText().toString();
- ChatMessageVO chatMessage = new ChatMessageVO(msg);
- chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
- chatMessageVOArrayList.add(chatMessage);
- writeMsg.clearFocus();
- writeMsg.setText("");*/
+                 ChatMessageVO chatMessageVO = new ChatMessageVO(message);
+                 HttpSendMessageAsyncTask task = new HttpSendMessageAsyncTask();
+                 task.execute(chatMessageVO);
+                 }*/
+                String msg = writeMsg.getText().toString();
+                ChatMessageVO chatMessage = new ChatMessageVO(msg);
+                chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
+                chatMessageVOArrayList.add(chatMessage);
+                writeMsg.clearFocus();
+                writeMsg.setText("");
             }
         });
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String map = extras.getString(MapsActivity.EXTRA_MAP);
@@ -205,7 +199,6 @@ public class ChatRoomActivity
             case 1:
                 mapOpen();
                 break;
-
             case 2:
                 profileSendFragment = new ProfileSendFragment();
                 profileSendFragment.show(getSupportFragmentManager(), "profile_send_dialog");
@@ -243,94 +236,6 @@ public class ChatRoomActivity
         }
     }
 
-    private class HttpSendMessageAsyncTask
-            extends AsyncTask<ChatMessageVO, String, String> {
-        @Override
-        protected String doInBackground(ChatMessageVO... params) {
-            Log.i("http", "연결되었다");
-            String result = sendData(params[0]);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-//            txtResult.setText(s);
-        }
-    }// end class HttpSendMessageAsyncTask
-
-    private String sendData(ChatMessageVO vo) {
-//        String resultURL = "http://192.168.11.11:8081/Test3/InsertProfile";
-//        String result = "";
-
-        return null;
-    }
-
-    //        public String sendData(ProfileVO vo) {
-//
-//            String requestURL = "http://192.168.11.11:8081/Test3/InsertProfile";
-//            String result = "";
-//            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-//            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-//
-//            builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
-//            builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
-//            builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
-//            builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
-//            builder.addTextBody("friend_count", "0", ContentType.create("Multipart/related", "UTF-8"));
-//
-//            InputStream inputStream = null;
-//            HttpClient httpClient = null; //
-//            HttpPost httpPost = null; //new HttpPost(requestURL);
-//            HttpResponse httpResponse = null;
-//
-//            try {
-//                // http 통신 send
-//                httpClient = AndroidHttpClient.newInstance("Android");
-//                httpPost = new HttpPost(requestURL);
-//                httpPost.setEntity(builder.build());
-//
-//                httpResponse = httpClient.execute(httpPost); // 연결 실행
-//
-//                // http 통신 receive
-//                HttpEntity httpEntity = httpResponse.getEntity();
-//                inputStream = httpEntity.getContent();
-//
-//                Log.i("gg", "good");
-//                BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-//                StringBuffer stringBuffer = new StringBuffer();
-//                String line = null;
-//
-//                while ((line = bufferdReader.readLine()) != null) {
-//                    stringBuffer.append(line + "\n");
-//                }
-//
-//                result = stringBuffer.toString();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    inputStream.close();
-//                    httpPost.abort();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            return result;
-//        }
-//
-//        public String getPathFromUri(Uri uri){
-//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null );
-//            cursor.moveToNext();
-//            String path = cursor.getString(cursor.getColumnIndex( "_data" ));
-//            cursor.close();
-//            return path;
-//        }
-//    }
-
-
-
     @Override
     public void profilesend(int position) {
         Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
@@ -339,5 +244,79 @@ public class ChatRoomActivity
         writeMsg.setText("이름: " + name + "\n" + "핸드폰 번호: " + phone);
         profileSendFragment.dismiss();  // 아이템뷰 클릭시 다이얼로그 창 닫기 위함~
     }
+
+/***********************************************************************************************************************************************************************************/
+    /** 서버 연결 테스트
+     private class HttpSendMessageAsyncTask
+     extends AsyncTask<ChatMessageVO, String, String> {
+    @Override protected String doInBackground(ChatMessageVO... params) {
+    Log.i(TAG, "연결되었다");
+    String result = sendData(params[0]);
+    return result;
+    }
+
+    @Override protected void onPostExecute(String s) {
+    super.onPostExecute(s);
+    textMyMsg.setText(s);
+    }
+    }// end class HttpSendMessageAsyncTask
+
+     private String sendData(ChatMessageVO vo) {
+     String requestURL = "http://192.168.11.11:8081/Test3/InsertProfile";
+     String result = "";
+     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+     builder.addTextBody("phone", vo.getMessage(), ContentType.create("Multipart/related", "UTF-8")); //"phone"
+     builder.addTextBody("name", "이름", ContentType.create("Multipart/related", "UTF-8"));
+     builder.addTextBody("pic_res", "아이디", ContentType.create("Multipart/related", "UTF-8"));
+     builder.addTextBody("status_msg", "상태메세지", ContentType.create("Multipart/related", "UTF-8"));
+     builder.addTextBody("friend_count", "0", ContentType.create("Multipart/related", "UTF-8"));
+
+     InputStream inputStream = null;
+     HttpClient httpClient = null; //
+     HttpPost httpPost = null; //new HttpPost(requestURL);
+     HttpResponse httpResponse = null;
+
+     // http 통신 send
+     try {
+     httpClient = AndroidHttpClient.newInstance("Android");
+     httpPost = new HttpPost(requestURL);
+     httpPost.setEntity(builder.build());
+     httpResponse = httpClient.execute(httpPost); // 연결 실행
+
+     // http 통신 receive
+     HttpEntity httpEntity = httpResponse.getEntity();
+     inputStream = httpEntity.getContent();
+
+     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+     StringBuffer stringBuffer = new StringBuffer();
+     String line = bufferedReader.readLine();
+     while (line != null) {
+     stringBuffer.append(line + "\n");
+     line = bufferedReader.readLine();
+     }
+     result = stringBuffer.toString();
+     } catch (IOException e) {
+     e.printStackTrace();
+     } finally {
+     try {
+     inputStream.close();
+     httpPost.abort();
+     } catch (IOException e) {
+     e.printStackTrace();
+     }
+     }
+     return result;
+     }
+
+     //    public String getPathFromUri(Uri uri) {
+     //        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+     //        Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+     //        cursor.moveToNext();
+     //        String path = cursor.getString(cursor.getColumnIndex("_data"));
+     //        cursor.close();
+     //        return path;
+     //    }
+     */
 
 } // end class ChatRoomActivity

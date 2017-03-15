@@ -137,6 +137,7 @@ public class InsertProfileActivity extends AppCompatActivity {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
+        // 데이터 넣는 부분
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));

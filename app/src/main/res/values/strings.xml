@@ -19,10 +19,6 @@
     <string-array name="chat_long_click">
         <item>대화방 삭제</item>
     </string-array>
-    <string-array name="notice">
-
-        <item>2017년 3월 24일 프로젝트 발표가 있습니다.</item>
-    </string-array>
     <string name="title_activity_profile_info">Profile_info</string>
     <string name="title_activity_profile__my_info">Profile_My_info</string>
     <string name="title_activity_long__click_name__update">Long_Click_name_Update</string>
