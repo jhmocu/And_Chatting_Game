@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,11 +17,11 @@ import java.util.List;
 public class NoticeExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<String> parentList;
+    private List<String> parentList;
     private HashMap<String, List<String>> childList;
 
     // 생성자 생성
-    public NoticeExpandableListViewAdapter(Context context, ArrayList<String> parentList, HashMap<String, List<String>> childList) {
+    public NoticeExpandableListViewAdapter(Context context, List<String> parentList, HashMap<String, List<String>> childList) {
         this.context = context;
         this.parentList = parentList;
         this.childList = childList;
