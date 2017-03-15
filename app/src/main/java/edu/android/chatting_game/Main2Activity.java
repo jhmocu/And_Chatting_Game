@@ -46,6 +46,7 @@ public class Main2Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -95,10 +96,16 @@ public class Main2Activity extends AppCompatActivity
         }
     }
     private void itemDelete(String name){
-        Toast.makeText(this,"DB 삭제"+name,Toast.LENGTH_SHORT).show();
-        //TODO:DB 삭제 작업할 곳
-//         queryDelete = require("").delete;
-//        queryDelete(data, "#/**/*/data");
+            //TODO:DB 삭제 작업할 곳
+    //         queryDelete = require("").delete;
+    //        queryDelete(data, "#/**/*/data");
+        LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
+        dlg.show(getSupportFragmentManager(), "dlg");
+
+        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
+
+        startActivityForResult(intent, REQ_CODE);
 
     }
     private void nameUpdate(String name){

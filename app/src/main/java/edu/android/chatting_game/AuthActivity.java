@@ -34,9 +34,12 @@ public class AuthActivity extends AppCompatActivity {
 
     public void onCheckedAuth (View view){
         if(Integer.parseInt(inputAuth.getText().toString()) == authNum){
-            Toast.makeText(this, "성공" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "인증 성공" , Toast.LENGTH_SHORT).show();
             startSecondActivity();
+        } else {
+            Toast.makeText(this, "인증 실패", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private int authPhone(int randomInt) {

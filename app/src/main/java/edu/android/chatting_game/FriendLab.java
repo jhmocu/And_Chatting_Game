@@ -29,7 +29,7 @@ public class FriendLab {
     }
 
     private void makeDummyList() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i <30; i++) {
             Friend friends = new Friend();
             friends.setName("Name " + i);
             friends.setPhoneNumber(i + "-" + i);

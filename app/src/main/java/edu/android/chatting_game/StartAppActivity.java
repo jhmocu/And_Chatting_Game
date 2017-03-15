@@ -57,7 +57,7 @@ public class StartAppActivity extends AppCompatActivity {
         timeThread.start();
     }
 
-    private String readFromFile(String filename) {
+    public String readFromFile(String filename) {
         // 파일에서 읽은 문자열을 append할 변수
         StringBuffer buffer = new StringBuffer();
 

@@ -8,9 +8,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +26,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,10 +91,11 @@ public class InsertProfileActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
+
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는곳
-                    ProfileVO vo = new ProfileVO(my_phone, name, pic_path, status_msg);
+                    ProfileVO vo = new ProfileVO(my_phone, name, pic_path , status_msg);
                     HttpSendAsyncTask task = new HttpSendAsyncTask();
                     task.execute(vo);
                     writeToFile(vo.getPhone(), StartAppActivity.MY_PHONE_FILE);
@@ -137,10 +140,10 @@ public class InsertProfileActivity extends AppCompatActivity {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
+        // 데이터 넣는 부분
+        builder.addTextBody("phone", "22023405", ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
-//        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
+        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("friend_count", "0", ContentType.create("Multipart/related", "UTF-8"));
 
@@ -202,6 +205,7 @@ public class InsertProfileActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             uri = data.getData();
+
 //            Log.i("이미지 경로", uri.toString());
             imageView.setImageURI(uri);
 
@@ -221,9 +225,7 @@ public class InsertProfileActivity extends AppCompatActivity {
                         "사진 선택 완료",
                         Toast.LENGTH_SHORT).show();
             }
-
         }
-
     }
 
     public void writeToFile(String my_phone, String fileName) {
@@ -257,4 +259,5 @@ public class InsertProfileActivity extends AppCompatActivity {
 
         return path;
     }
+
 }
