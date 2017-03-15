@@ -15,18 +15,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FriendsRecyclerViewFragment
         extends Fragment {
 
+    private static final String TAG = "edu.android.chatting";
+
     public static final String KEY_EXTRA_NAME = "key_name";
     public static final String KEY_EXTRA_PHONENUMBER = "key_phone";
     public static final String KEY_EXTRA_MESSAGE = "key_msg";
     public static final String KEY_EXTRA_IMAGEID = "key_image";
-    public static final String KEY_EXTRA_NAME2="key_name2";
+    public static final String KEY_EXTRA_NAME2 = "key_name2";
 
 
     private RecyclerView recyclerView;
@@ -65,7 +66,6 @@ public class FriendsRecyclerViewFragment
                     return true;
                 }
             });
-
         }
     } // end class FriendViewHolder
 
@@ -92,12 +92,13 @@ public class FriendsRecyclerViewFragment
         public int getItemCount() {
             return list.size();
         }
-    }
+    }// end class FriendAdapter
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,13 +109,15 @@ public class FriendsRecyclerViewFragment
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new FriendAdapter());
+
         return view;
     }
 
     private void startProfileActivity(int position) {
         if (position == list.size() - 1) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
-            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
+            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(
+                    position).getImageId());
             intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
             intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
             startActivity(intent);
@@ -128,5 +131,4 @@ public class FriendsRecyclerViewFragment
             startActivity(intent);
         }
     }
-
-}
+}// class FriendsRecyclerViewFragment
