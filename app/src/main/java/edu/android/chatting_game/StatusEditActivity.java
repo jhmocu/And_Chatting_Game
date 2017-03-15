@@ -91,9 +91,9 @@ public class StatusEditActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
-//                    StartAppActivity startAppActivity = new StartAppActivity();
-//                    my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-
+                    StartAppActivity startAppActivity = new StartAppActivity();
+                    my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+                    Log.i("test", my_phone);
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는 곳
