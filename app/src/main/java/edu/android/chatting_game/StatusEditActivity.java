@@ -91,13 +91,13 @@ public class StatusEditActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
-                    StartAppActivity startAppActivity = new StartAppActivity();
-
+//                    StartAppActivity startAppActivity = new StartAppActivity();
+//                    my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
 
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는 곳
-                    ProfileVO vo = new ProfileVO(my_phone, name, pic_path, status_msg);
+                    ProfileVO vo = new ProfileVO("0103", name, pic_path, status_msg);
                     HttpUpdateProfileAsyncTask task = new HttpUpdateProfileAsyncTask();
                     task.execute(vo);
                 }
@@ -184,7 +184,8 @@ public class StatusEditActivity extends AppCompatActivity {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-
+        Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
+        builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
