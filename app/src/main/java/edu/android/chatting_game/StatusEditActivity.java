@@ -93,7 +93,7 @@ public class StatusEditActivity extends AppCompatActivity {
 
                     StartAppActivity startAppActivity = new StartAppActivity();
                     my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-
+                    Log.i("test", my_phone);
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는 곳
