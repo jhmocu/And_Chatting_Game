@@ -36,7 +36,7 @@ public class ChatMessageLab {
 
 //            ChatMessageVO chatMessage = new ChatMessageVO();
 //            String msg = "Hello" + i;
-//            chatMessage.setMessage(msg);
+//            chatMessage.setStatusMessage(msg);
 //            chatMessageVOList.add(chatMessage);
 //        }
     }

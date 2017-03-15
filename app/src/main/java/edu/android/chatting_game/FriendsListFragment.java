@@ -2,15 +2,37 @@ package edu.android.chatting_game;
 
 
 import android.content.Intent;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 /**
@@ -19,16 +41,29 @@ import android.view.WindowManager;
 public class FriendsListFragment
         extends Fragment {
     private FloatingActionButton floatingBtn;
+    private static final String TAG = "edu.android.chatting";
+    private ArrayList<Friend> list = new ArrayList<>();
+    private FriendLab lab;
 
     public FriendsListFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
+        task.execute("010");
+
+        Log.i(TAG, "FriendsListFragment\tonCreate()");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_friends_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_friends_list, container, false);
         FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -53,7 +88,92 @@ public class FriendsListFragment
     }
 
 
+    private class HttpSelectFriendAsyncTask
+            extends AsyncTask<String, String, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            Log.i(TAG, "doInBackground()\tparams[0]: " + params[0]);
+            String result = selectProfile(params[0]);
+            return result;
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.i(TAG, "onPostExecute()\nString s:\n" + s);
+            Gson gson = new Gson();
+            TypeToken<ArrayList<Friend>> typeToken =
+                    new TypeToken<ArrayList<Friend>>() {
+                    };
+            Type type = typeToken.getType();
+            list = gson.fromJson(s, type);
+            lab.setFriendList(list);
 
-}
+            /** 확인 */
+            if (list != null) {
+                Log.i(TAG, "fList != null");
+                for (Friend f : list) {
+                    Log.i(TAG, "fList에서 Friend 객체 확인\n" + f.getfName());
+                }
+            }
+//            for (Friend f : list) {
+//                String name = f.getName();
+//                String phone = f.getPhoneNumber();
+//                String imageId = f.getImageId();
+//                String msg = f.getStatusMessage();
+//                int count = f.getFriendCount();
+//            }
+        }
+    } // end class HttpSelectFriendAsyncTask
+
+    public String selectProfile(String s) {
+        String requestURL = "http://192.168.11.11:8081/Test3/SelectProfile";
+        String result = "";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        builder.addTextBody("phone", s, ContentType.create("Multipart/related", "UTF-8"));
+        Log.i(TAG, "selectProfile()\tString s: " + s);
+
+        InputStream inputStream = null;
+        HttpClient httpClient = null;
+        HttpPost httpPost = null;
+        HttpResponse httpResponse = null;
+        try {
+            // send
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = httpClient.execute(httpPost);
+            Log.i(TAG, "연결됨");
+
+            // receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+//                Log.i(TAG, "읽고있음\tline: " + line);
+                stringBuffer.append(line);
+                line = bufferedReader.readLine();
+            }
+            result = stringBuffer.toString();
+            Log.i(TAG, "다 읽음\nresult: " + result + "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }// end selectProfile()
+}// end class FriendsListFragment

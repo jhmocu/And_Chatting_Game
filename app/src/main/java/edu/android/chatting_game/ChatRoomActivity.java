@@ -239,8 +239,8 @@ public class ChatRoomActivity
     @Override
     public void profilesend(int position) {
         Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
-        String name = FriendLab.getInstance().getFriendList().get(position).getName();
-        String phone = FriendLab.getInstance().getFriendList().get(position).getPhoneNumber();
+        String name = FriendLab.getInstance().getFriendList().get(position).getfName();
+        String phone = FriendLab.getInstance().getFriendList().get(position).getPhone();
         writeMsg.setText("이름: " + name + "\n" + "핸드폰 번호: " + phone);
         profileSendFragment.dismiss();  // 아이템뷰 클릭시 다이얼로그 창 닫기 위함~
     }
@@ -266,7 +266,7 @@ public class ChatRoomActivity
      String result = "";
      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
      builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-     builder.addTextBody("phone", vo.getMessage(), ContentType.create("Multipart/related", "UTF-8")); //"phone"
+     builder.addTextBody("phone", vo.getStatusMessage(), ContentType.create("Multipart/related", "UTF-8")); //"phone"
      builder.addTextBody("name", "이름", ContentType.create("Multipart/related", "UTF-8"));
      builder.addTextBody("pic_res", "아이디", ContentType.create("Multipart/related", "UTF-8"));
      builder.addTextBody("status_msg", "상태메세지", ContentType.create("Multipart/related", "UTF-8"));
