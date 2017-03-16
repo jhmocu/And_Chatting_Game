@@ -31,7 +31,6 @@
 
         <ImageButton
             android:id="@+id/btnOption"
-            style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
@@ -52,7 +51,6 @@
 
         <ImageButton
             android:id="@+id/btnSend"
-            style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"

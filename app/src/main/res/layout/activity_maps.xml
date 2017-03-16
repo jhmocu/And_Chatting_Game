@@ -52,15 +52,13 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        style="@android:style/Widget.ImageButton"
         android:layout_width="40dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="23dp"
         android:layout_toEndOf="@+id/mapBtn"
         android:layout_toRightOf="@+id/mapBtn"
-        android:background="@color/colorAccent"
-        android:elevation="0dp"
+        android:background="?android:attr/windowBackgroundFallback"
         map:srcCompat="@drawable/check1" />
 
 
