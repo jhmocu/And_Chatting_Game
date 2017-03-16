@@ -36,8 +36,8 @@
         android:layout_below="@+id/imageView"
         android:layout_marginTop="38dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="이름"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editStatus"
