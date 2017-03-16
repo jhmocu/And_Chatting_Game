@@ -51,7 +51,9 @@ public class EditChatListActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "selected: " + selectedList.toString());
-                String position = selectedList.toString();
+                if (selectedList != null) {
+
+                }
                     setResult(RESULT_OK, getIntent());
                     finish();
                     // FAB에서는 startActivityForResult() 호출
