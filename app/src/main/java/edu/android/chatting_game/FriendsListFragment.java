@@ -34,7 +34,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -53,6 +52,9 @@ public class FriendsListFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //        StartAppActivity startapp = new StartAppActivity();
+        //        String my_phone = startapp.readFromFile(StartAppActivity.MY_PHONE_FILE);
+
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute("010");
 
@@ -62,13 +64,7 @@ public class FriendsListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friends_list, container, false);
-        FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
-        FragmentManager fm = getChildFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container_recyclerView, fragment);
-        transaction.commit();
 
         floatingBtn = (FloatingActionButton) view.findViewById(R.id.floatingBtn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +75,8 @@ public class FriendsListFragment
                 startActivity(intent);
             }
         });
-
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
 
         return view;
     }
@@ -103,28 +97,17 @@ public class FriendsListFragment
             super.onPostExecute(s);
             Log.i(TAG, "onPostExecute()\nString s:\n" + s);
             Gson gson = new Gson();
-            TypeToken<ArrayList<Friend>> typeToken =
-                    new TypeToken<ArrayList<Friend>>() {
-                    };
+            TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
             list = gson.fromJson(s, type);
-            lab.setFriendList(list);
-
-            /** 확인 */
             if (list != null) {
-                Log.i(TAG, "fList != null");
-                for (Friend f : list) {
-                    Log.i(TAG, "fList에서 Friend 객체 확인\n" + f.getfName());
-                }
+                lab = FriendLab.getInstance();
+                lab.setFriendList(list);
             }
-//            for (Friend f : list) {
-//                String name = f.getName();
-//                String phone = f.getPhoneNumber();
-//                String imageId = f.getImageId();
-//                String msg = f.getStatusMessage();
-//                int count = f.getFriendCount();
-//            }
+
+            updateFriendsList();
         }
+
     } // end class HttpSelectFriendAsyncTask
 
     public String selectProfile(String s) {
@@ -133,8 +116,7 @@ public class FriendsListFragment
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        builder.addTextBody("phone", s, ContentType.create("Multipart/related", "UTF-8"));
-        Log.i(TAG, "selectProfile()\tString s: " + s);
+        builder.addTextBody("phone", s/** my_phone */, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         HttpClient httpClient = null;
@@ -157,12 +139,11 @@ public class FriendsListFragment
             StringBuffer stringBuffer = new StringBuffer();
             String line = bufferedReader.readLine();
             while (line != null) {
-//                Log.i(TAG, "읽고있음\tline: " + line);
                 stringBuffer.append(line);
                 line = bufferedReader.readLine();
             }
             result = stringBuffer.toString();
-            Log.i(TAG, "다 읽음\nresult: " + result + "\n");
+            Log.i(TAG, "다 읽음\nresult: " + result);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,4 +157,13 @@ public class FriendsListFragment
         }
         return result;
     }// end selectProfile()
+
+    private void updateFriendsList() {
+        FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container_recyclerView, fragment);
+        transaction.commit();
+    }// end updateFriendsList()
+
 }// end class FriendsListFragment
