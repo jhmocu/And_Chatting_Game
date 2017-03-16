@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Main2Activity extends AppCompatActivity
         implements LongClick_Fragment.onItemSelectedListener{
@@ -57,6 +60,9 @@ public class Main2Activity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        // 번호 저장하기
+        String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
 
     }
 
@@ -205,5 +211,37 @@ public class Main2Activity extends AppCompatActivity
             }
             return null;
         }
+    }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
     }
 }
