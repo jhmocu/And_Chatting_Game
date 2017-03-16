@@ -139,7 +139,6 @@ public class ChatRoomActivity
                 optionClickFragment.show(getFragmentManager(), "optionClick_dialog");
             }
         });
-
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +170,6 @@ public class ChatRoomActivity
             case 2:
                 profileSendFragment = new ProfileSendFragment();
                 profileSendFragment.show(getSupportFragmentManager(), "profile_send_dialog");
-
                 break;
         }
     }

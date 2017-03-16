@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,8 +41,10 @@ import java.util.ArrayList;
  */
 public class FriendsListFragment
         extends Fragment {
-    private FloatingActionButton floatingBtn;
     private static final String TAG = "edu.android.chatting";
+    private FloatingActionButton floatingBtn;
+    private Button btnSearchFriend;
+    private EditText editNameSearch;
     private ArrayList<Friend> list = new ArrayList<>();
     private FriendLab lab;
 
@@ -66,13 +70,21 @@ public class FriendsListFragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends_list, container, false);
 
+        editNameSearch = (EditText) view.findViewById(R.id.editNameSearch);
         floatingBtn = (FloatingActionButton) view.findViewById(R.id.floatingBtn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddFriendsActivity.class);
-
                 startActivity(intent);
+            }
+        });
+        btnSearchFriend = (Button) view.findViewById(R.id.btnSearchFriend);
+        btnSearchFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2017-03-16 친구 이름으로 검색
+//                onClickBtnSearchFriend();
             }
         });
         getActivity().getWindow().setSoftInputMode(
@@ -80,7 +92,6 @@ public class FriendsListFragment
 
         return view;
     }
-
 
     private class HttpSelectFriendAsyncTask
             extends AsyncTask<String, String, String> {
@@ -104,7 +115,6 @@ public class FriendsListFragment
                 lab = FriendLab.getInstance();
                 lab.setFriendList(list);
             }
-
             updateFriendsList();
         }
 

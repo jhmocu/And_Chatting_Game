@@ -82,6 +82,7 @@ public class FriendsRecyclerViewFragment
         public void onBindViewHolder(FriendViewHolder holder, int position) {
             Friend friend = list.get(position);
 //            holder.photo.setImageResource(friend.getImageId()); /* 이미지 보류 */
+//            holder.photo.setImageBitmap(friend.getPic_bitmap());
             holder.name.setText(friend.getfName());
             holder.message.setText(friend.getStatus_msg());
         }
