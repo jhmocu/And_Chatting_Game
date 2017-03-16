@@ -49,7 +49,6 @@ public class Long_Click_name_Update extends AppCompatActivity {
         if (extra != null) {
             friend_name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
             textView.setText(friend_name);
-            Log.i(TAG, "원래이름:\t" + friend_name);
         }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +63,6 @@ public class Long_Click_name_Update extends AppCompatActivity {
                     String friend_phone="0102";
 
                     friend_name = textView.getText().toString();
-                    Log.i(TAG, "변경된이름:\t" + friend_name);
 
                     FriendVO vo = new FriendVO(my_phone,friend_phone,friend_name);
                     HttpNameAsyncTask task = new HttpNameAsyncTask();
