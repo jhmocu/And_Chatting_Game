@@ -40,14 +40,12 @@ public class FriendsListFragment
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddFriendsActivity.class);
-
                 startActivity(intent);
+
             }
         });
 
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         return view;
     }
@@ -55,5 +53,5 @@ public class FriendsListFragment
 
 
 
-
 }
+
