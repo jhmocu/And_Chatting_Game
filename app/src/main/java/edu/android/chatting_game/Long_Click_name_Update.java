@@ -56,11 +56,10 @@ public class Long_Click_name_Update extends AppCompatActivity {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
-                    StartAppActivity startAppActivity = new StartAppActivity();
-//                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-                    String my_phone = "010";
+
+                    String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i("gg", info.getTypeName() + "사용 가능");
-                    String friend_phone="0102";
+                    String friend_phone="0102"; // TODO: 친구 번호값 받아오기
 
                     friend_name = textView.getText().toString();
 
@@ -138,5 +137,38 @@ public class Long_Click_name_Update extends AppCompatActivity {
 
             return result;
         }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
+    }
+
     }
 

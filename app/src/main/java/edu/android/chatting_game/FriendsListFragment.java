@@ -55,8 +55,7 @@ public class FriendsListFragment
     @Override
     public void onResume() {
         super.onResume();
-        StartAppActivity startapp = new StartAppActivity();
-        String my_phone = startapp.readFromFile(StartAppActivity.MY_PHONE_FILE);
+        String my_phone = ""; //TODO: 번호값 받아오기
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute(my_phone);
     }
@@ -174,5 +173,6 @@ public class FriendsListFragment
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
     }// end updateFriendsList()
+
 
 }// end class FriendsListFragment

@@ -91,8 +91,8 @@ public class StatusEditActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
-                    StartAppActivity startAppActivity = new StartAppActivity();
-                    my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+
+                    my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i("test", my_phone);
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
@@ -240,5 +240,36 @@ public class StatusEditActivity extends AppCompatActivity {
         return path;
     }
 
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
+    }
 
 }
