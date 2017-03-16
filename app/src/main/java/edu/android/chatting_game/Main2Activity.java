@@ -22,8 +22,7 @@ import java.util.ArrayList;
 public class Main2Activity extends AppCompatActivity
         implements LongClick_Fragment.onItemSelectedListener{
 
-    private ArrayList<Friend> list = new ArrayList<Friend>();
-    FriendLab lab = FriendLab.getInstance();
+
     public static final int REQ_CODE=1001;
 
     /**

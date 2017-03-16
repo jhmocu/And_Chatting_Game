@@ -11,8 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,7 +30,7 @@ import java.io.InputStreamReader;
 public class Long_Click_name_Update extends AppCompatActivity {
 
     private EditText textView;
-    private Button btn;
+    private ImageButton btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class Long_Click_name_Update extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         textView = (EditText) findViewById(R.id.editName);
-        btn = (Button) findViewById(R.id.button);
+        btn = (ImageButton) findViewById(R.id.button);
         final Bundle extra = getIntent().getExtras();
         if (extra != null) {
             String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
@@ -56,9 +56,10 @@ public class Long_Click_name_Update extends AppCompatActivity {
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
                     StartAppActivity startAppActivity = new StartAppActivity();
-                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+//                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+                    String my_phone = "010";
                     Log.i("gg", info.getTypeName() + "사용 가능");
-                    String friend_phone="111";
+                    String friend_phone="0102";
 
                     String friend_name = textView.getText().toString();
 
