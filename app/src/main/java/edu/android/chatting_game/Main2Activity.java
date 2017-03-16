@@ -17,10 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 public class Main2Activity extends AppCompatActivity
-        implements LongClick_Fragment.onItemSelectedListener{
+        implements LongClick_Fragment.onItemSelectedListener {
 
 
     public static final int REQ_CODE=1001;
@@ -100,11 +98,6 @@ public class Main2Activity extends AppCompatActivity
     //        queryDelete(data, "#/**/*/data");
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
-
-        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriendActivity.class);
-        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
-
-        startActivityForResult(intent, REQ_CODE);
 
     }
     private void nameUpdate(String name){
