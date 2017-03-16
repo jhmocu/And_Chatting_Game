@@ -22,8 +22,7 @@ import java.util.ArrayList;
 public class Main2Activity extends AppCompatActivity
         implements LongClick_Fragment.onItemSelectedListener{
 
-    private ArrayList<Friend> list = new ArrayList<Friend>();
-    FriendLab lab = FriendLab.getInstance();
+
     public static final int REQ_CODE=1001;
 
     /**
@@ -102,10 +101,10 @@ public class Main2Activity extends AppCompatActivity
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
 
-//        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
-//        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
-//
-//        startActivityForResult(intent, REQ_CODE);
+        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriendActivity.class);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
+
+        startActivityForResult(intent, REQ_CODE);
 
     }
     private void nameUpdate(String name){

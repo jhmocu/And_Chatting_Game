@@ -46,7 +46,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 boolean found = false;
                 while (run) {
                     for (int i = 0; i < list.size(); i++) {
-                        phoneNo = list.get(i).getPhoneNumber();
+                        phoneNo = list.get(i).getPhone();
 
                         if (editPhoneAdd.getText().toString().equals(phoneNo)) {
                             Toast.makeText(AddFriendsActivity.this, "일치\nphoneNo:" + phoneNo + "\n" +

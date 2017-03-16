@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ public class FriendsRecyclerViewFragment
     public static final String KEY_EXTRA_IMAGEID = "key_image";
     public static final String KEY_EXTRA_NAME2 = "key_name2";
 
-
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
 
@@ -49,7 +49,6 @@ public class FriendsRecyclerViewFragment
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
                     startProfileActivity(position);
                 }
@@ -57,7 +56,6 @@ public class FriendsRecyclerViewFragment
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기
                     int position = getAdapterPosition();
 
                     DialogFragment longClickFragment = LongClick_Fragment.newInstance(name.getText().toString());
@@ -83,9 +81,9 @@ public class FriendsRecyclerViewFragment
         @Override
         public void onBindViewHolder(FriendViewHolder holder, int position) {
             Friend friend = list.get(position);
-            holder.photo.setImageResource(friend.getImageId());
-            holder.name.setText(friend.getName());
-            holder.message.setText(friend.getMessage());
+//            holder.photo.setImageResource(friend.getImageId()); /* 이미지 보류 */
+            holder.name.setText(friend.getfName());
+            holder.message.setText(friend.getStatus_msg());
         }
 
         @Override
@@ -94,22 +92,22 @@ public class FriendsRecyclerViewFragment
         }
     }// end class FriendAdapter
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Log.i(TAG, "FriendsRecyclerViewFragment\tonCreateView()");
+
         View view = inflater.inflate(R.layout.fragment_recycler_view_friends, container, false);
         list = FriendLab.getInstance().getFriendList();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new FriendAdapter());
-
         return view;
     }
 
@@ -117,18 +115,18 @@ public class FriendsRecyclerViewFragment
         if (position == list.size() - 1) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
             intent.putExtra(KEY_EXTRA_IMAGEID, list.get(
-                    position).getImageId());
-            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+                    position).getPic_res());
+            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());
+            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getStatus_msg());
             startActivity(intent);
 //            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
         } else {
             Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
-            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
-            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getPic_res());
+            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());
+            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhone());
+            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getStatus_msg());
             startActivity(intent);
         }
     }
-}// class FriendsRecyclerViewFragment
+}// end class FriendsRecyclerViewFragment
