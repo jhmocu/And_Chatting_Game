@@ -1,6 +1,5 @@
 package edu.android.chatting_game;
 
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
@@ -67,10 +66,10 @@ public class Long_Click_name_Update extends AppCompatActivity {
                     HttpNameAsyncTask task = new HttpNameAsyncTask();
                     task.execute(vo);
 
-                    Intent intent = new Intent();
-                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, friend_name);
-                    setResult(RESULT_OK, intent);
-                    finish();
+//                    Intent intent = new Intent();
+//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, friend_name);
+//                    setResult(RESULT_OK, intent);
+                  finish();
                 }
 
             }

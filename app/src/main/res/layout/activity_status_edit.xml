@@ -17,7 +17,6 @@
 
     <ImageButton
         android:id="@+id/btnEdit"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_above="@+id/editName"
@@ -25,6 +24,7 @@
         android:layout_marginStart="28dp"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
+        android:background="?android:attr/windowBackgroundFallback"
         app:srcCompat="@drawable/file2" />
 
     <EditText
@@ -62,11 +62,11 @@
 
     <ImageButton
         android:id="@+id/btnCamera"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignLeft="@+id/btnEdit"
         android:layout_alignStart="@+id/btnEdit"
         android:layout_alignTop="@+id/imageView"
+        android:background="?android:attr/windowBackgroundFallback"
         app:srcCompat="@drawable/camera1" />
 </RelativeLayout>

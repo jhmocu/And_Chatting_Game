@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity
         implements LongClick_Fragment.onItemSelectedListener {
@@ -108,14 +107,14 @@ public class Main2Activity extends AppCompatActivity
         startActivityForResult(intent,REQ_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
-            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
-            //TODO:DB에 저장하는 작업할 곳
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
+//            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+//            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
+//            //TODO:DB에서 처리함
+//        }
+//    }
 
     /**
      * A placeholder fragment containing a simple view.
