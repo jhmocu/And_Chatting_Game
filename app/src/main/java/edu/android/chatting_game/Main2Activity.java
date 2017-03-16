@@ -42,6 +42,10 @@ public class Main2Activity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
+    private String my_phone;
+
+    private static final String TAG = "edu.android.chatting";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,9 @@ public class Main2Activity extends AppCompatActivity
         tabLayout.setupWithViewPager(mViewPager);
 
         // 번호 저장하기
-        String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+
+        Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
 
     }
 
@@ -181,7 +187,7 @@ public class Main2Activity extends AppCompatActivity
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new FriendsListFragment();
+                    fragment = new FriendsListFragment(my_phone);
                     break;
                 case 1:
                     fragment = new ChatListFragment();
