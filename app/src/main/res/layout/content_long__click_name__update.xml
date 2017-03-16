@@ -6,13 +6,16 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.android.chatting_game.Long_Click_name_Update"
-    tools:showIn="@layout/activity_long__click_name__update">
+    tools:showIn="@layout/activity_long__click_name__update"
+    android:layout_gravity="center">
 
     <TextView
         android:id="@+id/Name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="이름을 변경합니다^^"
+        android:text="친구의 이름을 변경합니다."
+        android:gravity="center"
+        android:textSize="18sp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp"
         android:layout_marginTop="80dp"
@@ -24,15 +27,16 @@
 
     <EditText
         android:id="@+id/editName"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="49dp"
+        android:gravity="center"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="이름 입력"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="82dp"
         android:layout_below="@+id/Name"
-        android:layout_alignLeft="@+id/Name"
-        android:layout_alignStart="@+id/Name"
-        android:layout_marginTop="49dp" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
