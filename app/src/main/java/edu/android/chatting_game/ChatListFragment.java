@@ -18,6 +18,7 @@ public class ChatListFragment
 
     private EditText editText;
     private FloatingActionButton floatingEditChatList;
+    public static final int REQ_CODE_EDIT_CHAT = 444;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -43,7 +44,8 @@ public class ChatListFragment
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EditChatListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQ_CODE_EDIT_CHAT);
+
             }
         });
 
@@ -53,4 +55,16 @@ public class ChatListFragment
         return view;
     }
 
+//    private void startActivityForResult(int requestCode, int resultcode, Intent intent) {
+//        if (requestCode == REQ_CODE_EDIT_CHAT && resultcode == Activity.RESULT_OK) {
+//            intent = new Intent(getActivity(), EditChatListActivity.class);
+//        }
+//    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // EditCahtListActivity가 보내준 ArrayList를 가지고
+        // true로 된 위치의 아이템들을 삭제
+    }
 }
