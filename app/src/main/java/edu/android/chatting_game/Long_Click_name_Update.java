@@ -56,9 +56,10 @@ public class Long_Click_name_Update extends AppCompatActivity {
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
                     StartAppActivity startAppActivity = new StartAppActivity();
-                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+//                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+                    String my_phone = "010";
                     Log.i("gg", info.getTypeName() + "사용 가능");
-                    String friend_phone="111";
+                    String friend_phone="0102";
 
                     String friend_name = textView.getText().toString();
 
