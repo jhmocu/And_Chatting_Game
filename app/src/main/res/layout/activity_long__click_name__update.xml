@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.Long_Click_name_Update">
 
+    <include layout="@layout/content_long__click_name__update" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -15,16 +17,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textName"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1"
-                android:text="저장" />
 
             <TextView
                 android:id="@+id/textName"
@@ -40,9 +32,17 @@
                 android:text="이름변경"
                 android:textSize="20sp" />
 
+            <ImageButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorPrimary"
+                app:srcCompat="@drawable/check1" />
+
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_long__click_name__update" />
 
 </android.support.design.widget.CoordinatorLayout>
