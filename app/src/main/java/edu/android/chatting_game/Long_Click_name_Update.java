@@ -1,6 +1,5 @@
 package edu.android.chatting_game;
 
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
@@ -28,9 +27,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Long_Click_name_Update extends AppCompatActivity {
+    private static final String TAG = "edu.android.chatting";
 
     private EditText textView;
     private ImageButton btn;
+    private String friend_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,9 @@ public class Long_Click_name_Update extends AppCompatActivity {
         btn = (ImageButton) findViewById(R.id.button);
         final Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-            textView.setText(name);
+            friend_name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+            textView.setText(friend_name);
+            Log.i(TAG, "원래이름:\t" + friend_name);
         }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,18 +63,13 @@ public class Long_Click_name_Update extends AppCompatActivity {
                     Log.i("gg", info.getTypeName() + "사용 가능");
                     String friend_phone="0102";
 
-                    String friend_name = textView.getText().toString();
+                    friend_name = textView.getText().toString();
+                    Log.i(TAG, "변경된이름:\t" + friend_name);
 
                     FriendVO vo = new FriendVO(my_phone,friend_phone,friend_name);
                     HttpNameAsyncTask task = new HttpNameAsyncTask();
                     task.execute(vo);
-
-                    Intent intent = new Intent();
-                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, friend_name);
-                    setResult(RESULT_OK, intent);
-                    finish();
                 }
-
             }
         });
     }
@@ -88,6 +85,7 @@ public class Long_Click_name_Update extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                finish();
             }
         }
 

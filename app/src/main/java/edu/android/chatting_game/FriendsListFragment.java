@@ -53,23 +53,23 @@ public class FriendsListFragment
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onResume() {
+        super.onResume();
         //        StartAppActivity startapp = new StartAppActivity();
         //        String my_phone = startapp.readFromFile(StartAppActivity.MY_PHONE_FILE);
-
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute("010");
+    }
 
-        Log.i(TAG, "FriendsListFragment\tonCreate()");
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends_list, container, false);
-
         editNameSearch = (EditText) view.findViewById(R.id.editNameSearch);
         floatingBtn = (FloatingActionButton) view.findViewById(R.id.floatingBtn);
         floatingBtn.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +98,6 @@ public class FriendsListFragment
 
         @Override
         protected String doInBackground(String... params) {
-            Log.i(TAG, "doInBackground()\tparams[0]: " + params[0]);
             String result = selectProfile(params[0]);
             return result;
         }
@@ -106,7 +105,6 @@ public class FriendsListFragment
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.i(TAG, "onPostExecute()\nString s:\n" + s);
             Gson gson = new Gson();
             TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
