@@ -30,7 +30,6 @@ public class FriendsRecyclerViewFragment
     public static final String KEY_EXTRA_IMAGEID = "key_image";
     public static final String KEY_EXTRA_NAME2 = "key_name2";
 
-
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
 
@@ -76,20 +75,15 @@ public class FriendsRecyclerViewFragment
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View itemView = inflater.inflate(R.layout.friend_item, parent, false);
             FriendViewHolder viewHolder = new FriendViewHolder(itemView);
-
-            Log.i(TAG, "FriendAdapter\tonCreateViewHolder()");
-
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(FriendViewHolder holder, int position) {
             Friend friend = list.get(position);
-//            holder.photo.setImageResource(friend.getImageId());
+//            holder.photo.setImageResource(friend.getImageId()); /* 이미지 보류 */
             holder.name.setText(friend.getfName());
             holder.message.setText(friend.getStatus_msg());
-
-            Log.i(TAG, "FriendAdapter\tonBindViewHolder()");
         }
 
         @Override

@@ -61,7 +61,7 @@ public class ChatRoomActivity
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            Log.i(TAG, "getView()");
+//            Log.i(TAG, "getView()");
             View view = convertView;
 //            if(내 메세지){
             if (view == null) {
@@ -85,13 +85,10 @@ public class ChatRoomActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        Log.i(TAG, "onCreateOptionsMenu()");
-
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-
 
 //         TODO: 2017-03-13 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
 //        adapter.registerDataSetObserver(new DataSetObserver() {
@@ -123,15 +120,8 @@ public class ChatRoomActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        Log.i(TAG, "onCreate()");
-
         lab = ChatMessageLab.getInstance();
         chatMessageVOArrayList = lab.getChatMessageVOList();
-
-//        ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
-//        listView = (ListView) findViewById(R.id.chatMessageListView);
-//        listView.setAdapter(adapter);
-//        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
@@ -153,13 +143,7 @@ public class ChatRoomActivity
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017-03-13 'send' 버튼 이벤트 처리
-                String msg = writeMsg.getText().toString();
-                ChatMessageVO chatMessage = new ChatMessageVO(msg);
-                chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
-                chatMessageVOArrayList.add(chatMessage);
-                writeMsg.clearFocus();
-                writeMsg.setText("");
+                onClickBtnSend();
             }
         });
         Bundle extras = getIntent().getExtras();
@@ -174,7 +158,6 @@ public class ChatRoomActivity
         title = "대화방 이름";
         actionBar.setTitle(title);
     }// end onCreate()
-
 
     @Override
     public void optionItemSelected(int which) {
@@ -191,6 +174,17 @@ public class ChatRoomActivity
 
                 break;
         }
+    }
+
+    private void onClickBtnSend() {
+        String msg = writeMsg.getText().toString();
+        Log.i(TAG, "onClickBtnSend\nmsg:\n" + msg);
+        ChatMessageVO chatMessage = new ChatMessageVO();
+        chatMessage.setMessage(msg);
+        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
+        chatMessageVOArrayList.add(chatMessage);
+        writeMsg.clearFocus();
+        writeMsg.setText("");
     }
 
     public void mapOpen() {

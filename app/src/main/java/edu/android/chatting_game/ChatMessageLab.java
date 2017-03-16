@@ -12,7 +12,6 @@ public class ChatMessageLab {
 
     private ChatMessageLab() {
         chatMessageVOList = new ArrayList<>();
-        makeDummyList();
     }
     public static ChatMessageLab getInstance(){
         if (instance == null) {
@@ -25,19 +24,4 @@ public class ChatMessageLab {
         return chatMessageVOList;
     }
 
-    private void makeDummyList(){
-//        for (int i = 0; i < 30; i++) {
-            ChatMessageVO c1 = new ChatMessageVO("1. hello");
-            chatMessageVOList.add(c1);
-//            ChatMessageVO c2 = new ChatMessageVO("2. hello stranger");
-//            chatMessageVOList.add(c2);
-//            ChatMessageVO c3 = new ChatMessageVO("3. what's your name");
-//            chatMessageVOList.add(c3);
-
-//            ChatMessageVO chatMessage = new ChatMessageVO();
-//            String msg = "Hello" + i;
-//            chatMessage.setStatusMessage(msg);
-//            chatMessageVOList.add(chatMessage);
-//        }
-    }
 }
