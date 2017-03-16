@@ -67,18 +67,17 @@ public class AddFriendsActivity extends AppCompatActivity {
 
                         if (editPhoneAdd.getText().toString().equals(phoneNo)) {
                             addFriendConnect();
-                            Toast.makeText(AddFriendsActivity.this, "일치\nphoneNo:" + phoneNo + "\n" +
-                                    "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddFriendsActivity.this, "친구추가 되었습니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                             found = true;
                             break;
+
                         } // end if()
 
                     } //end for()
                     break;
                 } // end while()
                 if (!found) {
-                    Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
-                            "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                 } // end if(!found)
 
             } // onClick()
@@ -90,9 +89,9 @@ public class AddFriendsActivity extends AppCompatActivity {
         ConnectivityManager connMng = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo info = connMng.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-            StartAppActivity startAppActivity = new StartAppActivity();
-            String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-            String friend_phone = "01004";
+
+            String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+            String friend_phone = editPhoneAdd.getText().toString();
 
             FriendVO vo = new FriendVO(my_phone, friend_phone, null);
 
@@ -164,7 +163,39 @@ public class AddFriendsActivity extends AppCompatActivity {
                 }
 
                 return result;
+    }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
+    }
 
 }
 

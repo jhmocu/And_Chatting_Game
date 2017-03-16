@@ -66,11 +66,10 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-            StartAppActivity startAppActivity = new StartAppActivity();
-//            String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-            String my_phone = "010";
+            String my_phone = ""; // TODO: 값 가져오기
+
             Log.i("gg", info.getTypeName() + "사용 가능");
-            String friend_phone="0103";
+            String friend_phone= ""; // TODO: 선택한 친구 번호 가져오기
 
             FriendVO vo = new FriendVO(my_phone,friend_phone, null);
             HttpDeleteAsyncTask task = new HttpDeleteAsyncTask();
@@ -148,4 +147,6 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
 
         return result;
     }
+
+
 }
