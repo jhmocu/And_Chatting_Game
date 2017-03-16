@@ -55,10 +55,10 @@ public class FriendsListFragment
     @Override
     public void onResume() {
         super.onResume();
-        //        StartAppActivity startapp = new StartAppActivity();
-        //        String my_phone = startapp.readFromFile(StartAppActivity.MY_PHONE_FILE);
+        StartAppActivity startapp = new StartAppActivity();
+        String my_phone = startapp.readFromFile(StartAppActivity.MY_PHONE_FILE);
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
-        task.execute("010");
+        task.execute(my_phone);
     }
 
     @Override
