@@ -93,6 +93,7 @@ public class FriendsListFragment
         return view;
     }
 
+
     private class HttpSelectFriendAsyncTask
             extends AsyncTask<String, String, String> {
 

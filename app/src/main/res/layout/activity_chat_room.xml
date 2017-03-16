@@ -34,10 +34,10 @@
             style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:background="?android:attr/windowBackgroundFallback"
             app:srcCompat="@drawable/option"
             tools:style="@android:style/Widget.ImageButton" />
 
@@ -52,13 +52,13 @@
 
         <ImageButton
             android:id="@+id/btnSend"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
             style="@android:style/Widget.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:background="?android:attr/windowBackgroundFallback"
             app:srcCompat="@drawable/sent1" />
 
     </RelativeLayout>

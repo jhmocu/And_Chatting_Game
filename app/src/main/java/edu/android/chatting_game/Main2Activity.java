@@ -15,10 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Main2Activity extends AppCompatActivity
-        implements LongClick_Fragment.onItemSelectedListener {
+        implements LongClick_Fragment.onItemSelectedListener{
 
 
     public static final int REQ_CODE=1001;
@@ -99,6 +100,11 @@ public class Main2Activity extends AppCompatActivity
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
 
+//        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
+//        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
+//
+//        startActivityForResult(intent, REQ_CODE);
+
     }
     private void nameUpdate(String name){
 
@@ -108,14 +114,14 @@ public class Main2Activity extends AppCompatActivity
         startActivityForResult(intent,REQ_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
-            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
-            //TODO:DB에 저장하는 작업할 곳
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
+//            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+//            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
+//            //TODO:DB에서 처리함
+//        }
+//    }
 
     /**
      * A placeholder fragment containing a simple view.

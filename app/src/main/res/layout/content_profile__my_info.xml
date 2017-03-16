@@ -37,11 +37,11 @@
 
     <ImageButton
         android:id="@+id/editInfo"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="?android:attr/windowBackgroundFallback"
         app:srcCompat="@drawable/user1" />
 
 
