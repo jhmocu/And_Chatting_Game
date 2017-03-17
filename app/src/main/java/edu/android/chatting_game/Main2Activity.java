@@ -9,21 +9,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Main2Activity extends AppCompatActivity
         implements LongClick_Fragment.onItemSelectedListener{
 
-    private ArrayList<Friend> list = new ArrayList<Friend>();
-    FriendLab lab = FriendLab.getInstance();
+
     public static final int REQ_CODE=1001;
 
     /**
@@ -40,6 +41,10 @@ public class Main2Activity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    private String my_phone;
+
+    private static final String TAG = "edu.android.chatting";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,11 @@ public class Main2Activity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        // 번호 저장하기
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+
+        Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
 
     }
 
@@ -102,6 +112,11 @@ public class Main2Activity extends AppCompatActivity
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
 
+//        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
+//        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
+//
+//        startActivityForResult(intent, REQ_CODE);
+
     }
     private void nameUpdate(String name){
 
@@ -111,14 +126,14 @@ public class Main2Activity extends AppCompatActivity
         startActivityForResult(intent,REQ_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
-            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
-            //TODO:DB에 저장하는 작업할 곳
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
+//            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+//            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
+//            //TODO:DB에서 처리함
+//        }
+//    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -172,7 +187,7 @@ public class Main2Activity extends AppCompatActivity
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new FriendsListFragment();
+                    fragment = new FriendsListFragment(my_phone);
                     break;
                 case 1:
                     fragment = new ChatListFragment();
@@ -202,5 +217,37 @@ public class Main2Activity extends AppCompatActivity
             }
             return null;
         }
+    }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
     }
 }

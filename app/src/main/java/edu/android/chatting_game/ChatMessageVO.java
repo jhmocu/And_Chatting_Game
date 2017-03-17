@@ -22,4 +22,9 @@ public class ChatMessageVO {
     }
 
 
+    @Override
+    public String toString() {
+        String str = message + ",";
+        return str;
+    }
 }

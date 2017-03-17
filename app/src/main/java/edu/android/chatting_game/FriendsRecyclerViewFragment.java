@@ -1,18 +1,29 @@
 package edu.android.chatting_game;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -29,9 +40,9 @@ public class FriendsRecyclerViewFragment
     public static final String KEY_EXTRA_IMAGEID = "key_image";
     public static final String KEY_EXTRA_NAME2 = "key_name2";
 
-
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
+    private Bitmap picBitmap;
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
@@ -46,18 +57,22 @@ public class FriendsRecyclerViewFragment
             name = (TextView) itemView.findViewById(R.id.textName_list);
             message = (TextView) itemView.findViewById(R.id.textMsg_list);
 
+            Log.i(TAG, "FriendViewHolder 생성자");
+
+//            Log.i(TAG, "FriendViewHolder 생성자\tposition:" + position);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기 (x) --> 이름,전화번호 등 전체 정보 넘기기
                     int position = getAdapterPosition();
+                    Log.i(TAG, "onClick()\tposition:" + position);
                     startProfileActivity(position);
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // TODO: 2017-03-07 position 정보 넘기기
                     int position = getAdapterPosition();
 
                     DialogFragment longClickFragment = LongClick_Fragment.newInstance(name.getText().toString());
@@ -74,18 +89,21 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.i(TAG, "onCreateViewHolder()");
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View itemView = inflater.inflate(R.layout.friend_item, parent, false);
             FriendViewHolder viewHolder = new FriendViewHolder(itemView);
+
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(FriendViewHolder holder, int position) {
+            Log.i(TAG, "onBindViewHolder()");
             Friend friend = list.get(position);
-            holder.photo.setImageResource(friend.getImageId());
-            holder.name.setText(friend.getName());
-            holder.message.setText(friend.getMessage());
+//            holder.photo.setImageBitmap(picBitmap);
+            holder.name.setText(friend.getfName());
+            holder.message.setText(friend.getStatus_msg());
         }
 
         @Override
@@ -95,21 +113,25 @@ public class FriendsRecyclerViewFragment
     }// end class FriendAdapter
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Log.i(TAG, "FriendsRecyclerViewFragment\tonCreateView()");
+
         View view = inflater.inflate(R.layout.fragment_recycler_view_friends, container, false);
         list = FriendLab.getInstance().getFriendList();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new FriendAdapter());
-
         return view;
     }
 
@@ -117,18 +139,80 @@ public class FriendsRecyclerViewFragment
         if (position == list.size() - 1) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
             intent.putExtra(KEY_EXTRA_IMAGEID, list.get(
-                    position).getImageId());
-            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+                    position).getPic_res());
+            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());
+            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getStatus_msg());
             startActivity(intent);
 //            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
         } else {
             Intent intent = new Intent(getContext(), ProfileInfoActivity.class);
-            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getImageId());
-            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getName());
-            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
-            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getMessage());
+            intent.putExtra(KEY_EXTRA_IMAGEID, list.get(position).getPic_res());
+            intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());
+            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhone());
+            intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getStatus_msg());
             startActivity(intent);
         }
     }
-}// class FriendsRecyclerViewFragment
+
+
+    class LoadBitmapTask
+            extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = makeBitmapFromUrl(params[0]);
+            Log.i(TAG, "doInBackground()/\tparams:\t" + params[0]);
+
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap != null) {
+                Log.i(TAG, "onPostExecute()/\tbitmap != null");
+            }
+            picBitmap = bitmap;
+        }
+
+        public Bitmap makeBitmapFromUrl(String string) {
+//            String imageUrl = "http://192.168.11.11:8081/Test3/uploadDirectory/IMG_20170222_04433646.jpg";
+            String imageUrl = "http://192.168.11.11:8081/Test3/uploadDirectory/" + string;
+            Log.i(TAG, "makeBitmapFromUrl/\tpic_res:\t" + string);
+            Bitmap bitmap = null;
+            URL url = null;
+            HttpURLConnection connection = null;
+            InputStream inputStream = null;
+            BufferedInputStream bis = null;
+            try {
+                url = new URL(imageUrl);
+                connection = (HttpURLConnection) url.openConnection();
+
+                connection.setConnectTimeout(10 * 1000);
+                connection.setReadTimeout(10 * 1000);
+                connection.setRequestMethod("GET");
+
+                connection.connect();
+                int resCode = connection.getResponseCode();
+                if (resCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = connection.getInputStream();
+                    bis = new BufferedInputStream(inputStream);
+                    bitmap = BitmapFactory.decodeStream(bis);
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    bis.close();
+                    connection.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return bitmap;
+        }
+    }// end class LoadBitmapTask
+}// end class FriendsRecyclerViewFragment

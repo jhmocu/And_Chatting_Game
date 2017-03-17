@@ -1,6 +1,5 @@
 package edu.android.chatting_game;
 
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
@@ -11,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,9 +27,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Long_Click_name_Update extends AppCompatActivity {
+    private static final String TAG = "edu.android.chatting";
 
     private EditText textView;
-    private Button btn;
+    private ImageButton btn;
+    private String friend_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,11 @@ public class Long_Click_name_Update extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         textView = (EditText) findViewById(R.id.editName);
-        btn = (Button) findViewById(R.id.button);
+        btn = (ImageButton) findViewById(R.id.button);
         final Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            String name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-            textView.setText(name);
+            friend_name = extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
+            textView.setText(friend_name);
         }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,23 +56,17 @@ public class Long_Click_name_Update extends AppCompatActivity {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
-                    StartAppActivity startAppActivity = new StartAppActivity();
-                    String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-                    Log.i("gg", info.getTypeName() + "사용 가능");
-                    String friend_phone="111";
 
-                    String friend_name = textView.getText().toString();
+                    String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+                    Log.i("gg", info.getTypeName() + "사용 가능");
+                    String friend_phone="0102"; // TODO: 친구 번호값 받아오기
+
+                    friend_name = textView.getText().toString();
 
                     FriendVO vo = new FriendVO(my_phone,friend_phone,friend_name);
                     HttpNameAsyncTask task = new HttpNameAsyncTask();
                     task.execute(vo);
-
-                    Intent intent = new Intent();
-                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, friend_name);
-                    setResult(RESULT_OK, intent);
-                    finish();
                 }
-
             }
         });
     }
@@ -87,6 +82,7 @@ public class Long_Click_name_Update extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                finish();
             }
         }
 
@@ -141,5 +137,38 @@ public class Long_Click_name_Update extends AppCompatActivity {
 
             return result;
         }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null){
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("gg", buffer.toString());
+        return  buffer.toString();
+    }
+
     }
 

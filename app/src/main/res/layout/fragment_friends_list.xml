@@ -19,36 +19,38 @@
         android:text="검색"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:id="@+id/btnSearch"
+        android:id="@+id/btnSearchFriend"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickBtnSearchFriend"/>
 
     <EditText
         android:layout_width="250dp"
         android:layout_height="45dp"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/editNameSearch"
-        android:layout_alignBaseline="@+id/btnSearch"
-        android:layout_alignBottom="@+id/btnSearch"
+        android:layout_alignBaseline="@+id/btnSearchFriend"
+        android:layout_alignBottom="@+id/btnSearchFriend"
         android:layout_toRightOf="@+id/imageView_ProfileInfo"
         android:layout_toEndOf="@+id/imageView_ProfileInfo"
         android:hint="친구검색" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="end|bottom"
-        app:backgroundTint="?android:attr/colorPressedHighlight"
-        app:srcCompat="@drawable/plus"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_marginRight="20dp"
+        app:backgroundTint="@color/colorAccent"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/plus" />
 
 
     <FrameLayout
