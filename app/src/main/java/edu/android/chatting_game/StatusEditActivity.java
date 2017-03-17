@@ -32,16 +32,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 
 public class StatusEditActivity extends AppCompatActivity {
+
+    private static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
 
-    private int image;
-    private String name;
-    private String statusMsg;
-
+    private String name, statusMsg, imageUrl;
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
@@ -55,6 +56,8 @@ public class StatusEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status_edit);
 
+        Log.i(TAG, "StatusEditActivity/onCreate()");
+
         imageView = (ImageView) findViewById(R.id.imageView);
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
@@ -64,11 +67,10 @@ public class StatusEditActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            image = extras.getInt("myProfile");
-            name = extras.getString("myName");
-            statusMsg = extras.getString("myStatusMsg");
-
-            imageView.setImageResource(image);
+            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
+            name = extras.getString(Profile_My_info.KEY_NAME);
+            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
+            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
         }
@@ -91,12 +93,12 @@ public class StatusEditActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
-
                     my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i("test", my_phone);
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는 곳
+                    /***/
                     ProfileVO vo = new ProfileVO(my_phone, name, pic_path, status_msg);
                     HttpUpdateProfileAsyncTask task = new HttpUpdateProfileAsyncTask();
                     task.execute(vo);
@@ -105,14 +107,19 @@ public class StatusEditActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 String name=editName.getText().toString();
                 String status=editStatusMsg.getText().toString();
-                int image=imageView.getImageAlpha();
 
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID,image);
+                /***/
+                int image = imageView.getImageAlpha();
+                Log.i(TAG, "변경할 사진 resource:" + image);
+//                String imageUrl = imageView.getTransitionName();
+
+
+                /***/
+                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL,image);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
                 finish();
-
             }
         });
 
@@ -164,7 +171,8 @@ public class StatusEditActivity extends AppCompatActivity {
     }
 
     // TODO: UpdateProfileAsyncTask DB 업데이트 시작부분
-    private class HttpUpdateProfileAsyncTask extends AsyncTask<ProfileVO, String, String> {
+    private class HttpUpdateProfileAsyncTask
+            extends AsyncTask<ProfileVO, String, String> {
 
         @Override
         protected String doInBackground(ProfileVO... params) {

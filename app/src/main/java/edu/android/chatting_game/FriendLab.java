@@ -1,7 +1,5 @@
 package edu.android.chatting_game;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -15,8 +13,6 @@ public class FriendLab {
 
     private FriendLab() {
         friendList = new ArrayList<Friend>();
-
-        Log.i(TAG, "FriendLab() 생성자 호출");
     }
 
     public static FriendLab getInstance() {
@@ -33,6 +29,7 @@ public class FriendLab {
     public ArrayList<Friend> getFriendList() {
         return friendList;
     }
+
 
 }// end class FriendLab
 

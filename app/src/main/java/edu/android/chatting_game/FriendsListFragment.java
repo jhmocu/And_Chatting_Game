@@ -31,7 +31,6 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -57,15 +56,15 @@ public class FriendsListFragment
     @SuppressLint("ValidFragment")
     public FriendsListFragment(String my_phone) {
         this.my_phone = my_phone;
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        String my_phone = ""; //TODO: 번호값 받아오기
+//        String my_phone = ""; //TODO: 번호값 받아오기
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
-        task.execute(my_phone);
+        task.execute("010");
+//        task.execute(my_phone);
     }
 
     @Override
@@ -162,7 +161,7 @@ public class FriendsListFragment
             result = stringBuffer.toString();
             Log.i(TAG, "다 읽음\nresult: " + result);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
@@ -183,8 +182,4 @@ public class FriendsListFragment
         transaction.commit();
     }// end updateFriendsList()
 
-
-    public void setMyPhone(String myPhone) {
-        my_phone = myPhone;
-    }
 }// end class FriendsListFragment
