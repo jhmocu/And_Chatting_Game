@@ -41,12 +41,14 @@ public class Main2Activity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    public String my_phone;
+    private onItemSelectedListener listener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,7 +64,7 @@ public class Main2Activity extends AppCompatActivity
         tabLayout.setupWithViewPager(mViewPager);
 
         // 번호 저장하기
-        String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
 
     }
 
@@ -89,17 +91,17 @@ public class Main2Activity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int which, String name) {
+    public void itemSelected(int which, String name,String phone) {
         switch (which){
             case 0:
-                nameUpdate(name);
+                nameUpdate(name,phone);
                 break;
             case 1:
-                itemDelete(name);
+                itemDelete(name,phone);
                 break;
         }
     }
-    private void itemDelete(String name){
+    private void itemDelete(String name,String phone){
             //TODO:DB 삭제 작업할 곳
     //         queryDelete = require("").delete;
     //        queryDelete(data, "#/**/*/data");
@@ -112,10 +114,11 @@ public class Main2Activity extends AppCompatActivity
 //        startActivityForResult(intent, REQ_CODE);
 
     }
-    private void nameUpdate(String name){
+    private void nameUpdate(String name,String phone){
 
         Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, name);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER,phone);
 
         startActivityForResult(intent,REQ_CODE);
     }
@@ -243,5 +246,8 @@ public class Main2Activity extends AppCompatActivity
         }
         Log.i("gg", buffer.toString());
         return  buffer.toString();
+    }
+    public interface onItemSelectedListener {
+        void itemSelected(int which, String name,String phone);
     }
 }
