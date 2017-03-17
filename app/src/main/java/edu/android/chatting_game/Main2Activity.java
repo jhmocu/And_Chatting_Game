@@ -65,7 +65,6 @@ public class Main2Activity extends AppCompatActivity
 
         // 번호 저장하기
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
-
         Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
 
     }
@@ -103,16 +102,18 @@ public class Main2Activity extends AppCompatActivity
                 break;
         }
     }
+
+    // TODO: 2017-03-17 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void itemDelete(String name,String phone){
             //TODO:DB 삭제 작업할 곳
-    //         queryDelete = require("").delete;
-    //        queryDelete(data, "#/**/*/data");
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
+        dlg.show(getSupportFragmentManager(), "dlg");
         Bundle bundle = new Bundle();
         bundle.putString("my_phone", my_phone);
+        bundle.putString("f_phone", phone);
         dlg.setArguments(bundle);
-        dlg.show(getSupportFragmentManager(), "dlg");
-//        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
+
+//        Intent intent = new Intent(Main2Activity.this, LongClickDeleteDialogFragment.class);
 //        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
 //
 //        startActivityForResult(intent, REQ_CODE);
