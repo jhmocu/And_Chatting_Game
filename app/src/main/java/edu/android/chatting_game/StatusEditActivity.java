@@ -3,6 +3,7 @@ package edu.android.chatting_game;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -98,7 +99,13 @@ public class StatusEditActivity extends AppCompatActivity {
                 if(info != null && info.isAvailable()) {
                     Log.i("zz", info.getTypeName() + "사용 가능");
 
-                    String pic_path = getPathFromUri(uri);
+                    String pic_path = "";
+                    if(uri != null) {
+                        pic_path = getPathFromUri(uri);
+                    } else {
+                        // TODO: 기본이미지 설정
+
+                    }
                     Log.i("image_res", pic_path);
 
 
@@ -118,11 +125,6 @@ public class StatusEditActivity extends AppCompatActivity {
                 int image=imageView.getImageAlpha();
 
                 // TODO: 기본이미지 설정! - 선택안할 시 에러 방지
-//                if(pic_res != null) {
-//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
-//                } else {
-//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
-//                }
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
@@ -202,9 +204,7 @@ public class StatusEditActivity extends AppCompatActivity {
 
         Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
-
-        builder.addPart("image", new FileBody(new File("/res/drawable/p1.png")));
+//        builder.addPart("image", new FileBody(new File("/res/drawable/p1.png")));
 
         builder.addPart("image", new FileBody(new File(vo.getPic_res())));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
@@ -249,6 +249,7 @@ public class StatusEditActivity extends AppCompatActivity {
 
         return result;
     }
+
 
     public String getPathFromUri(Uri uri) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
