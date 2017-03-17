@@ -108,12 +108,10 @@ public class Main2Activity extends AppCompatActivity
     //         queryDelete = require("").delete;
     //        queryDelete(data, "#/**/*/data");
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
-        dlg.show(getSupportFragmentManager(), "dlg");
-
-        LongClickDeleteDialogFragment dialogfragment = new LongClickDeleteDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putString("my_phone", my_phone);
-        dialogfragment.setArguments(bundle);
+        dlg.setArguments(bundle);
+        dlg.show(getSupportFragmentManager(), "dlg");
 //        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
 //        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
 //
