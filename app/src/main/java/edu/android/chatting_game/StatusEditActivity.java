@@ -121,7 +121,7 @@ public class StatusEditActivity extends AppCompatActivity {
 //                } else {
 //                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
 //                }
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
 
                 /***/
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL,image);

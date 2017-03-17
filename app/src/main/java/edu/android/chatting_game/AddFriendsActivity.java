@@ -45,7 +45,6 @@ public class AddFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_friends);
         editPhoneAdd = (EditText) findViewById(R.id.editPhoneAdd);
         btnAddFriend = (Button) findViewById(R.id.btnAddFriend);
-
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -177,7 +176,6 @@ public class AddFriendsActivity extends AppCompatActivity {
         Log.i("gg", buffer.toString());
         return  buffer.toString();
     }
-
 }
 
 

@@ -56,7 +56,7 @@ public class FriendsRecyclerViewFragment
                 @Override
                 public boolean onLongClick(View v) {
                     int position = getAdapterPosition();
-                    DialogFragment longClickFragment = LongClick_Fragment.newInstance(name.getText().toString());
+                    DialogFragment longClickFragment = LongClick_Fragment.newInstance(list.get(position).getfName(), list.get(position).getPhone());
                     longClickFragment.show(getChildFragmentManager(), "longClick_dialog");
                     return true;
                 }

@@ -63,6 +63,7 @@ public class FriendsListFragment
         super.onResume();
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute(my_phone);
+//        task.execute("010");
     }
 
     @Override
