@@ -50,6 +50,8 @@ public class StatusEditActivity extends AppCompatActivity {
     private String my_phone;
     private Uri uri;
 
+    private String pic_res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,12 +109,17 @@ public class StatusEditActivity extends AppCompatActivity {
                 String status=editStatusMsg.getText().toString();
                 int image=imageView.getImageAlpha();
 
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID,image);
+                // TODO: 기본이미지 설정! - 선택안할 시 에러 방지
+//                if(pic_res != null) {
+//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+//                } else {
+//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
+//                }
+                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
                 finish();
-
             }
         });
 
@@ -183,6 +190,7 @@ public class StatusEditActivity extends AppCompatActivity {
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        pic_res = vo.getPic_res();
 
         Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
