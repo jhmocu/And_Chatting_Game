@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 
 
 /**
@@ -58,13 +56,15 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FriendDeleteConnect();
-                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
         builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -78,7 +78,7 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
             String my_phone = getStringData(); // TODO: 값 가져오기
 //            StartAppActivity startAppActivity = new StartAppActivity();
 //            String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-            Log.i(TAG, my_phone);
+            Log.i(TAG, getStringData());
             Log.i("gg", info.getTypeName() + "사용 가능");
 
             String friend_phone= extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // TODO: 선택한 친구 번호 가져오기

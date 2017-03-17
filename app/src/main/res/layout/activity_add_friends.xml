@@ -24,7 +24,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint='전화번호를 "-" 빼고 입력하세요'
-        android:inputType="phone" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/btnAddFriend"
