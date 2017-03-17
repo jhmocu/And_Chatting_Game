@@ -42,7 +42,6 @@ public class Main2Activity extends AppCompatActivity
      */
     private ViewPager mViewPager;
     public String my_phone;
-    private onItemSelectedListener listener;
 
     private static final String TAG = "edu.android.chatting";
 
@@ -111,6 +110,10 @@ public class Main2Activity extends AppCompatActivity
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
 
+        LongClickDeleteDialogFragment dialogfragment = new LongClickDeleteDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("my_phone", my_phone);
+        dialogfragment.setArguments(bundle);
 //        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
 //        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
 //
@@ -250,7 +253,5 @@ public class Main2Activity extends AppCompatActivity
         Log.i("gg", buffer.toString());
         return  buffer.toString();
     }
-    public interface onItemSelectedListener {
-        void itemSelected(int which, String name,String phone);
-    }
+
 }
