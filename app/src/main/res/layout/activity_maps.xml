@@ -58,6 +58,7 @@
         android:layout_marginTop="23dp"
         android:layout_toEndOf="@+id/mapBtn"
         android:layout_toRightOf="@+id/mapBtn"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
         map:srcCompat="@drawable/check1" />
 
 
