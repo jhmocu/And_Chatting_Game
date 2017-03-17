@@ -127,6 +127,7 @@ public class FriendsListFragment
     } // end class HttpSelectFriendAsyncTask
 
     public String selectProfile(String s) {
+        Log.i(TAG, "s: " + s);
         String requestURL = "http://192.168.11.11:8081/Test3/SelectProfile";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
