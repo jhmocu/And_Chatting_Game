@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -24,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class AddFriendsActivity extends AppCompatActivity {
     public static final String KEY_EXTRA_NAME = "key_name";
@@ -34,16 +32,12 @@ public class AddFriendsActivity extends AppCompatActivity {
 
     private EditText editPhoneAdd;
     private Button btnAddFriend;
+    private String result;
 
-    private ArrayList<Friend> list = new ArrayList<Friend>();
-    FriendLab lab = FriendLab.getInstance();
-
-    Friend friend = new Friend();
-
-    private String[] dummyGasangData = {
-            "1111", "2222", "3333", "4444"
-    };
-
+//    private ArrayList<Friend> list = new ArrayList<Friend>();
+//    FriendLab lab = FriendLab.getInstance();
+//
+//    Friend friend = new Friend();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,29 +50,8 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                list = lab.getFriendList();
-                String str = "";
-                String phoneNo = "";
-                boolean run = true;
-                boolean found = false;
-                while (run) {
-                    for (int i = 0; i < list.size(); i++) {
-                        phoneNo = list.get(i).getPhone();
-
-                        if (editPhoneAdd.getText().toString().equals(phoneNo)) {
-                            addFriendConnect();
-                            Toast.makeText(AddFriendsActivity.this, "친구추가 되었습니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
-                            found = true;
-                            break;
-
-                        } // end if()
-
-                    } //end for()
-                    break;
-                } // end while()
-                if (!found) {
-                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
-                } // end if(!found)
+                addFriendConnect();
+                onBackPressed();
 
             } // onClick()
         }); // end setOnClickListener()
@@ -105,13 +78,21 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             protected String doInBackground(FriendVO... params) {
-                String result = sendData(params[0]);
+                result = sendData(params[0]);
                 return result;
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+
+                if (result.equals("1")) {
+
+                } // end if()
+//
+                if (result.equals("0")) {
+//                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                } // end if(!found)
             }
         }
 

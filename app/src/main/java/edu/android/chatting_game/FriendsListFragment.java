@@ -71,6 +71,8 @@ public class FriendsListFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "FriendsListFragment//onCreate()//my_phone:" + my_phone);
+
+
     }
 
     @Override
@@ -127,6 +129,7 @@ public class FriendsListFragment
     } // end class HttpSelectFriendAsyncTask
 
     public String selectProfile(String s) {
+        Log.i(TAG, "s: " + s);
         String requestURL = "http://192.168.11.11:8081/Test3/SelectProfile";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
