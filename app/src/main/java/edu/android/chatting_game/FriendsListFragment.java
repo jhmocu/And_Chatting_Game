@@ -70,6 +70,8 @@ public class FriendsListFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "FriendsListFragment//onCreate()//my_phone:" + my_phone);
+
+
     }
 
     @Override
