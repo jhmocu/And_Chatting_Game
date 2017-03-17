@@ -26,8 +26,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,7 +43,6 @@ public class StatusEditActivity extends AppCompatActivity {
     private int image;
     private String name;
     private String statusMsg;
-
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
@@ -60,6 +61,8 @@ public class StatusEditActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
+
+
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -70,10 +73,15 @@ public class StatusEditActivity extends AppCompatActivity {
             name = extras.getString("myName");
             statusMsg = extras.getString("myStatusMsg");
 
-            imageView.setImageResource(image);
+
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
+            imageView.setImageResource(image);
+
+
         }
+
+
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +203,10 @@ public class StatusEditActivity extends AppCompatActivity {
         Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
+
+        builder.addPart("image", new FileBody(new File("/res/drawable/p1.png")));
+
+        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
 
