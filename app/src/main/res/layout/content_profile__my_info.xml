@@ -41,6 +41,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
         app:srcCompat="@drawable/user1" />
 
 
