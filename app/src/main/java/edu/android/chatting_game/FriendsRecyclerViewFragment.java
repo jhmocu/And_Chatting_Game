@@ -116,11 +116,13 @@ public class FriendsRecyclerViewFragment
     }
 
     private void startProfileActivity(int position) {
-        if (position == list.size() - 1) {
+        if (position==list.size()-1) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
             intent.putExtra(KEY_EXTRA_IMAGEURL, list.get(position).getPic_url());
             intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());
             intent.putExtra(KEY_EXTRA_MESSAGE, list.get(position).getStatus_msg());
+
+
             startActivity(intent);
 //            intent.putExtra(KEY_EXTRA_PHONENUMBER, list.get(position).getPhoneNumber());
         } else {
