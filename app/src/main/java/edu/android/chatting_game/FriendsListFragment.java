@@ -63,7 +63,6 @@ public class FriendsListFragment
     @Override
     public void onResume() {
         super.onResume();
-        String my_phone = ""; //TODO: 번호값 받아오기
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute(my_phone);
     }
@@ -134,7 +133,7 @@ public class FriendsListFragment
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         builder.addTextBody("phone", s/** my_phone */, ContentType.create("Multipart/related", "UTF-8"));
-
+        Log.i(TAG, "FriendsListFragment//selectProfile()//my_phone:" + my_phone);
         InputStream inputStream = null;
         HttpClient httpClient = null;
         HttpPost httpPost = null;
