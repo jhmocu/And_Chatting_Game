@@ -58,7 +58,6 @@
         android:layout_marginTop="23dp"
         android:layout_toEndOf="@+id/mapBtn"
         android:layout_toRightOf="@+id/mapBtn"
-        android:background="?android:attr/windowBackgroundFallback"
         map:srcCompat="@drawable/check1" />
 
 
