@@ -65,7 +65,6 @@ public class Main2Activity extends AppCompatActivity
 
         // 번호 저장하기
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
-
         Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
 
     }

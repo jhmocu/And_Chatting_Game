@@ -31,7 +31,6 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -57,7 +56,6 @@ public class FriendsListFragment
     @SuppressLint("ValidFragment")
     public FriendsListFragment(String my_phone) {
         this.my_phone = my_phone;
-
     }
 
     @Override
@@ -65,12 +63,15 @@ public class FriendsListFragment
         super.onResume();
         HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
         task.execute(my_phone);
+//        task.execute("010");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "FriendsListFragment//onCreate()//my_phone:" + my_phone);
+
+
     }
 
     @Override
@@ -127,6 +128,7 @@ public class FriendsListFragment
     } // end class HttpSelectFriendAsyncTask
 
     public String selectProfile(String s) {
+        Log.i(TAG, "s: " + s);
         String requestURL = "http://192.168.11.11:8081/Test3/SelectProfile";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -161,7 +163,7 @@ public class FriendsListFragment
             result = stringBuffer.toString();
             Log.i(TAG, "다 읽음\nresult: " + result);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
@@ -182,8 +184,4 @@ public class FriendsListFragment
         transaction.commit();
     }// end updateFriendsList()
 
-
-    public void setMyPhone(String myPhone) {
-        my_phone = myPhone;
-    }
 }// end class FriendsListFragment

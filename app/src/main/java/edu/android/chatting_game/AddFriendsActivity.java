@@ -45,20 +45,12 @@ public class AddFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_friends);
         editPhoneAdd = (EditText) findViewById(R.id.editPhoneAdd);
         btnAddFriend = (Button) findViewById(R.id.btnAddFriend);
-
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 addFriendConnect();
-
-                if (result.equals("1")) {
-
-                } // end if()
-//
-                if (result.equals("0")) {
-//                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
-                } // end if(!found)
+                onBackPressed();
 
             } // onClick()
         }); // end setOnClickListener()
@@ -92,6 +84,14 @@ public class AddFriendsActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+
+                if (result.equals("1")) {
+
+                } // end if()
+//
+                if (result.equals("0")) {
+//                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                } // end if(!found)
             }
         }
 
@@ -176,7 +176,6 @@ public class AddFriendsActivity extends AppCompatActivity {
         Log.i("gg", buffer.toString());
         return  buffer.toString();
     }
-
 }
 
 

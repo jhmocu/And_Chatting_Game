@@ -26,22 +26,25 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 
 public class StatusEditActivity extends AppCompatActivity {
+
+    private static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
 
-    private int image;
-    private String name;
-    private String statusMsg;
-
+    private String name, statusMsg, imageUrl;
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
@@ -66,11 +69,10 @@ public class StatusEditActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            image = extras.getInt("myProfile");
-            name = extras.getString("myName");
-            statusMsg = extras.getString("myStatusMsg");
-
-            imageView.setImageResource(image);
+            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
+            name = extras.getString(Profile_My_info.KEY_NAME);
+            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
+            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
         }
@@ -115,7 +117,10 @@ public class StatusEditActivity extends AppCompatActivity {
 //                } else {
 //                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
 //                }
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+
+                /***/
+                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL,image);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
@@ -171,7 +176,8 @@ public class StatusEditActivity extends AppCompatActivity {
     }
 
     // TODO: UpdateProfileAsyncTask DB 업데이트 시작부분
-    private class HttpUpdateProfileAsyncTask extends AsyncTask<ProfileVO, String, String> {
+    private class HttpUpdateProfileAsyncTask
+            extends AsyncTask<ProfileVO, String, String> {
 
         @Override
         protected String doInBackground(ProfileVO... params) {
@@ -195,6 +201,10 @@ public class StatusEditActivity extends AppCompatActivity {
         Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
+
+        builder.addPart("image", new FileBody(new File("/res/drawable/p1.png")));
+
+        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
 

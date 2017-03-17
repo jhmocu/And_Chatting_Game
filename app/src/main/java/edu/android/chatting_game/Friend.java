@@ -1,27 +1,14 @@
 package edu.android.chatting_game;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by stu on 2017-03-06.
  */
 
 public class Friend {
     private static final String TAG = "edu.adroid.chatting";
-    private String phone, fName, pic_res, status_msg, relation_code;
-    /***/
-    private Bitmap pic_bitmap;
-
+    private String phone, fName, pic_res, status_msg, relation_code, pic_url;
 
     public Friend() {
-    }
-
-    public Friend(String phone, String fName, String pic_res, String status_msg, String relation_code) {
-        this.phone = phone;
-        this.fName = fName;
-        this.pic_res = pic_res;
-        this.status_msg = status_msg;
-        this.relation_code = relation_code;
     }
 
     public String getPhone() {
@@ -65,12 +52,13 @@ public class Friend {
         this.relation_code = relation_code;
     }
 
-    public Bitmap getPic_bitmap() {
-        return pic_bitmap;
+    public String getPic_url() {
+        pic_url = "http://192.168.11.11:8081/Test3/uploadDirectory/" + getPic_res();
+        return pic_url;
     }
 
-    public void setPic_bitmap(Bitmap pic_bitmap) {
-        this.pic_bitmap = pic_bitmap;
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
     }
 
 } // end class Friend
