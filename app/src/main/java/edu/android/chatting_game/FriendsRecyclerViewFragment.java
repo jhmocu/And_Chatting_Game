@@ -57,8 +57,6 @@ public class FriendsRecyclerViewFragment
             name = (TextView) itemView.findViewById(R.id.textName_list);
             message = (TextView) itemView.findViewById(R.id.textMsg_list);
 
-            Log.i(TAG, "FriendViewHolder 생성자");
-
 //            Log.i(TAG, "FriendViewHolder 생성자\tposition:" + position);
 
 
@@ -89,7 +87,6 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Log.i(TAG, "onCreateViewHolder()");
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View itemView = inflater.inflate(R.layout.friend_item, parent, false);
             FriendViewHolder viewHolder = new FriendViewHolder(itemView);
@@ -99,7 +96,6 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public void onBindViewHolder(FriendViewHolder holder, int position) {
-            Log.i(TAG, "onBindViewHolder()");
             Friend friend = list.get(position);
 //            holder.photo.setImageBitmap(picBitmap);
             holder.name.setText(friend.getfName());
@@ -125,7 +121,6 @@ public class FriendsRecyclerViewFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i(TAG, "FriendsRecyclerViewFragment\tonCreateView()");
 
         View view = inflater.inflate(R.layout.fragment_recycler_view_friends, container, false);
         list = FriendLab.getInstance().getFriendList();
@@ -161,7 +156,6 @@ public class FriendsRecyclerViewFragment
         @Override
         protected Bitmap doInBackground(String... params) {
             Bitmap bitmap = makeBitmapFromUrl(params[0]);
-            Log.i(TAG, "doInBackground()/\tparams:\t" + params[0]);
 
             return bitmap;
         }
