@@ -67,18 +67,17 @@ public class AddFriendsActivity extends AppCompatActivity {
 
                         if (editPhoneAdd.getText().toString().equals(phoneNo)) {
                             addFriendConnect();
-                            Toast.makeText(AddFriendsActivity.this, "일치\nphoneNo:" + phoneNo + "\n" +
-                                    "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddFriendsActivity.this, "친구추가 되었습니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                             found = true;
                             break;
+
                         } // end if()
 
                     } //end for()
                     break;
                 } // end while()
                 if (!found) {
-                    Toast.makeText(AddFriendsActivity.this, "불일치\nphoneNo:" + phoneNo + "\n" +
-                            "edit:" + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddFriendsActivity.this, "등록되지 않은 번호입니다." + editPhoneAdd.getText(), Toast.LENGTH_SHORT).show();
                 } // end if(!found)
 
             } // onClick()

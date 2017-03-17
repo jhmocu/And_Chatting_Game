@@ -44,6 +44,7 @@ public class Main2Activity extends AppCompatActivity
     public String my_phone;
     private onItemSelectedListener listener;
 
+    private static final String TAG = "edu.android.chatting";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class Main2Activity extends AppCompatActivity
 
         // 번호 저장하기
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+
+        Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
 
     }
 
@@ -184,7 +187,7 @@ public class Main2Activity extends AppCompatActivity
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new FriendsListFragment();
+                    fragment = new FriendsListFragment(my_phone);
                     break;
                 case 1:
                     fragment = new ChatListFragment();

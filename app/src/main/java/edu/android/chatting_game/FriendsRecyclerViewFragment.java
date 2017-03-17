@@ -1,7 +1,11 @@
 package edu.android.chatting_game;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -14,6 +18,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +42,7 @@ public class FriendsRecyclerViewFragment
 
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
+    private Bitmap picBitmap;
 
     class FriendViewHolder
             extends RecyclerView.ViewHolder {
@@ -46,10 +57,16 @@ public class FriendsRecyclerViewFragment
             name = (TextView) itemView.findViewById(R.id.textName_list);
             message = (TextView) itemView.findViewById(R.id.textMsg_list);
 
+            Log.i(TAG, "FriendViewHolder 생성자");
+
+//            Log.i(TAG, "FriendViewHolder 생성자\tposition:" + position);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
+                    Log.i(TAG, "onClick()\tposition:" + position);
                     startProfileActivity(position);
                 }
             });
@@ -72,17 +89,19 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.i(TAG, "onCreateViewHolder()");
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View itemView = inflater.inflate(R.layout.friend_item, parent, false);
             FriendViewHolder viewHolder = new FriendViewHolder(itemView);
+
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(FriendViewHolder holder, int position) {
+            Log.i(TAG, "onBindViewHolder()");
             Friend friend = list.get(position);
-//            holder.photo.setImageResource(friend.getImageId()); /* 이미지 보류 */
-//            holder.photo.setImageBitmap(friend.getPic_bitmap());
+//            holder.photo.setImageBitmap(picBitmap);
             holder.name.setText(friend.getfName());
             holder.message.setText(friend.getStatus_msg());
         }
@@ -93,6 +112,10 @@ public class FriendsRecyclerViewFragment
         }
     }// end class FriendAdapter
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,4 +153,66 @@ public class FriendsRecyclerViewFragment
             startActivity(intent);
         }
     }
+
+
+    class LoadBitmapTask
+            extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = makeBitmapFromUrl(params[0]);
+            Log.i(TAG, "doInBackground()/\tparams:\t" + params[0]);
+
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap != null) {
+                Log.i(TAG, "onPostExecute()/\tbitmap != null");
+            }
+            picBitmap = bitmap;
+        }
+
+        public Bitmap makeBitmapFromUrl(String string) {
+//            String imageUrl = "http://192.168.11.11:8081/Test3/uploadDirectory/IMG_20170222_04433646.jpg";
+            String imageUrl = "http://192.168.11.11:8081/Test3/uploadDirectory/" + string;
+            Log.i(TAG, "makeBitmapFromUrl/\tpic_res:\t" + string);
+            Bitmap bitmap = null;
+            URL url = null;
+            HttpURLConnection connection = null;
+            InputStream inputStream = null;
+            BufferedInputStream bis = null;
+            try {
+                url = new URL(imageUrl);
+                connection = (HttpURLConnection) url.openConnection();
+
+                connection.setConnectTimeout(10 * 1000);
+                connection.setReadTimeout(10 * 1000);
+                connection.setRequestMethod("GET");
+
+                connection.connect();
+                int resCode = connection.getResponseCode();
+                if (resCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = connection.getInputStream();
+                    bis = new BufferedInputStream(inputStream);
+                    bitmap = BitmapFactory.decodeStream(bis);
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    bis.close();
+                    connection.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return bitmap;
+        }
+    }// end class LoadBitmapTask
 }// end class FriendsRecyclerViewFragment

@@ -43,7 +43,6 @@
         android:layout_alignTop="@+id/btnCall"
         android:layout_toEndOf="@+id/textMsg"
         android:layout_toRightOf="@+id/textMsg"
-        android:background="?android:attr/windowBackgroundFallback"
         app:srcCompat="@drawable/message1" />
 
     <ImageButton
@@ -54,7 +53,6 @@
         android:layout_marginBottom="19dp"
         android:layout_toLeftOf="@+id/textMsg"
         android:layout_toStartOf="@+id/textMsg"
-        android:background="?android:attr/windowBackgroundFallback"
         app:srcCompat="@drawable/call2" />
 
     <TextView

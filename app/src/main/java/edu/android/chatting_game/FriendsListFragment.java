@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
@@ -47,9 +48,16 @@ public class FriendsListFragment
     private EditText editNameSearch;
     private ArrayList<Friend> list = new ArrayList<>();
     private FriendLab lab;
+    private String my_phone;
 
     public FriendsListFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public FriendsListFragment(String my_phone) {
+        this.my_phone = my_phone;
+
     }
 
     @Override
@@ -63,6 +71,7 @@ public class FriendsListFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "FriendsListFragment//onCreate()//my_phone:" + my_phone);
     }
 
     @Override
@@ -175,4 +184,7 @@ public class FriendsListFragment
     }// end updateFriendsList()
 
 
+    public void setMyPhone(String myPhone) {
+        my_phone = myPhone;
+    }
 }// end class FriendsListFragment
