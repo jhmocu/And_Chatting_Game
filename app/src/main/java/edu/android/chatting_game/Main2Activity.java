@@ -41,8 +41,7 @@ public class Main2Activity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
-    private String my_phone;
+    public String my_phone;
 
     private static final String TAG = "edu.android.chatting";
 
@@ -50,7 +49,6 @@ public class Main2Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,33 +92,36 @@ public class Main2Activity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int which, String name) {
+    public void itemSelected(int which, String name,String phone) {
         switch (which){
             case 0:
-                nameUpdate(name);
+                nameUpdate(name,phone);
                 break;
             case 1:
-                itemDelete(name);
+                itemDelete(name,phone);
                 break;
         }
     }
-    private void itemDelete(String name){
+    private void itemDelete(String name,String phone){
             //TODO:DB 삭제 작업할 곳
     //         queryDelete = require("").delete;
     //        queryDelete(data, "#/**/*/data");
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("my_phone", my_phone);
+        dlg.setArguments(bundle);
         dlg.show(getSupportFragmentManager(), "dlg");
-
 //        Intent intent = new Intent(Main2Activity.this, LongClickDeleteFriend.class);
 //        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, name);
 //
 //        startActivityForResult(intent, REQ_CODE);
 
     }
-    private void nameUpdate(String name){
+    private void nameUpdate(String name,String phone){
 
         Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, name);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER,phone);
 
         startActivityForResult(intent,REQ_CODE);
     }
@@ -249,4 +250,5 @@ public class Main2Activity extends AppCompatActivity
         Log.i("gg", buffer.toString());
         return  buffer.toString();
     }
+
 }

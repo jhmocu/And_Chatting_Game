@@ -13,6 +13,7 @@ public class LongClick_Fragment
 
     private onItemSelectedListener listener;
     private String name;
+    private String phone;
 
     public LongClick_Fragment() {
         // Required empty public constructor
@@ -32,9 +33,10 @@ public class LongClick_Fragment
         listener = null;
     }
 
-    public static LongClick_Fragment newInstance(String name){
+    public static LongClick_Fragment newInstance(String name,String phone){
         LongClick_Fragment frag = new LongClick_Fragment();
         frag.name = name;
+        frag.phone=phone;
         return frag;
     }
 
@@ -46,7 +48,7 @@ public class LongClick_Fragment
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(listener != null){
-                    listener.itemSelected(which, name);
+                    listener.itemSelected(which, name,phone);
                 }
             }
         });
@@ -54,7 +56,7 @@ public class LongClick_Fragment
     }
 
     public interface onItemSelectedListener {
-        void itemSelected(int which, String name);
+        void itemSelected(int which, String name,String phone);
     }
 
 }

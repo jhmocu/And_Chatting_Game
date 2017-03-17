@@ -59,7 +59,8 @@ public class Long_Click_name_Update extends AppCompatActivity {
 
                     String my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i("gg", info.getTypeName() + "사용 가능");
-                    String friend_phone="0102"; // TODO: 친구 번호값 받아오기
+                    String friend_phone=extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // TODO: 친구 번호값 받아오기
+
 
                     friend_name = textView.getText().toString();
 

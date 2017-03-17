@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,8 +34,15 @@ import java.io.InputStreamReader;
  */
 public class LongClickDeleteDialogFragment extends DialogFragment {
 
+    final Bundle extra = getActivity().getIntent().getExtras();
+    private static final String TAG = "edu.android.andchatting";
+
     public LongClickDeleteDialogFragment() {
         // Required empty public constructor
+    }
+
+    public String getStringData(){
+        return getArguments().getString("my_phone");
     }
 
     @NonNull
@@ -45,17 +51,20 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("확인");
         builder.setMessage("친구를 삭제하시겠습니까?");
+
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FriendDeleteConnect();
-                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
         builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -66,10 +75,14 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-            String my_phone = ""; // TODO: 값 가져오기
-
+            String my_phone = getStringData(); // TODO: 값 가져오기
+//            StartAppActivity startAppActivity = new StartAppActivity();
+//            String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
+            Log.i(TAG, getStringData());
             Log.i("gg", info.getTypeName() + "사용 가능");
-            String friend_phone= ""; // TODO: 선택한 친구 번호 가져오기
+
+            String friend_phone= extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // TODO: 선택한 친구 번호 가져오기
+
 
             FriendVO vo = new FriendVO(my_phone,friend_phone, null);
             HttpDeleteAsyncTask task = new HttpDeleteAsyncTask();
