@@ -36,6 +36,7 @@ public class Profile_My_info extends AppCompatActivity {
             imageId = extras.getInt(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID);
             name = extras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
             statusMsg1 = extras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+
             myProfileInfo.setImageResource(imageId);
             myName.setText(name);
             myStatusMsg.setText(statusMsg1);
