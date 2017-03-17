@@ -34,15 +34,11 @@ import java.io.InputStreamReader;
  */
 public class LongClickDeleteDialogFragment extends DialogFragment {
 
-    final Bundle extra = getActivity().getIntent().getExtras();
-    private static final String TAG = "edu.android.andchatting";
+//    final Bundle extra = getActivity().getIntent().getExtras();
+    private static final String TAG = "edu.android.chatting";
 
     public LongClickDeleteDialogFragment() {
         // Required empty public constructor
-    }
-
-    public String getStringData(){
-        return getArguments().getString("my_phone");
     }
 
     @NonNull
@@ -72,17 +68,19 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
     }
 
     private void FriendDeleteConnect(){
+        Log.i(TAG, "FriendDeleteConnect()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-            String my_phone = getStringData(); // TODO: 값 가져오기
+            Bundle extraa = getArguments();
+            String my_phone = extraa.getString("my_phone"); // TODO: 값 가져오기
 //            StartAppActivity startAppActivity = new StartAppActivity();
 //            String my_phone = startAppActivity.readFromFile(StartAppActivity.MY_PHONE_FILE);
-            Log.i(TAG, getStringData());
-            Log.i("gg", info.getTypeName() + "사용 가능");
+            Log.i(TAG, my_phone + "과연 번호가 나올 것인가!!!!");
+            Log.i(TAG, info.getTypeName() + "사용 가능");
 
-            String friend_phone= extra.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // TODO: 선택한 친구 번호 가져오기
-
+//            String friend_phone= getActivity().getIntent().getExtras().getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // TODO: 선택한 친구 번호 가져오기
+            String friend_phone = extraa.getString("f_phone");
 
             FriendVO vo = new FriendVO(my_phone,friend_phone, null);
             HttpDeleteAsyncTask task = new HttpDeleteAsyncTask();

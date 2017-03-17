@@ -69,7 +69,6 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Log.i(TAG, "onCreateViewHolder()");
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View itemView = inflater.inflate(R.layout.friend_item, parent, false);
             FriendViewHolder viewHolder = new FriendViewHolder(itemView);
@@ -78,7 +77,6 @@ public class FriendsRecyclerViewFragment
 
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
-            Log.i(TAG, "onBindViewHolder()\tposition:" + position);
             Friend friend = list.get(position);
             Picasso.with(holder.itemView.getContext()).load(Uri.parse(friend.getPic_url())).resize(100, 100).centerCrop().into(holder.photo);
             holder.name.setText(friend.getfName());
