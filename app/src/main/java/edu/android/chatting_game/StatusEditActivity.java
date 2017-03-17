@@ -34,15 +34,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 
 public class StatusEditActivity extends AppCompatActivity {
+
+    private static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
 
-    private int image;
-    private String name;
-    private String statusMsg;
+    private String name, statusMsg, imageUrl;
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
@@ -61,27 +63,19 @@ public class StatusEditActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
-
-
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnSave = (Button) findViewById(R.id.btnSave);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            image = extras.getInt("myProfile");
-            name = extras.getString("myName");
-            statusMsg = extras.getString("myStatusMsg");
-
-
+            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
+            name = extras.getString(Profile_My_info.KEY_NAME);
+            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
+            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
-            imageView.setImageResource(image);
-
-
         }
-
-
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +117,10 @@ public class StatusEditActivity extends AppCompatActivity {
 //                } else {
 //                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
 //                }
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+
+                /***/
+                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL,image);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
@@ -179,7 +176,8 @@ public class StatusEditActivity extends AppCompatActivity {
     }
 
     // TODO: UpdateProfileAsyncTask DB 업데이트 시작부분
-    private class HttpUpdateProfileAsyncTask extends AsyncTask<ProfileVO, String, String> {
+    private class HttpUpdateProfileAsyncTask
+            extends AsyncTask<ProfileVO, String, String> {
 
         @Override
         protected String doInBackground(ProfileVO... params) {
