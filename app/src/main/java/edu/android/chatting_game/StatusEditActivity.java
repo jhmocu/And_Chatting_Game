@@ -34,17 +34,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import it.sephiroth.android.library.picasso.Picasso;
-
 
 public class StatusEditActivity extends AppCompatActivity {
-
-    private static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
 
-    private String name, statusMsg, imageUrl;
+    private int image;
+    private String name;
+    private String statusMsg;
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
@@ -63,19 +61,27 @@ public class StatusEditActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
+
+
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnSave = (Button) findViewById(R.id.btnSave);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
-            name = extras.getString(Profile_My_info.KEY_NAME);
-            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
-            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
+            image = extras.getInt("myProfile");
+            name = extras.getString("myName");
+            statusMsg = extras.getString("myStatusMsg");
+
+
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
+            imageView.setImageResource(image);
+
+
         }
+
+
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,8 +98,18 @@ public class StatusEditActivity extends AppCompatActivity {
                 if(info != null && info.isAvailable()) {
                     Log.i("zz", info.getTypeName() + "사용 가능");
 
-                    String pic_path = getPathFromUri(uri);
+                    String pic_path = null;
+
+                    // TODO: 기본 이미지 설정 (진행중)
+                    if(uri == null) {
+
+                    } else if(uri != null){
+                        pic_path = getPathFromUri(uri);
+                    }
+
+
                     Log.i("image_res", pic_path);
+
 
 
                     my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
@@ -112,15 +128,7 @@ public class StatusEditActivity extends AppCompatActivity {
                 int image=imageView.getImageAlpha();
 
                 // TODO: 기본이미지 설정! - 선택안할 시 에러 방지
-//                if(pic_res != null) {
-//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
-//                } else {
-//                    intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, R.drawable.p1);
-//                }
 //                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
-
-                /***/
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL,image);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
@@ -154,7 +162,7 @@ public class StatusEditActivity extends AppCompatActivity {
         if (data != null) {
             uri = data.getData();
 //            Log.i("이미지 경로", uri.toString());
-            imageView.setImageURI(uri);
+//            imageView.setImageURI(uri);
 
             if (requestCode == REQ_CODE_IMAGE_CAPTURE &&
                     resultCode == RESULT_OK) {
@@ -176,8 +184,7 @@ public class StatusEditActivity extends AppCompatActivity {
     }
 
     // TODO: UpdateProfileAsyncTask DB 업데이트 시작부분
-    private class HttpUpdateProfileAsyncTask
-            extends AsyncTask<ProfileVO, String, String> {
+    private class HttpUpdateProfileAsyncTask extends AsyncTask<ProfileVO, String, String> {
 
         @Override
         protected String doInBackground(ProfileVO... params) {
