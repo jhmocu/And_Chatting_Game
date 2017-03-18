@@ -34,7 +34,7 @@ public class Profile_My_info
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__my_info);
 
-        Log.i(TAG, "Profile_My_info/onCreate()");
+        Log.i(TAG, "Profile_My_info// onCreate()");
 
         myProfileImg = (ImageView) findViewById(R.id.imageView_ProfileInfo);
         btnEditInfo = (ImageButton) findViewById(R.id.editInfo);
@@ -66,7 +66,6 @@ public class Profile_My_info
         intent.putExtra(KEY_NAME, name);
         intent.putExtra(KEY_MSG, String.valueOf(statusMsg));
         startActivityForResult(intent,REQ_CODE_SAVE);
-
 
     }
 

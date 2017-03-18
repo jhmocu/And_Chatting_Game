@@ -35,7 +35,7 @@ public class StartAppActivity extends AppCompatActivity {
 
                     // 시작할 때 개인의 번호가 있는지 없는지 확인
                     String my_phone = readFromFile(MY_PHONE_FILE);
-                    if(my_phone != ""){
+                    if(!my_phone.equals("")){
 
                         Intent intent = new Intent(StartAppActivity.this, Main2Activity.class);
                         startActivity(intent);

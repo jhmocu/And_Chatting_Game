@@ -91,7 +91,6 @@ public class InsertProfileActivity extends AppCompatActivity {
                     String pic_path = getPathFromUri(uri);
                     Log.i("image_res", pic_path);
 
-
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는곳
