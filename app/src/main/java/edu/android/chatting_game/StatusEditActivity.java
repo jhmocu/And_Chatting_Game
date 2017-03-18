@@ -34,6 +34,7 @@ import java.io.InputStreamReader;
 
 
 public class StatusEditActivity extends AppCompatActivity {
+    public static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
