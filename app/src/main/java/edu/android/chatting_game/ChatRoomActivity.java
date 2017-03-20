@@ -41,6 +41,7 @@ public class ChatRoomActivity
     private TextView textMyMsg;
     private ImageButton btnOption, btnSend;
     private String title;
+    private String name;
 
     private ListView listView;
     private ChatMessageLab lab;
@@ -156,8 +157,15 @@ public class ChatRoomActivity
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
+        Bundle extraas = getIntent().getExtras();
+        if(extraas != null){
+            // 값가져오기
+            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+        }
 
-        title = "대화방 이름름";
+        title = name;
        actionBar.setTitle(title);
     }// end onCreate()
 

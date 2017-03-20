@@ -84,9 +84,9 @@ public class ProfileInfoActivity
         // TODO: 2017-03-14 친구 프로필에서 채팅 연결하기
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
         Intent intent = new Intent(ProfileInfoActivity.this, ChatRoomActivity.class);
-        intent.putExtra(name, name);
-        intent.putExtra(phoneNumber, phoneNumber);
-        intent.putExtra(message, message);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, phoneNumber);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, message);
         intent.putExtra(my_phone, my_phone);
         startActivity(intent);
         Log.i(TAG, "ProfileInfoActivity/ name:" + name);
