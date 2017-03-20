@@ -75,6 +75,8 @@ public class ProfileInfoActivity
     }
     private void onClickBtnMessage() {
         // TODO: 2017-03-14 친구 프로필에서 채팅 연결하기
+        Intent intent = new Intent(ProfileInfoActivity.this, ChatRoomActivity.class);
 
+        startActivity(intent);
     }
 }
