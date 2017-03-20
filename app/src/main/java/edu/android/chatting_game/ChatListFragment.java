@@ -17,13 +17,13 @@ public class ChatListFragment
         extends Fragment {
 
     private EditText editText;
-    private FloatingActionButton floatingEditChatList;
+    private FloatingActionButton floatingEditChatList, floatingBtnChatAdd, floatingBtnBase;
+    private boolean isFABOpen;
     public static final int REQ_CODE_EDIT_CHAT = 444;
 
     public ChatListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +33,25 @@ public class ChatListFragment
 
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
+        floatingBtnChatAdd = (FloatingActionButton) view.findViewById(R.id.floatingBtnChatAdd);
+        floatingBtnBase = (FloatingActionButton) view.findViewById(R.id.floatingBtnBase);
 
         ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_chat_recyclerView, fragment);
         transaction.commit();
+
+        floatingBtnBase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isFABOpen){
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
 
         floatingEditChatList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +73,18 @@ public class ChatListFragment
 //            intent = new Intent(getActivity(), EditChatListActivity.class);
 //        }
 //    }
+
+    private void showFABMenu(){
+        isFABOpen = true;
+        floatingBtnChatAdd.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        floatingEditChatList.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen = false;
+        floatingBtnChatAdd.animate().translationY(0);
+        floatingEditChatList.animate().translationY(0);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
