@@ -20,6 +20,7 @@ public class ChatListFragment
     private FloatingActionButton floatingEditChatList, floatingBtnChatAdd, floatingBtnBase;
     private boolean isFABOpen;
     public static final int REQ_CODE_EDIT_CHAT = 444;
+    public static final int REQ_CODE_ADD_CHAT = 555;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -50,6 +51,14 @@ public class ChatListFragment
                 } else {
                     closeFABMenu();
                 }
+            }
+        });
+
+        floatingBtnChatAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddChatActivity.class);
+                startActivityForResult(intent, REQ_CODE_ADD_CHAT);
             }
         });
 
