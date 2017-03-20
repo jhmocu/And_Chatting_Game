@@ -90,6 +90,7 @@ public class ChatRoomActivity
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        Log.i(TAG, ProfileInfoActivity.class.getName());
 
 //         TODO: 2017-03-13 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
         adapter.registerDataSetObserver(new DataSetObserver() {
@@ -155,8 +156,9 @@ public class ChatRoomActivity
         // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
-        title = "대화방 이름";
-        actionBar.setTitle(title);
+
+        title = "대화방 이름름";
+       actionBar.setTitle(title);
     }// end onCreate()
 
     @Override
