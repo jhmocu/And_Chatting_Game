@@ -53,6 +53,13 @@ public class ChatListFragment
             }
         });
 
+        floatingBtnChatAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         floatingEditChatList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
