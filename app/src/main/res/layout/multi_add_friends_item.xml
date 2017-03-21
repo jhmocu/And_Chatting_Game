@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/MultiAddChatProfileImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/p1" />
+
+    <TextView
+        android:id="@+id/multiAddNameText"
+        android:layout_width="105dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/MultiAddChatProfileImageView"
+        android:layout_toRightOf="@+id/MultiAddChatProfileImageView"
+        android:text="이름" />
+
+    <TextView
+        android:id="@+id/multiAddPhoneText"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/multiAddNameText"
+        android:layout_toRightOf="@+id/multiAddNameText"
+        android:text="번호" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMultiAddChat"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal" />
+
+</RelativeLayout>
