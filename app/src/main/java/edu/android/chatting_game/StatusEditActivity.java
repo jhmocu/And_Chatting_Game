@@ -1,8 +1,12 @@
 package edu.android.chatting_game;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -49,7 +53,7 @@ public class StatusEditActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private EditText editName, editStatusMsg;
-    private ImageButton btnEdit, btnCamera;
+    private ImageButton btnEdit, btnCamera, btnBasicImg;
     private Button btnSave;
     private String my_phone;
     private Uri uri;
@@ -66,8 +70,9 @@ public class StatusEditActivity extends AppCompatActivity {
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
-        btnSave = (Button) findViewById(R.id.btnSave);
+        btnBasicImg = (ImageButton) findViewById(R.id.btnBasicImg);
 
+        btnSave = (Button) findViewById(R.id.btnSave);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -133,6 +138,14 @@ public class StatusEditActivity extends AppCompatActivity {
                 capturePhoto();
             }
         });
+
+        btnBasicImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageResource(R.drawable.p1);
+            }
+        });
+
     }
 
     private void albumSelect() {   // 앨범 선택
