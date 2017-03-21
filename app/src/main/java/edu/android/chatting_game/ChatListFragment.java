@@ -88,8 +88,6 @@ public class ChatListFragment extends Fragment {
         floatingBtnChatAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddChatActivity.class);
-                startActivityForResult(intent, REQ_CODE_ADD_CHAT);
             }
         });
 
