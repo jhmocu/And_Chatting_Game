@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -154,14 +153,14 @@ public class ChatListFragment extends Fragment {
 
         builder.addTextBody("phone", phone, ContentType.create("Multipart/related", "UTF-8"));
         InputStream inputStream = null;
-        HttpClient httpClient = null;
+        AndroidHttpClient androidHttpClient = null;
         HttpPost httpPost = null;
         HttpResponse httpResponse = null;
         try {
-            httpClient = AndroidHttpClient.newInstance("Android");
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
-            httpResponse = httpClient.execute(httpPost);
+            httpResponse = androidHttpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
 
             inputStream = httpEntity.getContent();
@@ -180,6 +179,7 @@ public class ChatListFragment extends Fragment {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {

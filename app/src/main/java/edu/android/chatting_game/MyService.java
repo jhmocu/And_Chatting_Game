@@ -218,17 +218,17 @@ public class MyService extends Service implements Runnable {
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
-        HttpClient httpClient = null; //
+        AndroidHttpClient androidHttpClient = null; //
         HttpPost httpPost = null; //new HttpPost(requestURL);
         HttpResponse httpResponse = null;
 
         try {
             // http 통신 send
-            httpClient = AndroidHttpClient.newInstance("Android");
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
 
-            httpResponse = httpClient.execute(httpPost); // 연결 실행
+            httpResponse = androidHttpClient.execute(httpPost); // 연결 실행
 
             // http 통신 receive
             HttpEntity httpEntity = httpResponse.getEntity();
@@ -248,6 +248,7 @@ public class MyService extends Service implements Runnable {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {

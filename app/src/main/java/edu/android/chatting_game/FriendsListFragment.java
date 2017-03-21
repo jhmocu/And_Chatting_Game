@@ -192,6 +192,7 @@ public class FriendsListFragment extends Fragment {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {
