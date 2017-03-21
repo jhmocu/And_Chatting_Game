@@ -196,7 +196,6 @@ public class MyService extends Service implements Runnable {
                     Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
                     getMessage(getApplicationContext(), vo);
                     updateData(vo.getMy_phone(), vo.getChatroom_name());
-
                 }
             }
             return result;
@@ -350,11 +349,14 @@ public class MyService extends Service implements Runnable {
         // 알림을 띄우기 위해 서비스 불러옴
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(context, ChatRoomActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); /**알림 터치했을 때 호출할 액티비티*/
+        intent.putExtra("chat_member", vo.getChat_member());
+        intent.putExtra("chatroom_name", vo.getChatroom_name());
+        intent.putExtra("msg", vo.getMsg());
+        intent.putExtra("chat_date", vo.getChat_date());
 
         PendingIntent contentIntent = PendingIntent.getActivity/** OR getService() OR getBroadcastReceiver() */
-                (context, 0, new Intent(context,
-                                ChatRoomActivity.class/**알림 터치했을 때 호출할 액티비티*/
-                        ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                (context, 0, intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification
