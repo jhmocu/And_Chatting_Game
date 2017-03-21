@@ -103,7 +103,10 @@ public class StatusEditActivity extends AppCompatActivity {
                     // TODO: 기본 이미지 설정 (진행중)
                     if(uri == null) {
 
+//                        pic_path = getPathFromUri2(uri);
+
                     } else if(uri != null){
+
                         pic_path = getPathFromUri(uri);
                     }
 
@@ -128,7 +131,7 @@ public class StatusEditActivity extends AppCompatActivity {
                 int image=imageView.getImageAlpha();
 
                 // TODO: 기본이미지 설정! - 선택안할 시 에러 방지
-//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEID, pic_res);
+                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, pic_res);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
                 intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
                 setResult(RESULT_OK,intent);
@@ -254,6 +257,16 @@ public class StatusEditActivity extends AppCompatActivity {
 
         return result;
     }
+
+//    public String getPathFromUri2(Uri uri) {
+//        String[] filePathColumn = {};
+//        Cursor cursor = getContentResolver().query(null, null, null, null, null);
+//        cursor.moveToNext();
+//        String path = cursor.getString(cursor.getColumnIndex("_data"));
+//        cursor.close();
+//
+//        return path;
+//    }
 
     public String getPathFromUri(Uri uri) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
