@@ -71,12 +71,12 @@
         </activity>
         <activity android:name=".AuthActivity" />
         <activity android:name=".InsertProfileActivity" />
+        <activity android:name=".AddChatActivity"></activity>
 
         <service
-        android:name=".MyService"
-        android:enabled="true"
-        android:exported="true" />
-
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
