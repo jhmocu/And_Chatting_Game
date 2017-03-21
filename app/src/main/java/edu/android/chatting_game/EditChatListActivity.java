@@ -47,11 +47,15 @@ public class EditChatListActivity extends AppCompatActivity
             transaction.commit();
         } // RecyclerView List를 띄어줌
 
+        // TODO: 체크된 채팅방 나가기 기능(진행중)
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "selected: " + selectedList.toString());
                 if (selectedList != null) {
+//                    for(int i = 0; i < selectedList.size(); i++) {
+//
+//                    }
 
                 }
                     setResult(RESULT_OK, getIntent());
