@@ -69,9 +69,7 @@ public class FriendsListFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "FriendsListFragment//onCreate()//my_phone:" + my_phone);
-
-
+        Log.i(TAG, "FriendsListFragment// onCreate()// my_phone:" + my_phone);
     }
 
     @Override
@@ -128,14 +126,13 @@ public class FriendsListFragment
     } // end class HttpSelectFriendAsyncTask
 
     public String selectProfile(String s) {
-        Log.i(TAG, "s: " + s);
         String requestURL = "http://192.168.11.11:8081/Test3/SelectProfile";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         builder.addTextBody("phone", s/** my_phone */, ContentType.create("Multipart/related", "UTF-8"));
-        Log.i(TAG, "FriendsListFragment//selectProfile()//my_phone:" + my_phone);
+        Log.i(TAG, "FriendsListFragment// HttpSelectFriendAsyncTask// selectProfile()// my_phone:" + my_phone);
         InputStream inputStream = null;
         HttpClient httpClient = null;
         HttpPost httpPost = null;
@@ -147,7 +144,6 @@ public class FriendsListFragment
             httpPost.setEntity(builder.build());
 
             httpResponse = httpClient.execute(httpPost);
-            Log.i(TAG, "연결됨");
 
             // receive
             HttpEntity httpEntity = httpResponse.getEntity();
@@ -161,7 +157,6 @@ public class FriendsListFragment
                 line = bufferedReader.readLine();
             }
             result = stringBuffer.toString();
-            Log.i(TAG, "다 읽음\nresult: " + result);
 
         } catch (Exception e) {
             e.printStackTrace();

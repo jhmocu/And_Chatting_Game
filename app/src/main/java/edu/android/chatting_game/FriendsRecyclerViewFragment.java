@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import it.sephiroth.android.library.picasso.Picasso;
 
 /**
@@ -48,7 +50,6 @@ public class FriendsRecyclerViewFragment
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    Log.i(TAG, "onClick()\tposition:" + position);
                     startProfileActivity(position);
                 }
             });
@@ -67,6 +68,9 @@ public class FriendsRecyclerViewFragment
     class FriendAdapter
             extends RecyclerView.Adapter<FriendViewHolder> {
 
+
+
+
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -78,6 +82,7 @@ public class FriendsRecyclerViewFragment
         @Override
         public void onBindViewHolder(final FriendViewHolder holder, int position) {
             Friend friend = list.get(position);
+
             Picasso.with(holder.itemView.getContext()).load(Uri.parse(friend.getPic_url())).resize(100, 100).centerCrop().into(holder.photo);
             holder.name.setText(friend.getfName());
             holder.message.setText(friend.getStatus_msg());
@@ -108,15 +113,17 @@ public class FriendsRecyclerViewFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view_friends, container, false);
+        Log.i(TAG, "FriendsRecyclerViewFragment// onCreateView()");
         list = FriendLab.getInstance().getFriendList();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new FriendAdapter());
+        Collections.reverse(list);
         return view;
     }
 
     private void startProfileActivity(int position) {
-        if (position == list.size() - 1) {
+        if (position==0) {
             Intent intent = new Intent(getContext(), Profile_My_info.class);
             intent.putExtra(KEY_EXTRA_IMAGEURL, list.get(position).getPic_url());
             intent.putExtra(KEY_EXTRA_NAME, list.get(position).getfName());

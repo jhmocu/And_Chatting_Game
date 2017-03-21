@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 
 
 public class StatusEditActivity extends AppCompatActivity {
+    public static final String TAG = "edu.android.chatting";
 
     private static final int PICK_FROM_ALBUM = 100;
     public static final int REQ_CODE_IMAGE_CAPTURE = 1000;
@@ -77,7 +78,10 @@ public class StatusEditActivity extends AppCompatActivity {
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
             imageView.setImageResource(image);
-
+//            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
+//            name = extras.getString(Profile_My_info.KEY_NAME);
+//            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
+//            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
 
         }
 
@@ -95,28 +99,31 @@ public class StatusEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
-                if(info != null && info.isAvailable()) {
-                    Log.i("zz", info.getTypeName() + "사용 가능");
+                if (info != null && info.isAvailable()) {
+                    Log.i(TAG, info.getTypeName() + "사용 가능");
 
-                    String pic_path = null;
-
+//                    String pic_path = null;
+//                    if (uri != null) {
+//                        Log.i(TAG, "onClickBtnSave()// uri != null, uri: " + uri);
+//                        pic_path = getPathFromUri(uri);
+//                        Log.i(TAG, "onClickBtnSave()// uri: " + uri);
+//                    } else {
+//                        Log.i(TAG, "onClickBtnSave()// uri == null");
+//                    }
                     // TODO: 기본 이미지 설정 (진행중)
+                    String pic_path = null;
                     if(uri == null) {
 
-//                        pic_path = getPathFromUri2(uri);
-
                     } else if(uri != null){
-
                         pic_path = getPathFromUri(uri);
                     }
 
+//                    Log.i("image_res", pic_path);
 
-                    Log.i("image_res", pic_path);
-
-
+                    Log.i(TAG, "onClickBtnSave()// pic_path: " + pic_path);
 
                     my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
-                    Log.i("test", my_phone);
+                    Log.i(TAG, "readFromFile() return my_phone: " + my_phone);
                     String name = editName.getText().toString();
                     String status_msg = editStatusMsg.getText().toString();
                     // 데이터 넣는 곳
@@ -125,17 +132,18 @@ public class StatusEditActivity extends AppCompatActivity {
                     task.execute(vo);
                 }
 
-                Intent intent = new Intent();
-                String name=editName.getText().toString();
-                String status=editStatusMsg.getText().toString();
-                int image=imageView.getImageAlpha();
+//                Intent intent = new Intent();
+//                String name = editName.getText().toString();
+//                String status = editStatusMsg.getText().toString();
+//                int image = imageView.getImageAlpha();
 
-                // TODO: 기본이미지 설정! - 선택안할 시 에러 방지
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, pic_res);
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
-                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
-                setResult(RESULT_OK,intent);
-                finish();
+
+                /***/
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, image);
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
+//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
+//                setResult(RESULT_OK, intent);
+//                finish();
             }
         });
 
@@ -164,8 +172,8 @@ public class StatusEditActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             uri = data.getData();
-//            Log.i("이미지 경로", uri.toString());
-//            imageView.setImageURI(uri);
+            Log.i(TAG, "onActivityResult()// uri: " + uri.toString());
+            imageView.setImageURI(uri);
 
             if (requestCode == REQ_CODE_IMAGE_CAPTURE &&
                     resultCode == RESULT_OK) {
@@ -198,6 +206,18 @@ public class StatusEditActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Intent intent = new Intent();
+            String name = editName.getText().toString();
+            String status = editStatusMsg.getText().toString();
+//            String image = imageView.
+
+//            Log.i(TAG, "int image: " + image);
+
+//            intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, image);
+            intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
+            intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 
@@ -208,13 +228,9 @@ public class StatusEditActivity extends AppCompatActivity {
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         pic_res = vo.getPic_res();
 
-        Log.i("test", vo.getPhone() +", " + vo.getName()+ "," + vo.getPic_res() + "," + vo.getStates_msg());
+        Log.i("test", vo.getPhone() + ", " + vo.getName() + "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
-
-        builder.addPart("image", new FileBody(new File("/res/drawable/p1.png")));
-
-        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
 
@@ -254,27 +270,30 @@ public class StatusEditActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
+        Log.i(TAG, "sendData() return result: " + result);
         return result;
     }
 
-//    public String getPathFromUri2(Uri uri) {
-//        String[] filePathColumn = {};
-//        Cursor cursor = getContentResolver().query(null, null, null, null, null);
-//        cursor.moveToNext();
-//        String path = cursor.getString(cursor.getColumnIndex("_data"));
-//        cursor.close();
-//
-//        return path;
-//    }
-
     public String getPathFromUri(Uri uri) {
+//        Log.i(TAG, "getPathFromUri()// uri: " + uri);
+//        Log.i(TAG, "uri.getAuthority(): " + uri.getAuthority());
+//
+//        if (uri.getAuthority().equals("192.168.11.11:8081")) {
+//            Log.i(TAG, "서버에서 불러온 이미지");
+//
+//
+//        } else if (uri.getAuthority().equals("media")) {
+//            Log.i(TAG, "갤러리에서 불러 온 이미지");
+//        }
+
+
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
         cursor.moveToNext();
         String path = cursor.getString(cursor.getColumnIndex("_data"));
         cursor.close();
 
+        Log.i(TAG, "getPathFromUri()// path: " + path);
         return path;
     }
 
@@ -292,7 +311,7 @@ public class StatusEditActivity extends AppCompatActivity {
             br = new BufferedReader(reader);
 
             String line = br.readLine();
-            while (line != null){
+            while (line != null) {
                 buffer.append(line);
                 line = br.readLine();
             }
@@ -306,8 +325,8 @@ public class StatusEditActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        Log.i("gg", buffer.toString());
-        return  buffer.toString();
+        Log.i(TAG, "readFromFile() return: " + buffer.toString());
+        return buffer.toString();
     }
 
 }
