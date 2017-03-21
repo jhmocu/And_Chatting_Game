@@ -40,10 +40,10 @@ public class MyService extends Service implements Runnable {
     private ArrayList<ChatMessageReceiveVO> list = new ArrayList<>();
 
     // 서비스 종료시 재부팅 딜레이 시간, activity의 활성 시간 벌기 위함
-    private static final int REBOOT_DELAY_TIMER = 1 * 1000;
+    private static final int REBOOT_DELAY_TIMER = 5 * 1000;
 
     // 업데이트 주기
-    private static final int UPDATE_DELAY = 10 * 1000;
+    private static final int UPDATE_DELAY = 1 * 1000;
 
     private Handler mHandler;
     private boolean mIsRunning;
@@ -189,12 +189,15 @@ public class MyService extends Service implements Runnable {
             Type type = typeToken.getType();
             Log.i(TAG_SERVICE, "MyService// onPostExecute()// String s" + result);
             list = gson.fromJson(result, type);
-            Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
-            for(int i = 0; i <list.size(); i++) {
-                ChatMessageReceiveVO vo = list.get(i);
-                Log.i(TAG_SERVICE, "MyService// for(list)// 채팅방" + vo.getChecked());
-                getMessage(getApplicationContext(), vo);
-                updateData(vo.getMy_phone(), vo.getChatroom_name());
+            if(!list.isEmpty()) {
+                Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
+                for (int i = 0; i < list.size(); i++) {
+                    ChatMessageReceiveVO vo = list.get(i);
+                    Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
+                    getMessage(getApplicationContext(), vo);
+                    updateData(vo.getMy_phone(), vo.getChatroom_name());
+
+                }
             }
             return result;
         }
