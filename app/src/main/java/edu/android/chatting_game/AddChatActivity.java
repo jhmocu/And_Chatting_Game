@@ -20,5 +20,5 @@ public class AddChatActivity extends AppCompatActivity {
         Fragment frag = fm.findFragmentById(R.id.addChatFrame);
         textAddChatName = (TextView) findViewById(R.id.textAddChatName);
         btnAddChat = (Button) findViewById(R.id.btnAddChat);
-    }
-}
+    } // end onCreate()
+} // end class AddChatActivity
