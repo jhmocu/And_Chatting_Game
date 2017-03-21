@@ -23,9 +23,9 @@ public class EditChatRecyclerViewFragment extends Fragment {
 
     private onSelectedListener listener;
     private ArrayList<Boolean> selectedList = new ArrayList<>();
+    private ArrayList<ChatMessageVO> list = new ArrayList<>();
     private int count;
     private static final String KEY_CHAT_NAME = "key_chat_name";
-
 
     @Override
     public void onAttach(Context context) {
@@ -104,13 +104,17 @@ public class EditChatRecyclerViewFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(EditChattingViewHolder editChattingViewHolder, int i) {
-            editChattingViewHolder.position = i;
+        public void onBindViewHolder(EditChattingViewHolder holder, int i) {
+            holder.position = i;
+            ChatMessageVO vo = list.get(i);
+            holder.editChatTxtRoom.setText(vo.getChatroom_name());
+            holder.editChatTxtLastMsg.setText(vo.getLast_msg());
+            holder.editChatTxtFriendCount.setText(vo.getMember_count());
         }
 
         @Override
         public int getItemCount() {
-            return 10;
+            return list.size();
         }
     }
 
@@ -139,6 +143,10 @@ public class EditChatRecyclerViewFragment extends Fragment {
     public interface onSelectedListener {
         void itemSelected(int count, ArrayList<Boolean> selectedList);
     }
+
+
+    
+
 
 
 
