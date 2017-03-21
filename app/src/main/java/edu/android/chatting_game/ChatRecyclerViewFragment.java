@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 
-public class ChatRecyclerViewFragment
-        extends Fragment implements ChatLongClickFragment.onItemSelectedListener{
+
+public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickFragment.onItemSelectedListener {
 
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
+    private ArrayList<ChatMessageVO> list;
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -35,11 +37,11 @@ public class ChatRecyclerViewFragment
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
             txtMsgCount = (TextView) itemView.findViewById(R.id.txtMsgCont);
 
+            // 아이템 클릭 -> ChatRoomActivity 실행
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "onClick()\nStart------ChatRoomActivity");
-                    // TODO: 2017-03-09 아이템 클릭 -> ChatRoomActivity 실행
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
                     startActivity(intent);
                 }
@@ -50,8 +52,7 @@ public class ChatRecyclerViewFragment
                 @Override
                 public boolean onLongClick(View v) {
                     int position = getAdapterPosition();
-
-                    DialogFragment chatLongClickFragment = ChatLongClickFragment.newInstance();
+                    DialogFragment chatLongClickFragment = ChatLongClickFragment.newInstance(position);
                     chatLongClickFragment.show(getChildFragmentManager(), "chatLongClickFragment");
                     return true;
                 }
@@ -72,21 +73,22 @@ public class ChatRecyclerViewFragment
         }
 
         @Override
-        public void onBindViewHolder(ChattingViewHolder chattingViewHolder, int i) {
-            // TODO: 2017-03-08 아이템 하나의 레이아웃
-
+        public void onBindViewHolder(ChattingViewHolder holder, int position) {
+            ChatMessageVO vo = list.get(position);
+            holder.txtRoom.setText(vo.getChatroom_name());
+            holder.txtLastMsg.setText(vo.getLast_msg());
+            holder.txtTime.setText(vo.getChat_date());
+            holder.txtMsgCount.setText(String.valueOf(vo.getChecked_read()));
+            holder.txtFriendCount.setText(String.valueOf(vo.getMember_count()));
         }
 
         @Override
         public int getItemCount() {
-            return 10; /* 임의 */
+            return list.size();
         }
     }
 
-
-    public ChatRecyclerViewFragment() {
-
-    }
+    public ChatRecyclerViewFragment() {}
 
     public static ChatRecyclerViewFragment newInstance(String param1, String param2) {
         ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
@@ -105,25 +107,12 @@ public class ChatRecyclerViewFragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_recycler_view, container, false);
+        list = ChatMessageLab.getInstance().getChatMessageVOList();
+        Log.i("chat_list", "ChatRecyclerViewFragment// onCreateView()// list=" + list.toString());
         recyclerView = (RecyclerView) view.findViewById(R.id.chatlist_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ChattingAdapter());
         return view;
-
-    }
-
-    // 롱클릭시 채팅방 삭제
-    @Override
-    public void itemSelected(int which) {
-        switch (which) {
-            case 0:
-                longClickDeleteChatRoom();
-                break;
-        }
-    }
-
-    private void longClickDeleteChatRoom() {
-        // TODO: 채팅방 Delete 기능 추가
     }
 
     @Override
@@ -134,6 +123,21 @@ public class ChatRecyclerViewFragment
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // 롱클릭시 채팅방 삭제
+    @Override
+    public void itemSelected(int which) {
+        switch (which) {
+            case 0:
+                deleteChatRoom();
+                break;
+        }
+    }
+
+    private void deleteChatRoom() {
+        // TODO: 채팅방 Delete 기능 추가
+
     }
 
 

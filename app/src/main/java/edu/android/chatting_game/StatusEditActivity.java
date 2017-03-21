@@ -71,8 +71,6 @@ public class StatusEditActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-//            image = extras.getInt("myProfile");
-//            String imageUrl = extras.getString(Profile_My_info.KEY_IMG);
             uri = (Uri) extras.get("uri");
             Log.i("uri", "onCreate()// uri=" + uri);
             name = extras.getString(Profile_My_info.KEY_NAME);
@@ -80,11 +78,8 @@ public class StatusEditActivity extends AppCompatActivity {
 
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
-//            imageView.setImageResource(image);
-//            imageView.setImageURI(uri);
             Picasso.with(this).load(uri).resize(100, 100).centerCrop().into(imageView);
 
-//            Log.i("uri", "onCreate()// uri=" + uri);
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +204,6 @@ public class StatusEditActivity extends AppCompatActivity {
         Log.i("test", vo.getPhone() + ", " + vo.getName() + "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addPart("image", new FileBody(new File(vo.getPic_res())));
-//        builder.addTextBody("image", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
 

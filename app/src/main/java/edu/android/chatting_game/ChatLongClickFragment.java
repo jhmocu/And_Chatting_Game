@@ -14,7 +14,7 @@ import android.support.v7.app.AlertDialog;
  * A simple {@link Fragment} subclass.
  */
 public class ChatLongClickFragment extends DialogFragment {
-
+    public static final String ARG_KEY = "key_args";
     private onItemSelectedListener listener;
 
     public ChatLongClickFragment() {
@@ -35,9 +35,14 @@ public class ChatLongClickFragment extends DialogFragment {
         listener = null;
     }
 
-    public static ChatLongClickFragment newInstance(){
+    public static ChatLongClickFragment newInstance(int position){
+        ChatLongClickFragment instance = new ChatLongClickFragment();
 
-        return new ChatLongClickFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_KEY, position);
+        instance.setArguments(args);
+
+        return instance;
     }
 
     @NonNull
@@ -58,7 +63,6 @@ public class ChatLongClickFragment extends DialogFragment {
 
     public interface onItemSelectedListener {
         void itemSelected(int which);
-
 
     }
 }

@@ -71,7 +71,7 @@ public class ChatRoomActivity
                 view = inflater.inflate(R.layout.content_my_message, parent, false);
             }
             textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-            textMyMsg.setText(list.get(position).getMessage());
+            textMyMsg.setText(list.get(position).getLast_msg());
 //            } else if (상대 메세지) {
 //                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
 //            }
@@ -189,7 +189,7 @@ public class ChatRoomActivity
         String msg = writeMsg.getText().toString();
         Log.i(TAG, "onClickBtnSend\nmsg:\n" + msg);
         ChatMessageVO chatMessage = new ChatMessageVO();
-        chatMessage.setMessage(msg);
+//        chatMessage.setMessage(msg);
         chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
         chatMessageVOArrayList.add(chatMessage);
         writeMsg.clearFocus();

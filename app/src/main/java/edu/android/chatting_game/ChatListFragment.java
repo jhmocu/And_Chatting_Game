@@ -1,47 +1,78 @@
 package edu.android.chatting_game;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-public class ChatListFragment
-        extends Fragment {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+public class ChatListFragment extends Fragment {
+    public static final int REQ_CODE_EDIT_CHAT = 444;
+    public static final int REQ_CODE_ADD_CHAT = 555;
     private EditText editText;
     private FloatingActionButton floatingEditChatList, floatingBtnChatAdd, floatingBtnBase;
     private boolean isFABOpen;
-    public static final int REQ_CODE_EDIT_CHAT = 444;
-    public static final int REQ_CODE_ADD_CHAT = 555;
+    private ArrayList<ChatMessageVO> list;
+    private ChatMessageLab lab;
+    private String my_phone;
 
     public ChatListFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public ChatListFragment(String my_phone) {
+        this.my_phone = my_phone;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("chat_list", "ChatListFragment// onResume()");
+        HttpSelectChatListAsyncTask task = new HttpSelectChatListAsyncTask();
+        task.execute(my_phone);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.i("chat_list", "ChatListFragment// onCreateView()");
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
         floatingBtnChatAdd = (FloatingActionButton) view.findViewById(R.id.floatingBtnChatAdd);
         floatingBtnBase = (FloatingActionButton) view.findViewById(R.id.floatingBtnBase);
-
-        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
-        FragmentManager fm = getChildFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container_chat_recyclerView, fragment);
-        transaction.commit();
 
         floatingBtnBase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,4 +133,88 @@ public class ChatListFragment
         // EditCahtListActivity가 보내준 ArrayList를 가지고
         // true로 된 위치의 아이템들을 삭제
     }
-}
+
+    private class HttpSelectChatListAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result = selectChatList(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            updateChatList(s);
+        }
+    }// end class HttpSelectChatListAsyncTask
+    public String selectChatList(String phone) {
+        String result = "";
+        String requestURL = "http://192.168.11.11:8081/Test3/SelectChatList";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        builder.addTextBody("phone", phone, ContentType.create("Multipart/related", "UTF-8"));
+        InputStream inputStream = null;
+        HttpClient httpClient = null;
+        HttpPost httpPost = null;
+        HttpResponse httpResponse = null;
+        try {
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+            httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+
+            inputStream = httpEntity.getContent();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuffer.append(line);
+                line = bufferedReader.readLine();
+            }
+
+            result = stringBuffer.toString();
+            Log.i("chat_list", "SelectChatList()\n result= " + result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return result;
+    }// end selectChatList()
+
+    public void updateChatList(String s) {
+        Log.i("chat_list", "updateChatList()\n String s=" + s);
+        Gson gson = new Gson();
+        TypeToken<ArrayList<ChatMessageVO>> typeToken = new TypeToken<ArrayList<ChatMessageVO>>() {};
+        Type type = typeToken.getType();
+//        Type type = new TypeToken<ArrayList<ChatMessageVO>>(){}.getType();
+        list = gson.fromJson(s, type);
+        Log.i("chat_list", "updateChatList()\n list=" + list.toString());
+        if (list != null) {
+            lab = ChatMessageLab.getInstance();
+            lab.setChatMessageVOList(list);
+        }
+        attachChatRecyclerView();
+    }// end updateChatList()
+
+    public void attachChatRecyclerView() {
+        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container_chat_recyclerView, fragment);
+        transaction.commit();
+    }
+
+
+}// end class ChatListFragment

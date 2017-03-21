@@ -35,8 +35,7 @@ public class FriendsRecyclerViewFragment
     private RecyclerView recyclerView;
     private ArrayList<Friend> list;
 
-    class FriendViewHolder
-            extends RecyclerView.ViewHolder {
+    class FriendViewHolder extends RecyclerView.ViewHolder {
         private ImageView photo;
         private TextView name, message;
 
@@ -65,11 +64,7 @@ public class FriendsRecyclerViewFragment
         }
     } // end class FriendViewHolder
 
-    class FriendAdapter
-            extends RecyclerView.Adapter<FriendViewHolder> {
-
-
-
+    class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
 
         @Override
         public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

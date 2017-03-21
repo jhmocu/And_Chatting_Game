@@ -11,7 +11,7 @@ public class ChatMessageLab {
     private ArrayList<ChatMessageVO> chatMessageVOList;
 
     private ChatMessageLab() {
-        chatMessageVOList = new ArrayList<>();
+        chatMessageVOList = new ArrayList<ChatMessageVO>();
     }
     public static ChatMessageLab getInstance(){
         if (instance == null) {
@@ -24,4 +24,7 @@ public class ChatMessageLab {
         return chatMessageVOList;
     }
 
+    public void setChatMessageVOList(ArrayList<ChatMessageVO> chatMessageVOList) {
+        this.chatMessageVOList = chatMessageVOList;
+    }
 }

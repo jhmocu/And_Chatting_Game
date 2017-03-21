@@ -219,7 +219,7 @@ public class Main2Activity extends AppCompatActivity
                     fragment = new FriendsListFragment(my_phone);
                     break;
                 case 1:
-                    fragment = new ChatListFragment();
+                    fragment = new ChatListFragment(my_phone);
                     break;
                 case 2:
                     fragment = new SettingFragment();

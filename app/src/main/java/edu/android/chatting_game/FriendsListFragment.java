@@ -43,8 +43,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FriendsListFragment
-        extends Fragment {
+public class FriendsListFragment extends Fragment {
     private static final String TAG = "edu.android.chatting";
     private FloatingActionButton floatingBtn;
     private Button btnSearchFriend;
@@ -130,8 +129,7 @@ public class FriendsListFragment
         return view;
     }
 
-    private class HttpSelectFriendAsyncTask
-            extends AsyncTask<String, String, String> {
+    private class HttpSelectFriendAsyncTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -145,7 +143,9 @@ public class FriendsListFragment
             Gson gson = new Gson();
             TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
+            Log.i(TAG, "FriendsListFragment// onPostExecute()// String s" + s);
             list = gson.fromJson(s, type);
+            Log.i(TAG, "FriendsListFragment// onPostExecute()// list" + list.toString());
             if (list != null) {
                 lab = FriendLab.getInstance();
                 lab.setFriendList(list);
@@ -180,6 +180,7 @@ public class FriendsListFragment
             inputStream = httpEntity.getContent();
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+
             StringBuffer stringBuffer = new StringBuffer();
             String line = bufferedReader.readLine();
             while (line != null) {
