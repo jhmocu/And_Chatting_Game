@@ -31,7 +31,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -182,16 +181,16 @@ public class FriendsListFragment extends Fragment {
         builder.addTextBody("phone", s/** my_phone */, ContentType.create("Multipart/related", "UTF-8"));
         Log.i("my_phone", "FriendsListFragment// HttpSelectFriendAsyncTask// selectProfile()// my_phone:" + my_phone);
         InputStream inputStream = null;
-        HttpClient httpClient = null;
+        AndroidHttpClient androidHttpClient = null;
         HttpPost httpPost = null;
         HttpResponse httpResponse = null;
         try {
             // send
-            httpClient = AndroidHttpClient.newInstance("Android");
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
 
-            httpResponse = httpClient.execute(httpPost);
+            httpResponse = androidHttpClient.execute(httpPost);
 
             // receive
             HttpEntity httpEntity = httpResponse.getEntity();
@@ -211,6 +210,7 @@ public class FriendsListFragment extends Fragment {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {

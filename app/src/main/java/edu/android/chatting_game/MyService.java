@@ -40,10 +40,10 @@ public class MyService extends Service implements Runnable {
     private ArrayList<ChatMessageReceiveVO> list = new ArrayList<>();
 
     // 서비스 종료시 재부팅 딜레이 시간, activity의 활성 시간 벌기 위함
-    private static final int REBOOT_DELAY_TIMER = 1 * 1000;
+    private static final int REBOOT_DELAY_TIMER = 5 * 1000;
 
     // 업데이트 주기
-    private static final int UPDATE_DELAY = 10 * 1000;
+    private static final int UPDATE_DELAY = 1 * 1000;
 
     private Handler mHandler;
     private boolean mIsRunning;
@@ -190,12 +190,14 @@ public class MyService extends Service implements Runnable {
             Type type = typeToken.getType();
             Log.i(TAG_SERVICE, "MyService// onPostExecute()// String s" + result);
             list = gson.fromJson(result, type);
-            Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
-            for(int i = 0; i <list.size(); i++) {
-                ChatMessageReceiveVO vo = list.get(i);
-                Log.i(TAG_SERVICE, "MyService// for(list)// 채팅방" + vo.getChecked());
-                getMessage(getApplicationContext(), vo);
-                updateData(vo.getMy_phone(), vo.getChatroom_name());
+            if(!list.isEmpty()) {
+                Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
+                for (int i = 0; i < list.size(); i++) {
+                    ChatMessageReceiveVO vo = list.get(i);
+                    Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
+                    getMessage(getApplicationContext(), vo);
+                    updateData(vo.getMy_phone(), vo.getChatroom_name());
+                }
             }
             return result;
         }
@@ -219,17 +221,17 @@ public class MyService extends Service implements Runnable {
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
-        HttpClient httpClient = null; //
+        AndroidHttpClient androidHttpClient = null; //
         HttpPost httpPost = null; //new HttpPost(requestURL);
         HttpResponse httpResponse = null;
 
         try {
             // http 통신 send
-            httpClient = AndroidHttpClient.newInstance("Android");
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
 
-            httpResponse = httpClient.execute(httpPost); // 연결 실행
+            httpResponse = androidHttpClient.execute(httpPost); // 연결 실행
 
             // http 통신 receive
             HttpEntity httpEntity = httpResponse.getEntity();
@@ -249,6 +251,7 @@ public class MyService extends Service implements Runnable {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {
@@ -347,11 +350,14 @@ public class MyService extends Service implements Runnable {
         // 알림을 띄우기 위해 서비스 불러옴
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(context, ChatRoomActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); /**알림 터치했을 때 호출할 액티비티*/
+        intent.putExtra("chat_member", vo.getChat_member());
+        intent.putExtra("chatroom_name", vo.getChatroom_name());
+        intent.putExtra("msg", vo.getMsg());
+        intent.putExtra("chat_date", vo.getChat_date());
 
         PendingIntent contentIntent = PendingIntent.getActivity/** OR getService() OR getBroadcastReceiver() */
-                (context, 0, new Intent(context,
-                                ChatRoomActivity.class/**알림 터치했을 때 호출할 액티비티*/
-                        ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                (context, 0, intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification

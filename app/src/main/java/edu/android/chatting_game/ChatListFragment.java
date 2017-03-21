@@ -24,7 +24,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -93,8 +92,6 @@ public class ChatListFragment extends Fragment {
         floatingBtnChatAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), AddChatActivity.class);
-//                startActivityForResult(intent, REQ_CODE_ADD_CHAT);
             }
         });
 
@@ -153,14 +150,14 @@ public class ChatListFragment extends Fragment {
 
         builder.addTextBody("phone", phone, ContentType.create("Multipart/related", "UTF-8"));
         InputStream inputStream = null;
-        HttpClient httpClient = null;
+        AndroidHttpClient androidHttpClient = null;
         HttpPost httpPost = null;
         HttpResponse httpResponse = null;
         try {
-            httpClient = AndroidHttpClient.newInstance("Android");
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
-            httpResponse = httpClient.execute(httpPost);
+            httpResponse = androidHttpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
 
             inputStream = httpEntity.getContent();
@@ -174,11 +171,12 @@ public class ChatListFragment extends Fragment {
             }
 
             result = stringBuffer.toString();
-            Log.i("result", "SelectChatList()\n result= " + result);
+            Log.i("chat_list", "SelectChatList()\n result= " + result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
+                androidHttpClient.close();
                 inputStream.close();
                 httpPost.abort();
             } catch (Exception e) {
@@ -191,13 +189,13 @@ public class ChatListFragment extends Fragment {
     }// end selectChatList()
 
     public void updateChatList(String s) {
-        Log.i("result", "updateChatList()\n String s=" + s);
+        Log.i("chat_list", "updateChatList()\n String s=" + s);
         Gson gson = new Gson();
         TypeToken<ArrayList<ChatMessageVO>> typeToken = new TypeToken<ArrayList<ChatMessageVO>>() {};
         Type type = typeToken.getType();
 //        Type type = new TypeToken<ArrayList<ChatMessageVO>>(){}.getType();
         list = gson.fromJson(s, type);
-        Log.i("result", "updateChatList()\n list=" + list.toString());
+        Log.i("chat_list", "updateChatList()\n list=" + list.toString());
         if (list != null) {
             lab = ChatMessageLab.getInstance();
             lab.setChatMessageVOList(list);
@@ -212,5 +210,6 @@ public class ChatListFragment extends Fragment {
         transaction.replace(R.id.container_chat_recyclerView, fragment);
         transaction.commit();
     }
+
 
 }// end class ChatListFragment
