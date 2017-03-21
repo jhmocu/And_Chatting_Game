@@ -93,7 +93,7 @@ public class ChatRoomActivity
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         Log.i(TAG, ProfileInfoActivity.class.getName());
 
-//         TODO: 2017-03-13 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
+        // 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
         adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {
@@ -137,7 +137,7 @@ public class ChatRoomActivity
         btnOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017-03-13 ' + ' 버튼 이벤트 처리
+                // ' + ' 버튼 이벤트 처리
                 DialogFragment optionClickFragment = OptionBtnFragment.newInstance();
                 optionClickFragment.show(getFragmentManager(), "optionClick_dialog");
             }
@@ -210,7 +210,7 @@ public class ChatRoomActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO: 2013-03-13 플러스 버튼 연락처 보내기.
+        // 2013-03-13 플러스 버튼 연락처 보내기.
         String name = null;
         String number = null;
         if (resultCode == RESULT_OK) {
