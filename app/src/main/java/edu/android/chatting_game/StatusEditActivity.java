@@ -26,11 +26,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import it.sephiroth.android.library.picasso.Picasso;
 
 
 public class StatusEditActivity extends AppCompatActivity {
@@ -60,27 +64,27 @@ public class StatusEditActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         editName = (EditText) findViewById(R.id.editName);
         editStatusMsg = (EditText) findViewById(R.id.editStatus);
-
-
         btnEdit = (ImageButton) findViewById(R.id.btnEdit);
         btnCamera = (ImageButton) findViewById(R.id.btnCamera);
         btnSave = (Button) findViewById(R.id.btnSave);
 
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            image = extras.getInt("myProfile");
-            name = extras.getString("myName");
-            statusMsg = extras.getString("myStatusMsg");
-
+//            image = extras.getInt("myProfile");
+//            String imageUrl = extras.getString(Profile_My_info.KEY_IMG);
+            uri = (Uri) extras.get("uri");
+            Log.i("uri", "onCreate()// uri=" + uri);
+            name = extras.getString(Profile_My_info.KEY_NAME);
+            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
 
             editName.setText(name);
             editStatusMsg.setText(statusMsg);
-            imageView.setImageResource(image);
-//            imageUrl = extras.getString(Profile_My_info.KEY_IMG);
-//            name = extras.getString(Profile_My_info.KEY_NAME);
-//            statusMsg = extras.getString(Profile_My_info.KEY_MSG);
-//            Picasso.with(this).load(Uri.parse(imageUrl)).resize(100, 100).centerCrop().into(imageView);
+//            imageView.setImageResource(image);
+//            imageView.setImageURI(uri);
+            Picasso.with(this).load(uri).resize(100, 100).centerCrop().into(imageView);
 
+//            Log.i("uri", "onCreate()// uri=" + uri);
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -98,25 +102,16 @@ public class StatusEditActivity extends AppCompatActivity {
                 if (info != null && info.isAvailable()) {
                     Log.i(TAG, info.getTypeName() + "사용 가능");
 
-//                    String pic_path = null;
-//                    if (uri != null) {
-//                        Log.i(TAG, "onClickBtnSave()// uri != null, uri: " + uri);
-//                        pic_path = getPathFromUri(uri);
-//                        Log.i(TAG, "onClickBtnSave()// uri: " + uri);
-//                    } else {
-//                        Log.i(TAG, "onClickBtnSave()// uri == null");
-//                    }
                     // TODO: 기본 이미지 설정 (진행중)
                     String pic_path = null;
                     if(uri == null) {
 
-                    } else if(uri != null){
+                    } else if (uri != null){
+                        Log.i("uri", "onClickBtnSave()// uri=" + uri);
                         pic_path = getPathFromUri(uri);
                     }
 
-//                    Log.i("image_res", pic_path);
-
-                    Log.i(TAG, "onClickBtnSave()// pic_path: " + pic_path);
+                    Log.i("uri", "StatusEditActivity// onClickBtnSave()// pic_path: " + pic_path);
 
                     my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
                     Log.i(TAG, "readFromFile() return my_phone: " + my_phone);
@@ -127,19 +122,6 @@ public class StatusEditActivity extends AppCompatActivity {
                     HttpUpdateProfileAsyncTask task = new HttpUpdateProfileAsyncTask();
                     task.execute(vo);
                 }
-
-//                Intent intent = new Intent();
-//                String name = editName.getText().toString();
-//                String status = editStatusMsg.getText().toString();
-//                int image = imageView.getImageAlpha();
-
-
-                /***/
-//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, image);
-//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
-//                intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
-//                setResult(RESULT_OK, intent);
-//                finish();
             }
         });
 
@@ -168,7 +150,7 @@ public class StatusEditActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             uri = data.getData();
-            Log.i(TAG, "onActivityResult()// uri: " + uri.toString());
+            Log.i("uri", "onActivityResult()// uri: " + uri.toString());
             imageView.setImageURI(uri);
 
             if (requestCode == REQ_CODE_IMAGE_CAPTURE &&
@@ -205,11 +187,10 @@ public class StatusEditActivity extends AppCompatActivity {
             Intent intent = new Intent();
             String name = editName.getText().toString();
             String status = editStatusMsg.getText().toString();
-//            String image = imageView.
 
-//            Log.i(TAG, "int image: " + image);
+            Log.i("uri", "onPostExecute()// (field)uri=" + uri);
 
-//            intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_IMAGEURL, image);
+            intent.putExtra("uri", uri);
             intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
             intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, status);
             setResult(RESULT_OK, intent);
@@ -223,10 +204,12 @@ public class StatusEditActivity extends AppCompatActivity {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         pic_res = vo.getPic_res();
+        Log.i("uri", "sendData()// pic_res = vo.getPic_res:" + pic_res);
 
         Log.i("test", vo.getPhone() + ", " + vo.getName() + "," + vo.getPic_res() + "," + vo.getStates_msg());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("pic_res", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
+        builder.addPart("image", new FileBody(new File(vo.getPic_res())));
+//        builder.addTextBody("image", vo.getPic_res(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("name", vo.getName(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("status_msg", vo.getStates_msg(), ContentType.create("Multipart/related", "UTF-8"));
 
@@ -267,22 +250,11 @@ public class StatusEditActivity extends AppCompatActivity {
             }
         }
         Log.i(TAG, "sendData() return result: " + result);
+        Log.i("uri", "sendData()// uri=" + uri);
         return result;
     }
 
     public String getPathFromUri(Uri uri) {
-//        Log.i(TAG, "getPathFromUri()// uri: " + uri);
-//        Log.i(TAG, "uri.getAuthority(): " + uri.getAuthority());
-//
-//        if (uri.getAuthority().equals("192.168.11.11:8081")) {
-//            Log.i(TAG, "서버에서 불러온 이미지");
-//
-//
-//        } else if (uri.getAuthority().equals("media")) {
-//            Log.i(TAG, "갤러리에서 불러 온 이미지");
-//        }
-
-
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
         cursor.moveToNext();
@@ -290,6 +262,7 @@ public class StatusEditActivity extends AppCompatActivity {
         cursor.close();
 
         Log.i(TAG, "getPathFromUri()// path: " + path);
+        Log.i("uri", "getPathFromUri()// uri=" + uri);
         return path;
     }
 
@@ -322,6 +295,7 @@ public class StatusEditActivity extends AppCompatActivity {
             }
         }
         Log.i(TAG, "readFromFile() return: " + buffer.toString());
+        Log.i("uri", "readFromFile()// uri=" + uri);
         return buffer.toString();
     }
 

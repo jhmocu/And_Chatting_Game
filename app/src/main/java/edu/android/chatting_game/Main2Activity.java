@@ -1,6 +1,8 @@
 package edu.android.chatting_game;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,10 +24,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Main2Activity extends AppCompatActivity
-        implements LongClick_Fragment.onItemSelectedListener{
+        implements LongClick_Fragment.onItemSelectedListener {
 
 
-    public static final int REQ_CODE=1001;
+    public static final int REQ_CODE = 1001;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -44,6 +46,10 @@ public class Main2Activity extends AppCompatActivity
     public String my_phone;
 
     private static final String TAG = "edu.android.chatting";
+
+    // TODO: 2017-03-20 서비스 바인딩
+    BroadcastReceiver receiver;
+    Intent intentMyService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +71,29 @@ public class Main2Activity extends AppCompatActivity
 
         // 번호 저장하기
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
-        Log.i(TAG, "Main2Activity//onCreate()//my_phone:" + my_phone);
+        Log.i("my_phone", "Main2Activity// onCreate()// my_phone:" + my_phone);
 
-    }
+        intentMyService = new Intent(this, MyService.class);
+        receiver = new RestartService();
+
+            // ????
+            IntentFilter mainFilter = new IntentFilter("edu.android.chatting");
+            // 리시버 저장
+            registerReceiver(receiver, mainFilter);
+            // 서비스 시작
+            startService(intentMyService);
+
+    }// end onCreate()
+
+//    public void OnDestroy() {
+//
+//        // 리시버 삭세를 하지 않으면 에러
+//        Log.d("MpMainActivity", "Service Destroy");
+//        unregisterReceiver(receiver);
+//
+//        super.onDestroy();
+//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,20 +118,20 @@ public class Main2Activity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int which, String name,String phone) {
-        switch (which){
+    public void itemSelected(int which, String name, String phone) {
+        switch (which) {
             case 0:
-                nameUpdate(name,phone);
+                nameUpdate(name, phone);
                 break;
             case 1:
-                itemDelete(name,phone);
+                itemDelete(name, phone);
                 break;
         }
     }
 
     // TODO: 2017-03-17 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void itemDelete(String name,String phone){
-            //TODO:DB 삭제 작업할 곳
+    private void itemDelete(String name, String phone) {
+        //TODO:DB 삭제 작업할 곳
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
         dlg.show(getSupportFragmentManager(), "dlg");
         Bundle bundle = new Bundle();
@@ -119,13 +145,14 @@ public class Main2Activity extends AppCompatActivity
 //        startActivityForResult(intent, REQ_CODE);
 
     }
-    private void nameUpdate(String name,String phone){
 
-        Intent intent=new Intent(Main2Activity.this,Long_Click_name_Update.class);
+    private void nameUpdate(String name, String phone) {
+
+        Intent intent = new Intent(Main2Activity.this, Long_Click_name_Update.class);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2, name);
-        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER,phone);
+        intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, phone);
 
-        startActivityForResult(intent,REQ_CODE);
+        startActivityForResult(intent, REQ_CODE);
     }
 
 //    @Override
@@ -235,7 +262,7 @@ public class Main2Activity extends AppCompatActivity
             br = new BufferedReader(reader);
 
             String line = br.readLine();
-            while (line != null){
+            while (line != null) {
                 buffer.append(line);
                 line = br.readLine();
             }
@@ -250,7 +277,7 @@ public class Main2Activity extends AppCompatActivity
             }
         }
         Log.i("gg", buffer.toString());
-        return  buffer.toString();
+        return buffer.toString();
     }
 
 }

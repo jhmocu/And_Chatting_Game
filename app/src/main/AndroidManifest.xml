@@ -60,7 +60,6 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
 
-
         <!-- <activity android:name=".VersionActivity"></activity> -->
         <activity android:name=".EditChatListActivity" />
         <activity android:name=".StartAppActivity">
@@ -71,7 +70,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".AuthActivity" />
-        <activity android:name=".InsertProfileActivity"></activity>
+        <activity android:name=".InsertProfileActivity" />
+
+        <service
+        android:name=".MyService"
+        android:enabled="true"
+        android:exported="true" />
+
     </application>
 
 </manifest>
