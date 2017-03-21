@@ -6,7 +6,10 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,18 +65,33 @@ public class FriendsListFragment extends Fragment {
     }
 
     @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        Log.i("chat_list", "FriendsListFragment// onMultiWindowModeChanged()");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i("chat_list", "FriendsListFragment// onAttach()");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        Log.i("uri", "FriendsListFragment// onResume()");
-        HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
-        task.execute(my_phone);
-//        task.execute("010");
+        Log.i("chat_list", "FriendsListFragment// onResume()");
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        NetworkInfo info = connMgr.getActiveNetworkInfo();
+        if (info != null && info.isAvailable()) {
+            HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
+            task.execute(my_phone);
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("my_phone", "FriendsListFragment// onCreate()// my_phone:" + my_phone);
+        Log.i("chat_list", "FriendsListFragment// onCreate()");
     }
 
     @Override
@@ -129,7 +147,7 @@ public class FriendsListFragment extends Fragment {
         return view;
     }
 
-    private class HttpSelectFriendAsyncTask extends AsyncTask<String, String, String> {
+    private class HttpSelectFriendAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {

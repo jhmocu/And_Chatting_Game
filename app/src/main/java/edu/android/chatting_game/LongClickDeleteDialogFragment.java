@@ -68,7 +68,6 @@ public class LongClickDeleteDialogFragment extends DialogFragment {
     }
 
     private void FriendDeleteConnect(){
-        Log.i(TAG, "FriendDeleteConnect()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {

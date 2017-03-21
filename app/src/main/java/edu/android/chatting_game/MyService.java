@@ -92,6 +92,7 @@ public class MyService extends Service implements Runnable {
     }
 
 
+
     /**
      * @see android.app.Service#onStart(android.content.Intent, int)
      * 서비스가 시작되었을때 run()이 실행되기까지 delay를 handler를 통해서 주고 있다.
@@ -126,7 +127,7 @@ public class MyService extends Service implements Runnable {
         } else {
             Log.d("PersistentService", "run(), mIsRunning is true");
             Log.d("PersistentService", "run(), alarm repeat after few minutes");
-            function();
+//            function();
             mHandler.postDelayed(this, UPDATE_DELAY);
             mIsRunning = true;
         }

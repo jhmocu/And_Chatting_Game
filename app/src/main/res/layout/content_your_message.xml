@@ -6,6 +6,8 @@
 
     <TextView
         android:id="@+id/textYourMsg"
+        android:text="your message"
+        android:textColor="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="fill_vertical|left"

@@ -38,7 +38,7 @@ public class ChatRoomActivity
     public static final String TAG = "edu.android.chatting";
 
     private EditText writeMsg;
-    private TextView textMyMsg;
+    private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
     private String title;
     private String name;
@@ -63,18 +63,21 @@ public class ChatRoomActivity
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//            Log.i(TAG, "getView()");
             View view = convertView;
-//            if(내 메세지){
-            if (view == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.content_my_message, parent, false);
+            if (position % 3 == 0) { /** 내 메세지 */
+                if (view == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    view = inflater.inflate(R.layout.content_my_message, parent, false);
+                }
+                textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                textMyMsg.setText(list.get(position).getLast_msg());
+            } else { /** 상대 메세지 */
+                if (view == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                }
+                textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
             }
-            textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-            textMyMsg.setText(list.get(position).getLast_msg());
-//            } else if (상대 메세지) {
-//                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-//            }
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -98,7 +101,7 @@ public class ChatRoomActivity
             @Override
             public void onChanged() {
                 super.onChanged();
-                listView.setSelection(adapter.getCount()-1);
+                listView.setSelection(adapter.getCount() - 1);
             }
         });
         return true;
@@ -158,7 +161,7 @@ public class ChatRoomActivity
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         Bundle extraas = getIntent().getExtras();
-        if(extraas != null){
+        if (extraas != null) {
             // 값가져오기
             name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
             String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
@@ -166,7 +169,7 @@ public class ChatRoomActivity
         }
 
         title = name;
-       actionBar.setTitle(title);
+        actionBar.setTitle(title);
     }// end onCreate()
 
     @Override

@@ -6,7 +6,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +16,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickFragment.onItemSelectedListener {
+public class ChatRecyclerViewFragment extends Fragment {
 
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
     private ArrayList<ChatMessageVO> list;
+    private int listPosition;
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -41,7 +41,6 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "onClick()\nStart------ChatRoomActivity");
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
                     startActivity(intent);
                 }
@@ -51,8 +50,8 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int position = getAdapterPosition();
-                    DialogFragment chatLongClickFragment = ChatLongClickFragment.newInstance(position);
+                    listPosition = getAdapterPosition();
+                    DialogFragment chatLongClickFragment = ChatLongClickDialogFragment.newInstance(listPosition);
                     chatLongClickFragment.show(getChildFragmentManager(), "chatLongClickFragment");
                     return true;
                 }
@@ -64,9 +63,7 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
 
         @Override
         public ChattingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            // TODO: 2017-03-08 null 확인  
             View view = inflater.inflate(R.layout.fragment_chat_recycler_item, null, false);
             ChattingViewHolder chattingViewHolder = new ChattingViewHolder(view);
             return chattingViewHolder;
@@ -87,14 +84,7 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
             return list.size();
         }
     }
-
-    public ChatRecyclerViewFragment() {}
-
-    public static ChatRecyclerViewFragment newInstance(String param1, String param2) {
-        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    public ChatRecyclerViewFragment() {
     }
 
     @Override
@@ -105,16 +95,13 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_recycler_view, container, false);
         list = ChatMessageLab.getInstance().getChatMessageVOList();
-        Log.i("chat_list", "ChatRecyclerViewFragment// onCreateView()// list=" + list.toString());
         recyclerView = (RecyclerView) view.findViewById(R.id.chatlist_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ChattingAdapter());
         return view;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -125,20 +112,26 @@ public class ChatRecyclerViewFragment extends Fragment implements ChatLongClickF
         return super.onOptionsItemSelected(item);
     }
 
-    // 롱클릭시 채팅방 삭제
-    @Override
-    public void itemSelected(int which) {
-        switch (which) {
-            case 0:
-                deleteChatRoom();
-                break;
-        }
-    }
-
-    private void deleteChatRoom() {
-        // TODO: 채팅방 Delete 기능 추가
-
-    }
+}// end class ChatRecyclerViewFragment
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

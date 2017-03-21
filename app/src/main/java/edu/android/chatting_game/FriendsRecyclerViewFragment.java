@@ -101,6 +101,7 @@ public class FriendsRecyclerViewFragment
 
     @Override
     public void onResume() {
+
         super.onResume();
     }
 
