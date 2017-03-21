@@ -23,7 +23,7 @@
         android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:ems="10"
         android:gravity="center"
-        android:hint='전화번호를 "-" 빼고 입력하세요'
+        android:hint='전화번호를 "- " 빼고 입력하세요'
         android:inputType="text" />
 
     <Button
