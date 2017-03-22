@@ -89,17 +89,18 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        //TODO:채팅방 글자크기 배경뱐경
+        //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
         if (extra != null) {
-            Float f=extra.getFloat("fontChange");
-            textMyMsg.setTextSize(f);
-            textYourMsg.setTextSize(f);
-            int c= extra.getInt("background");
-            ListView chat=(ListView)findViewById(R.id.chatMessageListView);
-            chat.setBackgroundColor(c);
+            int Color = extra.getInt("Background");
+            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
+            chat.setBackgroundColor(Color);
+//            Float Size=extra.getFloat("fontChange");
+//            textYourMsg.setTextSize(Size);
+//            textMyMsg.setTextSize(Size);
 
         }
+
 
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
