@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.LayoutRes;
@@ -28,6 +30,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +58,9 @@ public class ChatRoomActivity
     private ImageButton btnOption, btnSend;
     private String title;
     private String name;
+    private String my_phone;
+    private String[] member_phone = new String[1];
+    private String[] member_phones = {};
 
     private ListView listView;
     private ChatMessageLab lab;
@@ -123,6 +142,29 @@ public class ChatRoomActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
+
+        // 채팅방 정보 받아오기기
+        Bundle chatExtras = getIntent().getExtras();
+        if(chatExtras != null){
+            // 값가져오기
+            name = chatExtras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            member_phone[0] = chatExtras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // 한명 채팅할 때 번호 값
+
+            Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
+//          member_phones = chatExtras.getStringArrayList(); // 여러명 채팅할 때 번호값
+        }
+
+        title = name;
+        actionBar.setTitle(title);
+
+        Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
+        // 처음 시작할 때 채팅방 정보들을 DB에 넘겨준다.
+        String all_phone = createAllPhone(member_phone, member_phones);
+        HttpConnectAsyncTask task = new HttpConnectAsyncTask();
+        task.execute(all_phone);
+
         lab = ChatMessageLab.getInstance();
         chatMessageVOArrayList = lab.getChatMessageVOList();
 
@@ -149,24 +191,12 @@ public class ChatRoomActivity
             }
         });
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
             String map = extras.getString(MapsActivity.EXTRA_MAP);
             writeMsg.setText(map);
         }
 
-        // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
-        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
-        Bundle extraas = getIntent().getExtras();
-        if(extraas != null){
-            // 값가져오기
-            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
-            String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
-            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
-        }
-
-        title = name;
-       actionBar.setTitle(title);
     }// end onCreate()
 
     @Override
@@ -233,4 +263,231 @@ public class ChatRoomActivity
         writeMsg.setText("이름: " + name + "\n" + "핸드폰 번호: " + phone);
         profileSendFragment.dismiss();  // 아이템뷰 클릭시 다이얼로그 창 닫기 위함~
     }
+
+    // DB 연동
+    private class HttpConnectAsyncTask extends AsyncTask<String, String, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result1 = sendChatListData(params[0]);
+//            String result2 = sendChatMsgData(params[1], params[2]);
+            return null;
+        }
+    }
+
+    // 채팅 참여자 정보 넣기
+    public String createAllPhone(String[] member_phone, String[] member_phones){
+        Gson gson = new Gson();
+        String json = "";
+        if(member_phone != null) {
+
+            json = gson.toJson(member_phone);
+        } else if(member_phones != null){
+            json = gson.toJson(member_phones);
+        }
+
+        Log.i(TAG, "chatroomActivity : createAllPhone: " + json);
+
+        return json;
+    }
+
+    // 채팅방 생성 정보 넘기기
+    public String sendChatListData(String all_phone){
+
+        String requestURL = "http://192.168.11.11:8081/Test3/InsertChatInfo";
+        String result = "";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+
+        // 데이터 넣는 부분
+        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8"));
+
+        Log.i(TAG, "chatroomactivity : all_phone :" + all_phone );
+        InputStream inputStream = null;
+        HttpClient httpClient = null; //
+        HttpPost httpPost = null; //new HttpPost(requestURL);
+        HttpResponse httpResponse = null;
+
+        try {
+            // http 통신 send
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = httpClient.execute(httpPost); // 연결 실행
+
+            // http 통신 receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = null;
+
+            while ((line = bufferdReader.readLine()) != null) {
+                stringBuffer.append(line + "\n");
+            }
+
+            result = stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    // 채팅 메시지 보내기
+    public String sendChatMsgData(String msg, String chat_date) {
+
+        String requestURL = "http://192.168.11.11:8081/Test3/UpdateChatInfo";
+        String result = "";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE); // 내 번호
+        String all_phone = createAllPhone(member_phone, member_phones); // 참여자 번호
+
+        // 데이터 넣는 부분
+        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("msg", msg, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("chat_date", chat_date, ContentType.create("Multipart/related", "UTF-8"));
+
+        InputStream inputStream = null;
+        HttpClient httpClient = null; //
+        HttpPost httpPost = null; //new HttpPost(requestURL);
+        HttpResponse httpResponse = null;
+
+        try {
+            // http 통신 send
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = httpClient.execute(httpPost); // 연결 실행
+
+            // http 통신 receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = null;
+
+            while ((line = bufferdReader.readLine()) != null) {
+                stringBuffer.append(line + "\n");
+            }
+
+            result = stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    // 채팅 메시지 받기
+    public String receiveChatMsgData(String all_phone) {
+
+        String requestURL = "http://192.168.11.11:8081/Test3/InsertChatInfo";
+        String result = "";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
+        all_phone = createAllPhone(member_phone, member_phones);
+
+        // 데이터 넣는 부분
+        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8"));
+
+        InputStream inputStream = null;
+        HttpClient httpClient = null; //
+        HttpPost httpPost = null; //new HttpPost(requestURL);
+        HttpResponse httpResponse = null;
+
+        try {
+            // http 통신 send
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = httpClient.execute(httpPost); // 연결 실행
+
+            // http 통신 receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = null;
+
+            while ((line = bufferdReader.readLine()) != null) {
+                stringBuffer.append(line + "\n");
+            }
+
+            result = stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    public String readFromFile(String filename) {
+        // 파일에서 읽은 문자열을 append할 변수
+        StringBuffer buffer = new StringBuffer();
+
+        InputStream in = null; // file input stream
+        InputStreamReader reader = null; // 인코딩된 문자열을 읽기 위해서
+        BufferedReader br = null; //
+
+        try {
+            in = openFileInput(filename);
+            reader = new InputStreamReader(in);
+            br = new BufferedReader(reader);
+
+            String line = br.readLine();
+            while (line != null) {
+                buffer.append(line);
+                line = br.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i(TAG, "readFromFile() return: " + buffer.toString());
+        Log.i("uri", "readFromFile()// uri=" + uri);
+        return buffer.toString();
+    }
+
+
 } // end class ChatRoomActivity
