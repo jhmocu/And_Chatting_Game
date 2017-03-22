@@ -70,17 +70,32 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    for(int i = 0; i < selectedList.size(); i++) {
-                        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-                        NetworkInfo info = connMgr.getActiveNetworkInfo();
-                        if(info != null && info.isAvailable()) {
-                            ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(count);
-                            HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
-                            task.execute(vo);
-                        }
-                    }
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo info = connMgr.getActiveNetworkInfo();
+
+                if (info != null && info.isAvailable()) {
+                    ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(count);
+                    HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
+                    task.execute(vo);
+
+                }
+
+//                ChatMessageVO vo  = list.get(count).getPhone();
+//                for(int i = 0; i < selectedList.size(); i++) {
+//                    ChatMessageVO vo = list.get(i);
+//                    sendData(vo);
+//                }
+
                     setResult(RESULT_OK, getIntent());
                     finish();
+
+                    // FAB에서는 startActivityForResult() 호출
+                    // setResult()...
+                    // finish()
+
+            }
+        });
+    }
 
     private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
 
@@ -89,12 +104,11 @@ public class EditChatListActivity extends AppCompatActivity
             String result = deleteChatRoom(params[0]);
             return result;
         }
-
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
         }
+
     }
 
     private void setResult() {
