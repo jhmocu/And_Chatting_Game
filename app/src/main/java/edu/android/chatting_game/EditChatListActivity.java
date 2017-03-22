@@ -1,7 +1,10 @@
 package edu.android.chatting_game;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -67,14 +70,15 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectedList.equals(true) && count != 0) {
-                    for(int i = 0; i < selectedList.size(); i++) {
-                        ChatMessageVO vo = list.get(i);
-                        sendData(vo);
-                    }
-                }
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo info = connMgr.getActiveNetworkInfo();
 
-//                sendData(vo);
+                if (info != null && info.isAvailable()) {
+                    ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(count);
+                    HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
+                    task.execute(vo);
+
+                }
 
 //                ChatMessageVO vo  = list.get(count).getPhone();
 //                for(int i = 0; i < selectedList.size(); i++) {
@@ -91,14 +95,26 @@ public class EditChatListActivity extends AppCompatActivity
 
             }
         });
+    }
 
+    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
+
+        @Override
+        protected String doInBackground(ChatMessageVO... params) {
+            String result = deleteChatRoom(params[0]);
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
 
     }
 
     private void setResult() {
     }
 
-    public String sendData(ChatMessageVO vo) {
+    public String deleteChatRoom(ChatMessageVO vo) {
         String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
