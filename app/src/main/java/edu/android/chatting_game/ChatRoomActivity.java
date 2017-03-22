@@ -95,7 +95,12 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             Float f=extra.getFloat("fontChange");
             textMyMsg.setTextSize(f);
             textYourMsg.setTextSize(f);
+            int c= extra.getInt("background");
+            ListView chat=(ListView)findViewById(R.id.chatMessageListView);
+            chat.setBackgroundColor(c);
+
         }
+
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
