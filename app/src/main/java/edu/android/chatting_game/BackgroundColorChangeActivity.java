@@ -1,9 +1,9 @@
 package edu.android.chatting_game;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class BackgroundColorChangeActivity extends AppCompatActivity {
+public class BackgroundColorChangeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

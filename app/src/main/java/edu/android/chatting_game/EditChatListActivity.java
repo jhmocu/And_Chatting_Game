@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class EditChatListActivity extends AppCompatActivity
@@ -21,6 +35,7 @@ public class EditChatListActivity extends AppCompatActivity
     private CheckBox editChatcheckBox;
     private int count;
     private ArrayList<Boolean> selectedList;
+    private ArrayList<ChatMessageVO> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +66,15 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ChatMessageVO vo;
+                vo = list.get(count);
                 Log.i(TAG, "selected: " + selectedList.toString());
                 if (selectedList != null) {
-//                    for(int i = 0; i < selectedList.size(); i++) {
-//
-//                    }
-
+                    for(int i = 0; i < selectedList.size(); i++) {
+                        sendData(vo);
+                    }
+                } else {
+                    Toast.makeText(EditChatListActivity.this, "방 안나감~", Toast.LENGTH_SHORT).show();
                 }
                     setResult(RESULT_OK, getIntent());
                     finish();
@@ -71,7 +89,56 @@ public class EditChatListActivity extends AppCompatActivity
     }
 
     private void setResult() {
+    }
 
+    public String sendData(ChatMessageVO vo) {
+        String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
+        String result = "";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("chartroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
+
+        InputStream inputStream = null;
+        HttpClient httpClient = null; //
+        HttpPost httpPost = null; //new HttpPost(requestURL);
+        HttpResponse httpResponse = null;
+
+        try {
+            // http 통신 send
+            httpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = httpClient.execute(httpPost); // 연결 실행
+
+            // http 통신 receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            Log.i("gg", "good");
+            BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = null;
+
+            while ((line = bufferdReader.readLine()) != null) {
+                stringBuffer.append(line + "\n");
+            }
+
+            result = stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     @Override
