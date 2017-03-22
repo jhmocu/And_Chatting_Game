@@ -6,12 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.NoticeActivity">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:text="공지사항" />
+        </android.support.v7.widget.Toolbar>
 
         <ExpandableListView
             android:id="@+id/noticeExpandableListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/my_toolbar"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentStart="true" />
 </RelativeLayout>

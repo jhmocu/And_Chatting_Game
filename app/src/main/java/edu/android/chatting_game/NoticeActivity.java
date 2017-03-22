@@ -1,7 +1,7 @@
 package edu.android.chatting_game;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class NoticeActivity extends AppCompatActivity {
+public class NoticeActivity extends Activity {
 
     private ExpandableListView expandableListView;
     private NoticeExpandableListViewAdapter noticeExpandableListViewAdapter;

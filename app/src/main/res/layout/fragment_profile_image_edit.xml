@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:background="@android:drawable/editbox_background"
             android:text="사진 변경" />
     </RelativeLayout>
 </FrameLayout>

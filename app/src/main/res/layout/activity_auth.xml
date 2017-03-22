@@ -6,37 +6,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="edu.android.chatting_game.AuthActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:text="전화번호 인증" />
+    </android.support.v7.widget.Toolbar>
 
     <EditText
         android:id="@+id/inputPhoneNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
         android:hint="전화 번호 입력"
-        />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/btnSendAuth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="인증 번호 보내기"
-        android:onClick="onSendAuthNum"/>
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:onClick="onSendAuthNum"
+        android:text="인증 번호 보내기" />
 
     <EditText
         android:id="@+id/inputAuthNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="인증 번호 입력"
-       />
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/btnCheckedAuth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="인증 번호 확인"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:onClick="onCheckedAuth"
-        />
+        android:text="인증 번호 확인" />
+
 </LinearLayout>
