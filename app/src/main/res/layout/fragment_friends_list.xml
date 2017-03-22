@@ -16,14 +16,15 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:text="검색"
+        android:id="@+id/btnSearchFriend"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:id="@+id/btnSearchFriend"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onClickBtnSearchFriend"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/editbox_background"
+        android:onClick="onClickBtnSearchFriend"
+        android:text="검색" />
 
     <EditText
         android:layout_width="250dp"

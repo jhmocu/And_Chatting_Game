@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -102,6 +103,7 @@ public class ChatRecyclerViewFragment extends Fragment {
         recyclerView.setAdapter(new ChattingAdapter());
         return view;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -110,6 +112,11 @@ public class ChatRecyclerViewFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
 }// end class ChatRecyclerViewFragment
