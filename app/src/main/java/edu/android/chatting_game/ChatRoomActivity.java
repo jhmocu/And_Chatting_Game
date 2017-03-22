@@ -40,7 +40,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
     private String title;
-    private String name;
+    private String name, phone;
 
     private ListView listView;
     private ChatMessageLab lab;
@@ -171,11 +171,11 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         if (extraas != null) {
             // 값가져오기
             name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
-            String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
             String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
         }
 
-        title = name;
+        title = phone;
         actionBar.setTitle(title);
     }// end onCreate()
 

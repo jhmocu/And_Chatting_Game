@@ -26,7 +26,7 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
     private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<Friend> list = new ArrayList<>();
     private int count;
-
+    private String name, phone;
     private static final String KEY_MULTI_ADD_CHAT = "key_";
     private static final String TAG = "edu.android.chatting";
 
@@ -36,10 +36,33 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
         // Required empty public constructor
     }
 
+    class MultiAddChatAdapter extends RecyclerView.Adapter<MultiAddViewHolder>{
+
+        @Override
+        public MultiAddViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View view = inflater.inflate(R.layout.multi_add_friends_item, null, false);
+            MultiAddViewHolder multiAddViewHolder = new MultiAddViewHolder(view);
+            return multiAddViewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(MultiAddViewHolder holder, int position) {
+            Friend friend = list.get(position);
+            holder.textName.setText(friend.getfName());
+            holder.textPhone.setText(friend.getPhone());
+            selectedList.add(false);
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
     class MultiAddViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView imageView;
-        private TextView name, phone, multiAddChatCount;
+        private TextView textName, textPhone, multiAddChatCount;
         private CheckBox multiChatBox;
         private int position;
 
@@ -47,11 +70,13 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
             super(itemView);
 
             imageView = (ImageView) itemView.findViewById(R.id.MultiAddChatProfileImageView);
-            name = (TextView) itemView.findViewById(R.id.multiAddNameText);
-            phone = (TextView) itemView.findViewById(R.id.multiAddPhoneText);
+            textName = (TextView) itemView.findViewById(R.id.multiAddNameText);
+            textPhone = (TextView) itemView.findViewById(R.id.multiAddPhoneText);
             multiAddChatCount = (TextView) itemView.findViewById(R.id.textCount);
             multiChatBox = (CheckBox) itemView.findViewById(R.id.checkBoxMultiAddChat);
 
+            name = textName.getText().toString();
+            phone = textPhone.getText().toString();
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -67,39 +92,14 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
                         selectedList.set(position, true);
                         count++;
                         Log.i(TAG, "count = " + count);
-                        callback.multichatsendprofile(position, count, selectedList);
+                        callback.multichatsendprofile(name, phone, position, count, selectedList);
                     }else {
                         selectedList.set(position, false);
                         count--;
-                        callback.multichatsendprofile(position, count, selectedList);
+                        callback.multichatsendprofile(name, phone, position, count, selectedList);
                     }
                 }
             });
-        }
-    }
-
-
-    class MultiAddChatAdapter extends RecyclerView.Adapter<MultiAddViewHolder>{
-
-        @Override
-        public MultiAddViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View view = inflater.inflate(R.layout.multi_add_friends_item, null, false);
-            MultiAddViewHolder multiAddViewHolder = new MultiAddViewHolder(view);
-            return multiAddViewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MultiAddViewHolder holder, int position) {
-            Friend friend = list.get(position);
-            holder.name.setText(friend.getfName());
-            holder.phone.setText(friend.getPhone());
-            selectedList.add(false);
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
         }
     }
 
@@ -131,7 +131,7 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
     }
 
     public interface MultiAddChatSendProfile{
-        void multichatsendprofile(int position, int count, ArrayList<Boolean> selectedList);
+        void multichatsendprofile(String name, String phone, int position, int count, ArrayList<Boolean> selectedList);
     }
 
 }

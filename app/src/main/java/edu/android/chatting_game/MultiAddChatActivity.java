@@ -1,5 +1,6 @@
 package edu.android.chatting_game;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,8 @@ public class MultiAddChatActivity extends AppCompatActivity
     private CheckBox multiChatBox;
 
     private int count;
+    private int position;
+    private String name, phone;
 
     private ArrayList<Boolean> selectedList;
     private ArrayList<Friend> list = new ArrayList<>();
@@ -56,14 +60,21 @@ public class MultiAddChatActivity extends AppCompatActivity
         btnMultiChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
 
+//                Toast.makeText(MultiAddChatActivity.this, "name = " + name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
         });
     }
 
     @Override
-    public void multichatsendprofile(int position, int count, ArrayList<Boolean> selectedList) {
+    public void multichatsendprofile(String name, String phone, int position, int count, ArrayList<Boolean> selectedList) {
         textCount.setText(String.valueOf(count));
         this.selectedList = selectedList;
+        this.position = position;
+        this.name = name;
+        this.phone = phone;
     }
 }
