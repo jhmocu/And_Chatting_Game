@@ -360,6 +360,9 @@ public class MyService extends Service implements Runnable {
                 (context, 0, intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // 메인 엑티비티를 띄워서 채팅 리스트를 다시 뿌려준다
+        Intent mainIntent = new Intent(context, Main2Activity.class);
+
         Notification notification
                 = new Notification.Builder(context)
                 .setContentTitle(vo.getChat_member())
