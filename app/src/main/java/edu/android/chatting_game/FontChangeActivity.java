@@ -55,6 +55,7 @@ public class FontChangeActivity extends Activity{
                 //TODO: 나중에 ChatRoomActivity 에서 my_Message, your_Message 완성후 작업
                 Intent intent=new Intent(FontChangeActivity.this,ChatRoomActivity.class);
                 intent.putExtra("fontChange",text.getTextSize());
+                startService(intent);
                 finish();
             }
         });
