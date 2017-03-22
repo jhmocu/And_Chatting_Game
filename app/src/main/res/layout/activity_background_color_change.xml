@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.android.chatting_game.BackgroundColorChangeActivity">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_width="400dp"
+        android:layout_height="56dp"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:layout_editor_absoluteY="-1dp"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -22,5 +25,21 @@
             android:textSize="20sp"
             android:text="배경색 변경" />
     </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/imageSky"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/sky"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="118dp" />
+
+    <ImageView
+        android:id="@+id/imageWB"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/wb"
+        tools:layout_editor_absoluteY="118dp"
+        tools:layout_editor_absoluteX="152dp" />
 
 </android.support.constraint.ConstraintLayout>

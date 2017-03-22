@@ -5,7 +5,6 @@ import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -34,11 +33,9 @@ public class DeleteChatRoomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_chat_room);
-
-        // TODO: 2017-03-22 ActionBar 숨기거나 배경 흰색으로 바꾸기 -> hide() 왜 안 되는 지 모르겠음
-        ActionBar ab = getSupportActionBar();
-//        ab.hide();
+        setContentView(R.layout.activity_start_app );
+        // TODO: 2017-03-22 삭제 작업중 잠깐 뜨는 화면 이미지 바꾸기 - 현재: activity_start_app과 동일하게 설정
+        getSupportActionBar().hide();
     }// end onCreate()
 
     @Override

@@ -70,12 +70,12 @@ public class EditChatRecyclerViewFragment extends Fragment {
                     if (editChatcheckBox.isChecked()) {
                         selectedList.set(position, true);
                         count++;
-                        Log.i(TAG, "count = " + count);
+                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
                         listener.itemSelected(count, selectedList);
                     } else {
                         selectedList.set(position, false);
                         count--;
-                        Log.i(TAG, "count = " + count);
+                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
                         listener.itemSelected(count, selectedList);
                     }
                 }

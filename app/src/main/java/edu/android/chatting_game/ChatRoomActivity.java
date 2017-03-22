@@ -89,6 +89,14 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
+        //TODO:채팅방 글자크기 배경뱐경
+        Bundle extra=getIntent().getExtras();
+        if (extra != null) {
+            Float f=extra.getFloat("fontChange");
+            textMyMsg.setTextSize(f);
+            textYourMsg.setTextSize(f);
+        }
+
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
@@ -103,6 +111,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
                 listView.setSelection(adapter.getCount() - 1);
             }
         });
+
         return true;
     }
 
