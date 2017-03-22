@@ -56,7 +56,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
     private String title;
-    private String name, phone;
+    private String name, my_phone;
     private String[] member_phone = new String[1];
     private String[] member_phones = {};
 
@@ -214,16 +214,16 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         }
 
         // title: 대화상대로 set
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         Bundle extraas = getIntent().getExtras();
         if (extraas != null) {
             // 값가져오기
             name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
-            phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            my_phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
             String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
         }
 
-        title = phone;
+        title = my_phone;
         actionBar.setTitle(title);
     }// end onCreate()
 
