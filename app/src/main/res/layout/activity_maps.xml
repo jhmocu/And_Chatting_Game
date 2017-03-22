@@ -3,17 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+       >
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:text="주소검색" />
+    </android.support.v7.widget.Toolbar>
 
     <Button
         android:id="@+id/mapBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="검색"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_toRightOf="@+id/editAddress"
-        android:layout_toEndOf="@+id/editAddress"
         android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp" />
+        android:layout_marginStart="11dp"
+        android:background="@android:drawable/editbox_background"
+        android:text="검색"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_toRightOf="@+id/editAddress"
+        android:layout_toEndOf="@+id/editAddress" />
 
     <fragment
         android:id="@+id/map"
@@ -31,21 +48,21 @@
         android:layout_height="wrap_content"
         android:text="주소"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:layout_alignBaseline="@+id/mapBtn"
         android:layout_alignBottom="@+id/mapBtn"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/editAddress"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/mapBtn"
-        android:layout_toEndOf="@+id/textAddress"
+        android:ems="10"
+        android:layout_below="@+id/my_toolbar"
         android:layout_toRightOf="@+id/textAddress"
-        android:ems="10">
+        android:layout_toEndOf="@+id/textAddress">
 
         <requestFocus />
     </EditText>
@@ -54,12 +71,11 @@
         android:id="@+id/imageButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="23dp"
-        android:layout_toEndOf="@+id/mapBtn"
-        android:layout_toRightOf="@+id/mapBtn"
         android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
-        map:srcCompat="@drawable/check1" />
+        map:srcCompat="@drawable/check1"
+        android:layout_alignBottom="@+id/mapBtn"
+        android:layout_toRightOf="@+id/mapBtn"
+        android:layout_toEndOf="@+id/mapBtn" />
 
 
 </RelativeLayout>

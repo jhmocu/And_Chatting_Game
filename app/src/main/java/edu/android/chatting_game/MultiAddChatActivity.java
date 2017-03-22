@@ -1,13 +1,13 @@
 package edu.android.chatting_game;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class VersionActivity extends Activity {
+public class MultiAddChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_version);
+        setContentView(R.layout.activity_multi_add_chat);
     }
 }

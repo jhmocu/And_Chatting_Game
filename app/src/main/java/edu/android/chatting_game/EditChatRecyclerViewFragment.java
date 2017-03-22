@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class EditChatRecyclerViewFragment extends Fragment {
 
+
     private onSelectedListener listener;
     private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<ChatMessageVO> list = new ArrayList<>();
@@ -66,35 +67,28 @@ public class EditChatRecyclerViewFragment extends Fragment {
             editChatcheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Log.i(TAG, "position: " + position);
                     if (editChatcheckBox.isChecked()) {
                         selectedList.set(position, true);
                         count++;
                         Log.i(TAG, "count = " + count);
                         listener.itemSelected(count, selectedList);
-                    } else  {
+                    } else {
                         selectedList.set(position, false);
                         count--;
                         Log.i(TAG, "count = " + count);
                         listener.itemSelected(count, selectedList);
                     }
-
-
                 }
             });
-
         } // end class EditChattingViewHolder
     }
 
-
     class EditChattingAdapter extends RecyclerView.Adapter<EditChattingViewHolder>{
-
-        public EditChattingAdapter() {
-            for (int i = 0; i < getItemCount(); i++) {
-                selectedList.add(false);
-            }
-        }
-
+//        public EditChattingAdapter() {
+//            for (int i = 0; i < getItemCount(); i++) {
+//                selectedList.add(false);
+//            }
+//        }
         @Override
         public EditChattingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -104,12 +98,13 @@ public class EditChatRecyclerViewFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(EditChattingViewHolder holder, int i) {
-            holder.position = i;
-            ChatMessageVO vo = list.get(i);
+        public void onBindViewHolder(EditChattingViewHolder holder, int position) {
+            holder.position = position;
+            ChatMessageVO vo = list.get(position);
             holder.editChatTxtRoom.setText(vo.getChatroom_name());
             holder.editChatTxtLastMsg.setText(vo.getLast_msg());
             holder.editChatTxtFriendCount.setText(vo.getMember_count());
+            selectedList.add(false);
         }
 
         @Override
@@ -117,37 +112,27 @@ public class EditChatRecyclerViewFragment extends Fragment {
             return list.size();
         }
     }
+    public EditChatRecyclerViewFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    public EditChatRecyclerViewFragment() {
-
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_chat_recycler_view, container, false);
+        list = ChatMessageLab.getInstance().getChatMessageVOList();
         recyclerView = (RecyclerView) view.findViewById(R.id.edit_chat_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new EditChattingAdapter());
 
         return view;
-
     }
 
     public interface onSelectedListener {
         void itemSelected(int count, ArrayList<Boolean> selectedList);
     }
-
-
-    
-
-
-
-
 }
