@@ -70,14 +70,11 @@ public class ChatListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("chat_list", "ChatListFragment// onCreateView()");
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
-
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
         floatingBtnChatAdd = (FloatingActionButton) view.findViewById(R.id.floatingBtnChatAdd);
         floatingBtnBase = (FloatingActionButton) view.findViewById(R.id.floatingBtnBase);
-
         floatingBtnBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +89,8 @@ public class ChatListFragment extends Fragment {
         floatingBtnChatAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MultiAddChatActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -171,7 +170,7 @@ public class ChatListFragment extends Fragment {
             }
 
             result = stringBuffer.toString();
-            Log.i("chat_list", "SelectChatList()\n result= " + result);
+            Log.i("result", "SelectChatList()\n result= " + result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -189,13 +188,13 @@ public class ChatListFragment extends Fragment {
     }// end selectChatList()
 
     public void updateChatList(String s) {
-        Log.i("chat_list", "updateChatList()\n String s=" + s);
+        Log.i("result", "updateChatList()\n String s=" + s);
         Gson gson = new Gson();
         TypeToken<ArrayList<ChatMessageVO>> typeToken = new TypeToken<ArrayList<ChatMessageVO>>() {};
         Type type = typeToken.getType();
 //        Type type = new TypeToken<ArrayList<ChatMessageVO>>(){}.getType();
         list = gson.fromJson(s, type);
-        Log.i("chat_list", "updateChatList()\n list=" + list.toString());
+        Log.i("result", "updateChatList()\n list=" + list.toString());
         if (list != null) {
             lab = ChatMessageLab.getInstance();
             lab.setChatMessageVOList(list);
@@ -210,6 +209,5 @@ public class ChatListFragment extends Fragment {
         transaction.replace(R.id.container_chat_recyclerView, fragment);
         transaction.commit();
     }
-
 
 }// end class ChatListFragment

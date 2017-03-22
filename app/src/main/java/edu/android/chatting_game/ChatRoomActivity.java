@@ -32,8 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatRoomActivity
-        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
 
     public static final String TAG = "edu.android.chatting";
 
@@ -64,19 +63,19 @@ public class ChatRoomActivity
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View view = convertView;
-            if (position % 3 == 0) { /** 내 메세지 */
-                if (view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(getContext());
+            if (view == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+
+                if (position % 3 == 0) { /** 내 메세지 */
                     view = inflater.inflate(R.layout.content_my_message, parent, false);
-                }
-                textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                textMyMsg.setText(list.get(position).getLast_msg());
-            } else { /** 상대 메세지 */
-                if (view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                    textMyMsg.setText(list.get(position).getLast_msg());
+
+                } else { /** 상대 메세지 */
                     view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                    textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+
                 }
-                textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
             }
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
@@ -166,9 +165,8 @@ public class ChatRoomActivity
             writeMsg.setText(map);
         }
 
-        // TODO: 2017-03-10 title: 대화상대로 set 하는 public 메소드 만들기
+        // title: 대화상대로 set
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
         Bundle extraas = getIntent().getExtras();
         if (extraas != null) {
             // 값가져오기
@@ -199,9 +197,8 @@ public class ChatRoomActivity
 
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
-        Log.i(TAG, "onClickBtnSend\nmsg:\n" + msg);
         ChatMessageVO chatMessage = new ChatMessageVO();
-//        chatMessage.setMessage(msg);
+//        chatMessage.setMess(msg);
         chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
         chatMessageVOArrayList.add(chatMessage);
         writeMsg.clearFocus();

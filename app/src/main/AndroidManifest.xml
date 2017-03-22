@@ -82,6 +82,11 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity android:name=".MultiAddChatActivity"></activity>
+
+        <activity
+            android:name=".DeleteChatRoomActivity"></activity>
     </application>
 
 </manifest>

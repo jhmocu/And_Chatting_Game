@@ -7,14 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 public class ChatLongClickDialogFragment extends DialogFragment {
     public static final String ARG_KEY = "key_args";
 
-    public ChatLongClickDialogFragment() {
-        // Required empty public constructor
-    }
+    public ChatLongClickDialogFragment() {}
 
     public static ChatLongClickDialogFragment newInstance(int position) {
         ChatLongClickDialogFragment instance = new ChatLongClickDialogFragment();
@@ -42,7 +39,6 @@ public class ChatLongClickDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int position = getArguments().getInt(ARG_KEY);
-                Log.i("chat_list", "ChatLongClickDialogFragment// onCreateDialog()// position: " + position);
                 DeleteChatRoomDialogFragment dlg = new DeleteChatRoomDialogFragment(position);
                 dlg.show(getFragmentManager(), "delete_chatroom_dialog");
             }
