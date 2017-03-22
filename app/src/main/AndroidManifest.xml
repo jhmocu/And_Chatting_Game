@@ -84,6 +84,11 @@
             android:exported="true" />
 
         <activity android:name=".MultiAddChatActivity"></activity>
+
+        <activity
+            android:name=".DeleteChatRoomActivity"
+            android:label="@string/title_activity_delete_chat_room"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
