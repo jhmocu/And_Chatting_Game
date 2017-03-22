@@ -67,10 +67,14 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone = String.valueOf(list.get(count));
-                String chatroom_name = String.valueOf(list.get(count));
-                ChatMessageVO vo = new ChatMessageVO(phone, chatroom_name, null, null, null, null);
-                sendData(vo);
+                if(selectedList.equals(true) && count != 0) {
+                    for(int i = 0; i < selectedList.size(); i++) {
+                        ChatMessageVO vo = list.get(i);
+                        sendData(vo);
+                    }
+                }
+
+//                sendData(vo);
 
 //                ChatMessageVO vo  = list.get(count).getPhone();
 //                for(int i = 0; i < selectedList.size(); i++) {
