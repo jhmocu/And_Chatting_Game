@@ -227,5 +227,4 @@ public class FriendsListFragment extends Fragment {
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
     }// end updateFriendsList()
-
 }// end class FriendsListFragment
