@@ -170,7 +170,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             member_phone[0] = chatExtras.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER); // 한명 채팅할 때 번호 값
 
             Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
-//          member_phones = chatExtras.getStringArrayList(); // 여러명 채팅할 때 번호값
+//          member_phones = chatExtras.getStringArrayList(); // 여러명 채팅할 때 번호값 //key값:"otherPhones"
         }
 
         title = name;
