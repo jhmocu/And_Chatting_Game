@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.net.http.AndroidHttpClient;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -66,18 +67,20 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatMessageVO vo;
-                vo = list.get(count);
-                Log.i(TAG, "selected: " + selectedList.toString());
-                if (selectedList != null) {
-                    for(int i = 0; i < selectedList.size(); i++) {
-                        sendData(vo);
-                    }
-                } else {
-                    Toast.makeText(EditChatListActivity.this, "방 안나감~", Toast.LENGTH_SHORT).show();
-                }
+                String phone = String.valueOf(list.get(count));
+                String chatroom_name = String.valueOf(list.get(count));
+                ChatMessageVO vo = new ChatMessageVO(phone, chatroom_name, null, null, null, null);
+                sendData(vo);
+
+//                ChatMessageVO vo  = list.get(count).getPhone();
+//                for(int i = 0; i < selectedList.size(); i++) {
+//                    ChatMessageVO vo = list.get(i);
+//                    sendData(vo);
+//                }
+
                     setResult(RESULT_OK, getIntent());
                     finish();
+
                     // FAB에서는 startActivityForResult() 호출
                     // setResult()...
                     // finish()
@@ -143,6 +146,7 @@ public class EditChatListActivity extends AppCompatActivity
 
     @Override
     public void itemSelected(int count, ArrayList<Boolean> selectedList) {
+        this.count = count;
         textEditChatCount.setText(String.valueOf(count));
         this.selectedList = selectedList;
     }
