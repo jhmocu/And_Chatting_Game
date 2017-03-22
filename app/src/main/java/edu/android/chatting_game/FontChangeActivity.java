@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,6 +53,9 @@ public class FontChangeActivity extends Activity{
             @Override
             public void onClick(View v) {
                 //TODO: 나중에 ChatRoomActivity 에서 my_Message, your_Message 완성후 작업
+                Intent intent=new Intent(FontChangeActivity.this,ChatRoomActivity.class);
+                intent.putExtra("fontChange",text.getTextSize());
+                finish();
             }
         });
 
