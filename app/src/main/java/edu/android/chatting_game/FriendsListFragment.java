@@ -2,11 +2,9 @@ package edu.android.chatting_game;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -63,16 +61,18 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("uri", "FriendsListFragment// onResume()");
-        HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
-        task.execute(my_phone);
-//        task.execute("010");
+        Log.i("chat_list", "FriendsListFragment// onResume()");
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        NetworkInfo info = connMgr.getActiveNetworkInfo();
+        if (info != null && info.isAvailable()) {
+            HttpSelectFriendAsyncTask task = new HttpSelectFriendAsyncTask();
+            task.execute(my_phone);
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("my_phone", "FriendsListFragment// onCreate()// my_phone:" + my_phone);
     }
 
     @Override
@@ -94,32 +94,6 @@ public class FriendsListFragment extends Fragment {
             public void onClick(View v) {
                 // TODO: 2017-03-16 친구 이름으로 검색
 //                onClickBtnSearchFriend();
-
-                // TODO: 2017-03-20 팝업 기능 테스트 -> 백그라운드 서비스에서 구현 예정 -> RestartService// onReceive()
-                // 알림을 띄우기 위해 서비스 불러옴
-                NotificationManager notificationManager =
-                        (NotificationManager)getContext().getSystemService(Activity.NOTIFICATION_SERVICE);
-
-                PendingIntent contentIntent = PendingIntent.getActivity/** OR getService() OR getBroadcastReceiver() */
-                        (getContext(), 0, new Intent(getContext(),
-                                ChatRoomActivity.class/**알림 터치했을 때 호출할 액티비티*/
-                        ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-                Notification notification
-                = new Notification.Builder(getContext())
-                        .setContentTitle("알림 제목")
-                        .setContentText("내용")
-                        .setTicker("알림 발생시 잠깐 나오는 텍스트 - 실제 디바이스에서만 나옴")
-                        .setSmallIcon(R.drawable.p2)
-                        .setContentIntent(contentIntent)/**알림 터치시 실행할 작업 인텐트*/
-                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE) /**알람 발생시 진동, 사운드등을 설정*/
-                        .setAutoCancel(true)/**알림 터치시 자동 삭제*/
-                        .setPriority(Notification.PRIORITY_MAX)/**헤드업 알림*/
-                        .build();
-
-                // Send the notification.
-                notificationManager.notify(0, notification);
             }
         });
         getActivity().getWindow().setSoftInputMode(
@@ -128,7 +102,7 @@ public class FriendsListFragment extends Fragment {
         return view;
     }
 
-    private class HttpSelectFriendAsyncTask extends AsyncTask<String, String, String> {
+    private class HttpSelectFriendAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -142,9 +116,7 @@ public class FriendsListFragment extends Fragment {
             Gson gson = new Gson();
             TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
-            Log.i(TAG, "FriendsListFragment// onPostExecute()// String s" + s);
             list = gson.fromJson(s, type);
-            Log.i(TAG, "FriendsListFragment// onPostExecute()// list" + list.toString());
             if (list != null) {
                 lab = FriendLab.getInstance();
                 lab.setFriendList(list);
@@ -167,14 +139,12 @@ public class FriendsListFragment extends Fragment {
         HttpPost httpPost = null;
         HttpResponse httpResponse = null;
         try {
-            // send
             androidHttpClient = AndroidHttpClient.newInstance("Android");
             httpPost = new HttpPost(requestURL);
             httpPost.setEntity(builder.build());
 
             httpResponse = androidHttpClient.execute(httpPost);
 
-            // receive
             HttpEntity httpEntity = httpResponse.getEntity();
             inputStream = httpEntity.getContent();
 
@@ -209,5 +179,4 @@ public class FriendsListFragment extends Fragment {
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
     }// end updateFriendsList()
-
 }// end class FriendsListFragment

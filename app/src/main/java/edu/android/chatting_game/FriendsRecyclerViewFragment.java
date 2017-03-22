@@ -3,6 +3,8 @@ package edu.android.chatting_game;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -42,8 +44,12 @@ public class FriendsRecyclerViewFragment
         public FriendViewHolder(final View itemView) {
             super(itemView);
             photo = (ImageView) itemView.findViewById(R.id.imageView_list);
+            photo.setBackground(new ShapeDrawable(new OvalShape()));
+            photo.setClipToOutline(true);
             name = (TextView) itemView.findViewById(R.id.textName_list);
             message = (TextView) itemView.findViewById(R.id.textMsg_list);
+
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,6 +107,7 @@ public class FriendsRecyclerViewFragment
 
     @Override
     public void onResume() {
+
         super.onResume();
     }
 
@@ -134,5 +141,6 @@ public class FriendsRecyclerViewFragment
             startActivity(intent);
         }
     }
+
 
 }// end class FriendsRecyclerViewFragment

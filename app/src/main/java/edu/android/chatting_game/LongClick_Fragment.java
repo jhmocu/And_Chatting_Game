@@ -8,8 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 
-public class LongClick_Fragment
-        extends DialogFragment {
+public class LongClick_Fragment extends DialogFragment {
 
     private onItemSelectedListener listener;
     private String name;

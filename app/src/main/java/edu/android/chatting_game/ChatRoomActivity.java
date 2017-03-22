@@ -48,17 +48,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatRoomActivity
-        extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
 
     public static final String TAG = "edu.android.chatting";
 
     private EditText writeMsg;
-    private TextView textMyMsg;
+    private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
     private String title;
-    private String name;
-    private String my_phone;
+    private String name, phone;
     private String[] member_phone = new String[1];
     private String[] member_phones = {};
 
@@ -87,13 +85,18 @@ public class ChatRoomActivity
 //            if(내 메세지){
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.content_my_message, parent, false);
+
+                if (position % 3 == 0) { /** 내 메세지 */
+                    view = inflater.inflate(R.layout.content_my_message, parent, false);
+                    textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                    textMyMsg.setText(list.get(position).getLast_msg());
+
+                } else { /** 상대 메세지 */
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                    textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+
+                }
             }
-            textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-            textMyMsg.setText(list.get(position).getLast_msg());
-//            } else if (상대 메세지) {
-//                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-//            }
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -106,6 +109,20 @@ public class ChatRoomActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
+        //TODO:채팅방 글자크기 배경색변경
+        Bundle extra=getIntent().getExtras();
+        if (extra != null) {
+            int Color = extra.getInt("Background");
+            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
+            chat.setBackgroundColor(Color);
+//            Float Size=extra.getFloat("fontChange");
+//            textYourMsg.setTextSize(Size);
+//            textMyMsg.setTextSize(Size);
+
+        }
+
+
+
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
@@ -117,7 +134,7 @@ public class ChatRoomActivity
             @Override
             public void onChanged() {
                 super.onChanged();
-                listView.setSelection(adapter.getCount()-1);
+                listView.setSelection(adapter.getCount() - 1);
             }
         });
         return true;
@@ -191,12 +208,23 @@ public class ChatRoomActivity
             }
         });
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             String map = extras.getString(MapsActivity.EXTRA_MAP);
             writeMsg.setText(map);
         }
 
+        // title: 대화상대로 set
+        ActionBar actionBar = getSupportActionBar();
+        Bundle extraas = getIntent().getExtras();
+        if (extraas != null) {
+            // 값가져오기
+            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+            phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+        }
+
+        title = phone;
+        actionBar.setTitle(title);
     }// end onCreate()
 
     @Override

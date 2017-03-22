@@ -129,7 +129,6 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-    // TODO: 2017-03-17 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void itemDelete(String name, String phone) {
         //TODO:DB 삭제 작업할 곳
         LongClickDeleteDialogFragment dlg = new LongClickDeleteDialogFragment();
