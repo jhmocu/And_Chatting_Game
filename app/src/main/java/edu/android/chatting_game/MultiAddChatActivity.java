@@ -1,11 +1,12 @@
 package edu.android.chatting_game;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,14 +57,29 @@ public class MultiAddChatActivity extends AppCompatActivity
             transaction.commit();
         }
 
-        //TODO: 다중채팅으로 넘어가기
+        phone = list.get(position).getPhone();
+
+        //TODO: 다중채팅으로 넘어가기 // ArrayList로 번호만 넘기기
         btnMultiChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
+//                Bundle extras = getIntent().getExtras();
+//                if(extras != null){
+//                    name = extras.getString("name");
+//                    phone = extras.getString("phone");
+//                    position = extras.getInt("position");
+//                    count = extras.getInt("count");
+//                    Log.i(TAG, "이름:" + name + "////phone:" + phone + "position:" + position);
+//                }
 
-//                Toast.makeText(MultiAddChatActivity.this, "name = " + name, Toast.LENGTH_SHORT).show();
-                Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
+                intent.putExtra("phone", phone);
+                intent.putExtra("position", position);
+                intent.putExtra("count", count);
+
+                Toast.makeText(MultiAddChatActivity.this, "position" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_LONG).show();
+                Log.i(TAG, "ㅋㅇㅌ:" + count + "////phone:" + phone + "position:" + position);
                 startActivity(intent);
             }
         });
@@ -73,6 +89,7 @@ public class MultiAddChatActivity extends AppCompatActivity
     public void multichatsendprofile(String name, String phone, int position, int count, ArrayList<Boolean> selectedList) {
         textCount.setText(String.valueOf(count));
         this.selectedList = selectedList;
+        this.count = count;
         this.position = position;
         this.name = name;
         this.phone = phone;

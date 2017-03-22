@@ -26,6 +26,7 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
     private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<Friend> list = new ArrayList<>();
     private int count;
+    public static int position;
     private String name, phone;
     private static final String KEY_MULTI_ADD_CHAT = "key_";
     private static final String TAG = "edu.android.chatting";
@@ -64,7 +65,6 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
         private ImageView imageView;
         private TextView textName, textPhone, multiAddChatCount;
         private CheckBox multiChatBox;
-        private int position;
 
         public MultiAddViewHolder(final View itemView){
             super(itemView);
@@ -75,8 +75,6 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
             multiAddChatCount = (TextView) itemView.findViewById(R.id.textCount);
             multiChatBox = (CheckBox) itemView.findViewById(R.id.checkBoxMultiAddChat);
 
-            name = textName.getText().toString();
-            phone = textPhone.getText().toString();
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -92,6 +90,8 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
                         selectedList.set(position, true);
                         count++;
                         Log.i(TAG, "count = " + count);
+                        position=getAdapterPosition();
+                        Log.i(TAG,"체크하면 position : " + position);
                         callback.multichatsendprofile(name, phone, position, count, selectedList);
                     }else {
                         selectedList.set(position, false);
