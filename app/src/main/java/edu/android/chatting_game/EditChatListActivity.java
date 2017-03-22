@@ -53,7 +53,6 @@ public class EditChatListActivity extends AppCompatActivity
         editChatcheckBox = (CheckBox) findViewById(R.id.editChatcheckBox);
         textEditChatCount.setText(String.valueOf(count));
         btnBack.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -82,20 +81,6 @@ public class EditChatListActivity extends AppCompatActivity
                     }
                     setResult(RESULT_OK, getIntent());
                     finish();
-            }
-        });
-    }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-//        NetworkInfo info = connMgr.getActiveNetworkInfo();
-//        if(info != null && info.isAvailable()) {
-//            ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(count);
-//            HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
-//            task.execute(vo);
-//        }
-//    }
 
     private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
 
