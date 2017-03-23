@@ -4,12 +4,17 @@ package edu.android.chatting_game;
  * Created by stu on 2017-03-13.
  */
 
-public class ChatMessageVO {
+public class ChatRoomVO {
     private String phone, chatroom_name, last_msg, chat_date, checked_read, member_count;
 
-    public ChatMessageVO(){}
+    public ChatRoomVO(){}
 
-    public ChatMessageVO(String phone, String chatroom_name, String last_msg, String chat_date, String checked_read, String member_count) {
+    public ChatRoomVO(String phone, String chatroom_name) {
+        this.phone = phone;
+        this.chatroom_name = chatroom_name;
+    }
+
+    public ChatRoomVO(String phone, String chatroom_name, String last_msg, String chat_date, String checked_read, String member_count) {
         this.phone = phone;
         this.chatroom_name = chatroom_name;
         this.last_msg = last_msg;

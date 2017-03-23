@@ -35,7 +35,7 @@ public class EditChatListActivity extends AppCompatActivity
     private CheckBox editChatcheckBox;
     private int count;
     private ArrayList<Boolean> selectedList;
-    private ArrayList<ChatMessageVO> list = new ArrayList<>();
+    private ArrayList<ChatRoomVO> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatMessageVO vo;
+                ChatRoomVO vo;
                 vo = list.get(count);
                 Log.i(TAG, "selected: " + selectedList.toString());
                 if (selectedList != null) {
@@ -91,7 +91,7 @@ public class EditChatListActivity extends AppCompatActivity
     private void setResult() {
     }
 
-    public String sendData(ChatMessageVO vo) {
+    public String sendData(ChatRoomVO vo) {
         String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();

@@ -39,22 +39,22 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private EditText writeMsg;
     private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
-    private String title;
-    private String name;
+    private String title, name;
+    private String my_phone;
 
     private ListView listView;
-    private ChatMessageLab lab;
-    private ArrayList<ChatMessageVO> chatMessageVOArrayList;
+    private ChatMessageReceiveLab lab;
+    private ArrayList<ChatMessageReceiveVO> chatMessageList;
 
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
 
-    class ChatMessageAdapter extends ArrayAdapter<ChatMessageVO> {
+    class ChatMessageAdapter extends ArrayAdapter<ChatMessageReceiveVO> {
 
-        private List<ChatMessageVO> list;
+        private List<ChatMessageReceiveVO> list;
 
-        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageVO> objects) {
+        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageReceiveVO> objects) {
             super(context, resource, objects);
             this.list = objects;
         }
@@ -62,21 +62,27 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            my_phone = getIntent().getExtras().getString("key_my_phone");
+
             View view = convertView;
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                if (position % 3 == 0) { /** 내 메세지 */
-                    view = inflater.inflate(R.layout.content_my_message, parent, false);
-                    textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                    textMyMsg.setText(list.get(position).getLast_msg());
+                for (ChatMessageReceiveVO vo : chatMessageList) {
 
-                } else { /** 상대 메세지 */
-                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-                    textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
+                        view = inflater.inflate(R.layout.content_my_message, parent, false);
+                        textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                        textMyMsg.setText(list.get(position).getMsg());
 
-                }
-            }
+                    } else { /** 상대 메세지 */
+                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                        textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                        textYourMsg.setText(list.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
+                    }
+
+                }// end for
+            }// end if(view)
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -89,7 +95,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -125,8 +131,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        lab = ChatMessageLab.getInstance();
-        chatMessageVOArrayList = lab.getChatMessageVOList();
+        lab = ChatMessageReceiveLab.getInstance();
+        chatMessageList = lab.getChatMessageList();
 
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
@@ -158,15 +164,15 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
         // title: 대화상대로 set
         ActionBar actionBar = getSupportActionBar();
-        Bundle extraas = getIntent().getExtras();
-        if (extraas != null) {
-            // 값가져오기
-            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
-            String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
-            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
-        }
+//        Bundle extraas = getIntent().getExtras();
+//        if (extraas != null) {
+//            // 값가져오기
+//            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
+//            String phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+//            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+//        }
 
-        title = name;
+        title = chatMessageList.get(0).getChatroom_name();
         actionBar.setTitle(title);
     }// end onCreate()
 
@@ -187,11 +193,12 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     }
 
     private void onClickBtnSend() {
+        //update_receiveChat(checked, my_phone, chatroom_name)
         String msg = writeMsg.getText().toString();
-        ChatMessageVO chatMessage = new ChatMessageVO();
-//        chatMessage.setMess(msg);
-        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
-        chatMessageVOArrayList.add(chatMessage);
+        ChatMessageReceiveVO vo = new ChatMessageReceiveVO();
+        vo.setMsg(msg);
+        chatMessageList = ChatMessageReceiveLab.getInstance().getChatMessageList();
+        chatMessageList.add(vo);
         writeMsg.clearFocus();
         writeMsg.setText("");
     }
