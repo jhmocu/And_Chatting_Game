@@ -71,19 +71,19 @@ public class EditChatRecyclerViewFragment extends Fragment {
             editChatcheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (editChatcheckBox.isChecked()) {
                         selectedList.set(position, true);
                         positions.add(position);
                         count++;
-                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
-                        Log.i(TAG, "position = " + position);
-                        Log.i(TAG, "checkBox.onClick()//\tpositions.size = " + positions.size());
                         listener.itemSelected(count, position, selectedList, positions);
+//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+//                        Log.i(TAG, "position = " + position);
+//                        Log.i(TAG, "checkBox.onClick()//\tpositions.size = " + positions.size());
                     } else {
                         selectedList.set(position, false);
                         count--;
-                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+                        listener.itemSelected(count, position, selectedList, positions);
+//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
                     }
 
                 }

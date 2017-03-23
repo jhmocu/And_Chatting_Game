@@ -81,7 +81,6 @@ public class EditChatListActivity extends AppCompatActivity
                         Log.i(TAG, "execute()");
                     }
                 }
-
             }
 
         });
