@@ -25,10 +25,11 @@ public class MultiAddChatActivity extends AppCompatActivity
 
     private int count;
     private int position;
-    private String name, phone;
+    private String name;
+    private String phone;
 
     private ArrayList<Boolean> selectedList;
-    private ArrayList<Friend> list = new ArrayList<>();
+    private ArrayList<FriendVO> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,15 @@ public class MultiAddChatActivity extends AppCompatActivity
             transaction.commit();
         }
 
-        phone = list.get(position).getPhone();
+//        phone = list.get(position).getFriend_phone();
+
 
         //TODO: 다중채팅으로 넘어가기 // ArrayList로 번호만 넘기기
         btnMultiChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
-                intent.putExtra("otherPhones", phone);
+//                intent.putExtra("otherPhones", phone);
 
                 Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_LONG).show();
                 Log.i(TAG, "ㅋㅇㅌ:" + count + "////phone:" + phone + "position:" + position);

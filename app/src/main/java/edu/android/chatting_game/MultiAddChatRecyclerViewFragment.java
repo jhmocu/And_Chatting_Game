@@ -27,7 +27,8 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
     private ArrayList<Friend> list = new ArrayList<>();
     private int count;
     public static int position;
-    private String name, phone;
+    private String name;
+    private String phone;
     private static final String KEY_MULTI_ADD_CHAT = "key_";
     private static final String TAG = "edu.android.chatting";
 
@@ -92,12 +93,11 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
                         Log.i(TAG, "count = " + count);
                         position=getAdapterPosition();
                         Log.i(TAG,"체크하면 position : " + position);
-                        callback.multichatsendprofile(name, phone, position, count, selectedList);
                     }else {
                         selectedList.set(position, false);
                         count--;
-                        callback.multichatsendprofile(name, phone, position, count, selectedList);
                     }
+                    callback.multichatsendprofile(name, phone, position, count, selectedList);
                 }
             });
         }
