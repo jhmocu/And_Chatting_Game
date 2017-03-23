@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -55,6 +57,8 @@ public class ChatRecyclerViewFragment extends Fragment {
             super(itemView);
 
             imageView = (ImageView) itemView.findViewById(R.id.imageRoom);
+            imageView.setBackground(new ShapeDrawable(new OvalShape()));
+            imageView.setClipToOutline(true);
             txtRoom = (TextView) itemView.findViewById(R.id.txtRoom);
             txtLastMsg = (TextView) itemView.findViewById(R.id.txtLastMsg);
             txtFriendCount = (TextView) itemView.findViewById(R.id.txtFriendCount);

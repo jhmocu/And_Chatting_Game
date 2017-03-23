@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class EditChatRecyclerViewFragment extends Fragment {
 
-
+    ArrayList<Integer> intList;
     private onSelectedListener listener;
     private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<ChatRoomVO> list = new ArrayList<>();
@@ -69,14 +69,17 @@ public class EditChatRecyclerViewFragment extends Fragment {
                 public void onClick(View v) {
                     if (editChatcheckBox.isChecked()) {
                         selectedList.set(position, true);
+                        intList.add(position);
                         count++;
-                        Log.i(TAG, "count = " + count);
-                        listener.itemSelected(count, selectedList);
+                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+                        Log.i(TAG, "position = " + position);
+                        listener.itemSelected(count, position, selectedList, intList);
                     } else {
                         selectedList.set(position, false);
+                        intList.add(position);
                         count--;
-                        Log.i(TAG, "count = " + count);
-                        listener.itemSelected(count, selectedList);
+                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+                        listener.itemSelected(count, position, selectedList, intList);
                     }
                 }
             });
@@ -128,11 +131,10 @@ public class EditChatRecyclerViewFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.edit_chat_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new EditChattingAdapter());
-
         return view;
     }
 
     public interface onSelectedListener {
-        void itemSelected(int count, ArrayList<Boolean> selectedList);
+        void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> intList);
     }
 }

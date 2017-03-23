@@ -1,6 +1,10 @@
 package edu.android.chatting_game;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
+import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,7 +37,9 @@ public class EditChatListActivity extends AppCompatActivity
     private Button btnBack, btnEditChatFinish;
     private TextView textEditChatCount;
     private CheckBox editChatcheckBox;
+    private int position;
     private int count;
+    private ArrayList<Integer> intList;
     private ArrayList<Boolean> selectedList;
     private ArrayList<ChatRoomVO> list = new ArrayList<>();
 
@@ -66,24 +72,52 @@ public class EditChatListActivity extends AppCompatActivity
         btnEditChatFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatRoomVO vo;
-                vo = list.get(count);
-                Log.i(TAG, "selected: " + selectedList.toString());
-                if (selectedList != null) {
-                    for(int i = 0; i < selectedList.size(); i++) {
-                        sendData(vo);
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo info = connMgr.getActiveNetworkInfo();
+                if (info != null && info.isAvailable()) {
+//                    for(int i = 0; i < count; i++) {
+                    for(int i = 0; i < intList.size(); i++) {
+                        ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(position);
+                        list.add(vo);
+                        HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
+                        // 여기부터 하기 !!task.execute();
                     }
-                } else {
-                    Toast.makeText(EditChatListActivity.this, "방 안나감~", Toast.LENGTH_SHORT).show();
+//                    }
                 }
-                    setResult(RESULT_OK, getIntent());
-                    finish();
+
+
+//                ChatMessageVO vo  = list.get(count).getPhone();
+//                for(int i = 0; i < selectedList.size(); i++) {
+//                    ChatMessageVO vo = list.get(i);
+//                    sendData(vo);
+//                }
+
+
+
                     // FAB에서는 startActivityForResult() 호출
                     // setResult()...
                     // finish()
 
             }
         });
+    }
+
+    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
+
+        @Override
+        protected String doInBackground(ChatMessageVO... params) {
+            String result = deleteChatRoom(params[0]);
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equals("1")){
+                Log.i(TAG, "삭제 완료");
+            }
+//            setResult(RESULT_OK, getIntent());
+            finish();
+        }
 
 
     }
@@ -97,8 +131,9 @@ public class EditChatListActivity extends AppCompatActivity
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
+        Log.i(TAG, "vo"+ vo.getPhone() + vo.getChatroom_name());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("chartroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("chatroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         HttpClient httpClient = null; //
@@ -142,7 +177,11 @@ public class EditChatListActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int count, ArrayList<Boolean> selectedList) {
+    public void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> intList) {
+        Log.i(TAG, "position: " + position);
+        this.intList = intList;
+        this.position = position;
+        this.count = count;
         textEditChatCount.setText(String.valueOf(count));
         this.selectedList = selectedList;
     }
