@@ -47,16 +47,16 @@ public class DeleteChatRoomActivity extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-            ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(position);
+            ChatRoomVO vo = ChatRoomLab.getInstance().getChatRoomVOList().get(position);
             HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
             task.execute(vo);
         }
     }// end onResume()
 
-    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
+    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatRoomVO, Void, String> {
 
         @Override
-        protected String doInBackground(ChatMessageVO... params) {
+        protected String doInBackground(ChatRoomVO... params) {
             String result = deleteChatRoom(params[0]);
             return result;
         }
@@ -73,7 +73,7 @@ public class DeleteChatRoomActivity extends AppCompatActivity {
         }
     }// end class HttpDeleteChatRoomAsyncTask
 
-    public String deleteChatRoom(ChatMessageVO vo) {
+    public String deleteChatRoom(ChatRoomVO vo) {
         String result = "";
         String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();

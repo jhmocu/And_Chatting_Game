@@ -1,7 +1,10 @@
 package edu.android.chatting_game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +20,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -23,8 +42,12 @@ public class ChatRecyclerViewFragment extends Fragment {
 
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
-    private ArrayList<ChatMessageVO> list;
+    private ArrayList<ChatRoomVO> chatRoomList;
+    private ArrayList<ChatMessageReceiveVO> chatMessageList;
     private int listPosition;
+    private String my_phone;
+
+
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -46,8 +69,11 @@ public class ChatRecyclerViewFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), ChatRoomActivity.class);
-                    startActivity(intent);
+                    listPosition = getAdapterPosition();
+                    ChatRoomVO vo = chatRoomList.get(listPosition);
+
+                    HttpSelectMessageAsyncTask task = new HttpSelectMessageAsyncTask();
+                    task.execute(vo);
                 }
             });
 
@@ -76,20 +102,27 @@ public class ChatRecyclerViewFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ChattingViewHolder holder, int position) {
-            ChatMessageVO vo = list.get(position);
+            ChatRoomVO vo = chatRoomList.get(position);
             holder.txtRoom.setText(vo.getChatroom_name());
             holder.txtLastMsg.setText(vo.getLast_msg());
             holder.txtTime.setText(vo.getChat_date());
-            holder.txtMsgCount.setText(String.valueOf(vo.getChecked_read()));
-            holder.txtFriendCount.setText(String.valueOf(vo.getMember_count()));
+            holder.txtMsgCount.setText(vo.getChecked_read());
+            holder.txtFriendCount.setText(vo.getMember_count());
         }
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return chatRoomList.size();
         }
-    }
+    }// end class ChattingAdapter
+
     public ChatRecyclerViewFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public ChatRecyclerViewFragment(String my_phone) {
+        this.my_phone = my_phone;
+        chatMessageList = new ArrayList<>();
     }
 
     @Override
@@ -101,7 +134,7 @@ public class ChatRecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_recycler_view, container, false);
-        list = ChatMessageLab.getInstance().getChatMessageVOList();
+        chatRoomList = ChatRoomLab.getInstance().getChatRoomVOList();
         recyclerView = (RecyclerView) view.findViewById(R.id.chatlist_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ChattingAdapter());
@@ -123,26 +156,90 @@ public class ChatRecyclerViewFragment extends Fragment {
         super.onAttach(context);
     }
 
+    private class HttpSelectMessageAsyncTask extends AsyncTask<ChatRoomVO, Void, String> {
+
+        @Override
+        protected String doInBackground(ChatRoomVO... params) {
+            String result = selectMyMessage(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.i("selecttask", "onPostExecute() result:\n" + s);
+            Gson gson = new Gson();
+            TypeToken<ArrayList<ChatMessageReceiveVO>> typeToken = new TypeToken<ArrayList<ChatMessageReceiveVO>>() {
+            };
+            Type type = typeToken.getType();
+            chatMessageList = gson.fromJson(s, type);
+            ChatMessageReceiveLab.getInstance().setChatMessageList(chatMessageList);
+            if (!chatMessageList.isEmpty()) {
+                for (ChatMessageReceiveVO vo : chatMessageList) {
+                    String chatroome_name = vo.getChatroom_name();
+                    String msg = vo.getMsg();
+                    Log.i("selecttask", "vo:\n" + vo.toString());
+                }
+            }
+
+            Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+            intent.putExtra("key_my_phone", my_phone);
+            startActivity(intent);
+            // TODO: 2017-03-22 데이터 넘기기
+        }
+    }// end class HttpSelectMessageAsyncTask
+
+    public String selectMyMessage(ChatRoomVO vo) {
+        String result = "";
+        String checked = "false";
+        String requestURL = "http://192.168.11.11:8081/Test3/SelectChatReceive";
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        Log.i("selecttask", "my_phone:" + vo.getPhone() + "\tchecked:" + checked + "\tchatroom_name:" + vo.getChatroom_name());
+
+        builder.addTextBody("my_phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("chatroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
+
+        InputStream inputStream = null;
+        AndroidHttpClient androidHttpClient = null; //
+        HttpPost httpPost = null; //new HttpPost(requestURL);
+        HttpResponse httpResponse = null;
+        try {
+            // http 통신 send
+            androidHttpClient = AndroidHttpClient.newInstance("Android");
+            httpPost = new HttpPost(requestURL);
+            httpPost.setEntity(builder.build());
+
+            httpResponse = androidHttpClient.execute(httpPost); // 연결 실행
+
+            // http 통신 receive
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+
+            BufferedReader bufferdReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = null;
+            while ((line = bufferdReader.readLine()) != null) {
+                Log.i("selecttask", "String line:\n" + line);
+                stringBuffer.append(line + "\n");
+            }
+
+            result = stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                androidHttpClient.close();
+                inputStream.close();
+                httpPost.abort();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("selecttask", "selectMyMessage() result:\n" + result);
+        return result;
+
+    }
 }// end class ChatRecyclerViewFragment
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -24,8 +24,10 @@ public class EditChatRecyclerViewFragment extends Fragment {
 
     private onSelectedListener listener;
     private ArrayList<Boolean> selectedList = new ArrayList<>();
-    private ArrayList<ChatMessageVO> list = new ArrayList<>();
     private ArrayList<Integer> positions = new ArrayList<>();
+
+    private ArrayList<ChatRoomVO> list = new ArrayList<>();
+
     private int count;
     private static final String KEY_CHAT_NAME = "key_chat_name";
 
@@ -106,7 +108,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
         @Override
         public void onBindViewHolder(EditChattingViewHolder holder, int position) {
             holder.position = position;
-            ChatMessageVO vo = list.get(position);
+            ChatRoomVO vo = list.get(position);
             holder.editChatTxtRoom.setText(vo.getChatroom_name());
             holder.editChatTxtLastMsg.setText(vo.getLast_msg());
             holder.editChatTxtFriendCount.setText(vo.getMember_count());
@@ -131,7 +133,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_chat_recycler_view, container, false);
-        list = ChatMessageLab.getInstance().getChatMessageVOList();
+        list = ChatRoomLab.getInstance().getChatRoomVOList();
         recyclerView = (RecyclerView) view.findViewById(R.id.edit_chat_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new EditChattingAdapter());

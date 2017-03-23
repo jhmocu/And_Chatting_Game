@@ -39,7 +39,7 @@ public class EditChatListActivity extends AppCompatActivity
     private int count;
     private ArrayList<Integer> positions = new ArrayList<>();
     private ArrayList<Boolean> selectedList = new ArrayList<>();
-    private ArrayList<ChatMessageVO> list = new ArrayList<>();
+    private ArrayList<ChatRoomVO> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class EditChatListActivity extends AppCompatActivity
                 if (info != null && info.isAvailable()) {
                     for (int p : positions) {
                         Log.i(TAG, "EditChatListActivity// onClickBtnEditFinish() size: " + positions.size());
-                        ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(p);
+                        ChatRoomVO vo = ChatRoomLab.getInstance().getChatRoomVOList().get(p);
                         HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
                         task.execute(vo);
                         Log.i(TAG, "execute()");
@@ -87,12 +87,11 @@ public class EditChatListActivity extends AppCompatActivity
         });
     }
 
-    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
+    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatRoomVO, Void, String> {
 
         @Override
-        protected String doInBackground(ChatMessageVO... params) {
+        protected String doInBackground(ChatRoomVO... params) {
             String result = deleteChatRoom(params[0]);
-
             return result;
         }
 
@@ -109,7 +108,7 @@ public class EditChatListActivity extends AppCompatActivity
     private void setResult() {
     }
 
-    public String deleteChatRoom(ChatMessageVO vo) {
+    public String deleteChatRoom(ChatRoomVO vo) {
         String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
