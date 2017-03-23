@@ -1,7 +1,6 @@
 package edu.android.chatting_game;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,9 +51,8 @@ public class FontChangeActivity extends Activity{
         selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(FontChangeActivity.this,ChatRoomActivity.class);
-                intent.putExtra("fontChange",text.getTextSize());
-                startActivity(intent);
+                float textSize=text.getTextSize();
+                FontChangeVO.getInstance().setTextSize(textSize);
                 finish();
             }
         });

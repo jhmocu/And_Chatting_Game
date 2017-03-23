@@ -28,17 +28,18 @@ public class MultiAddChatActivity extends AppCompatActivity
     private String name;
     private String phone;
 
-    private ArrayList<Boolean> selectedList;
-    private ArrayList<FriendVO> list = new ArrayList<>();
+        private ArrayList<Boolean> selectedList;
+        private ArrayList<Integer> positions = new ArrayList<>();
+        private ArrayList<String> phones = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_multi_add_chat);
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.frameLayout);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_multi_add_chat);
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentById(R.id.frameLayout);
 
-        btnBack = (Button) findViewById(R.id.btnBack);
+            btnBack = (Button) findViewById(R.id.btnBack);
         btnMultiChat = (Button) findViewById(R.id.addChatBtn);
         textCount = (TextView) findViewById(R.id.textCount);
         multiChatBox = (CheckBox) findViewById(R.id.checkBoxMultiAddChat);
@@ -67,21 +68,26 @@ public class MultiAddChatActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
 //                intent.putExtra("otherPhones", phone);
-
-                Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_LONG).show();
-                Log.i(TAG, "ㅋㅇㅌ:" + count + "////phone:" + phone + "position:" + position);
+                for (int p : positions){
+                    Log.i(TAG, " size: " + positions.size());
+                    Friend vo = FriendLab.getInstance().getFriendList().get(p);
+                    phones.add(vo.getPhone());
+                }
+                intent.putExtra("otherPhones", phones);
+                Toast.makeText(MultiAddChatActivity.this, "phones = " + phones, Toast.LENGTH_LONG).show();
+                Log.i(TAG, "ㅋㅇㅌ:" + count + "////phones:" + phones + "position:" + positions);
                 startActivity(intent);
             }
         });
     }
 
     @Override
-    public void multichatsendprofile(String name, String phone, int position, int count, ArrayList<Boolean> selectedList) {
+    public void multichatsendprofile(String name, String phone, int count, ArrayList<Boolean> selectedList, ArrayList<Integer> positions) {
         textCount.setText(String.valueOf(count));
         this.selectedList = selectedList;
         this.count = count;
-        this.position = position;
+        this.positions = positions;
         this.name = name;
-        this.phone = phone;
+//        this.phone = phone;
     }
 }

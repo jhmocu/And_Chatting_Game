@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -69,6 +70,10 @@ public class ChatRecyclerViewFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
+                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
+                    startActivity(intent);
                     listPosition = getAdapterPosition();
                     ChatRoomVO vo = chatRoomList.get(listPosition);
 
@@ -243,3 +248,25 @@ public class ChatRecyclerViewFragment extends Fragment {
 
     }
 }// end class ChatRecyclerViewFragment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
