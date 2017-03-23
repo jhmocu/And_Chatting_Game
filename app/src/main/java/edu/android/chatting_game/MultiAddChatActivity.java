@@ -63,21 +63,9 @@ public class MultiAddChatActivity extends AppCompatActivity
         btnMultiChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle extras = getIntent().getExtras();
-//                if(extras != null){
-//                    name = extras.getString("name");
-//                    phone = extras.getString("phone");
-//                    position = extras.getInt("position");
-//                    count = extras.getInt("count");
-//                    Log.i(TAG, "이름:" + name + "////phone:" + phone + "position:" + position);
-//                }
-
                 Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
-                intent.putExtra("phone", phone);
-                intent.putExtra("position", position);
-                intent.putExtra("count", count);
+                intent.putExtra("otherPhones", phone);
 
-                Toast.makeText(MultiAddChatActivity.this, "position" + position, Toast.LENGTH_SHORT).show();
                 Toast.makeText(MultiAddChatActivity.this, "phone = " + phone, Toast.LENGTH_LONG).show();
                 Log.i(TAG, "ㅋㅇㅌ:" + count + "////phone:" + phone + "position:" + position);
                 startActivity(intent);
