@@ -46,6 +46,8 @@ public class ChatListFragment extends Fragment {
     private ChatMessageLab lab;
     private String my_phone;
 
+    //private colorChangeListener listener;
+
     public ChatListFragment() {
         // Required empty public constructor
     }
@@ -54,6 +56,7 @@ public class ChatListFragment extends Fragment {
     public ChatListFragment(String my_phone) {
         this.my_phone = my_phone;
     }
+
 
     @Override
     public void onResume() {
@@ -67,9 +70,11 @@ public class ChatListFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);

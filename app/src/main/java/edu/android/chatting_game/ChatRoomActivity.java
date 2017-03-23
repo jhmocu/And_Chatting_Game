@@ -48,7 +48,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback
+{
 
     public static final String TAG = "edu.android.chatting";
 
@@ -109,16 +110,16 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        //TODO:채팅방 글자크기 배경색변경
-        Bundle extra=getIntent().getExtras();
-        if (extra != null) {
-            int Color = extra.getInt("Background");
-            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
-            chat.setBackgroundColor(Color);
-//            Float Size=extra.getFloat("fontChange");
-//            textYourMsg.setTextSize(Size);
-//            textMyMsg.setTextSize(Size);
 
+       //TODO:채팅방 글자크기 배경색변경
+        Bundle extra=getIntent().getExtras();
+       if (extra != null) {
+            int Color = extra.getInt("color");
+            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
+           chat.setBackgroundColor(Color);
+//            float font=extra.getFloat("size");
+//            textYourMsg.setTextSize(font);
+//            textMyMsg.setTextSize(font);
         }
 
 

@@ -1,8 +1,9 @@
 package edu.android.chatting_game;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,29 +22,29 @@ public class BackgroundColorChangeActivity extends Activity {
 
 
         btn1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BackgroundColorChangeActivity.this,ChatRoomActivity.class);
-                intent.putExtra("Background",getColor(R.color.green));
-                startActivity(intent);
+                int color=getColor(R.color.green);
+                BackgroundChangeVO.getInstance().setColor(color);
                 finish();
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BackgroundColorChangeActivity.this,ChatRoomActivity.class);
-                intent.putExtra("Background",getColor(R.color.redlight));
-                startActivity(intent);
+                int color=getColor(R.color.redlight);
+                BackgroundChangeVO.getInstance().setColor(color);
                 finish();
             }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BackgroundColorChangeActivity.this,ChatRoomActivity.class);
-                intent.putExtra("Background",getColor(R.color.orange));
-                startActivity(intent);
+                int color=getColor(R.color.orange);
+                BackgroundChangeVO.getInstance().setColor(color);
                 finish();
             }
         });

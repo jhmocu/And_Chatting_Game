@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class ChatRecyclerViewFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<ChatMessageVO> list;
     private int listPosition;
+
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -47,6 +50,8 @@ public class ChatRecyclerViewFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
+                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
                     startActivity(intent);
                 }
             });
