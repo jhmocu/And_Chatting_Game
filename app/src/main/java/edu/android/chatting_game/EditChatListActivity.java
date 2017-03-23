@@ -3,7 +3,6 @@ package edu.android.chatting_game;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,8 +37,8 @@ public class EditChatListActivity extends AppCompatActivity
     private CheckBox editChatcheckBox;
     private int position;
     private int count;
-    private ArrayList<Integer> intList;
-    private ArrayList<Boolean> selectedList;
+    private ArrayList<Integer> positions = new ArrayList<>();
+    private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<ChatMessageVO> list = new ArrayList<>();
 
     @Override
@@ -75,30 +73,17 @@ public class EditChatListActivity extends AppCompatActivity
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
-//                    for(int i = 0; i < count; i++) {
-                    for(int i = 0; i < intList.size(); i++) {
-                        ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(position);
-                        list.add(vo);
+                    for (int p : positions) {
+                        Log.i(TAG, "EditChatListActivity// onClickBtnEditFinish() size: " + positions.size());
+                        ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(p);
                         HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
-                        // 여기부터 하기 !!task.execute();
+                        task.execute(vo);
+                        Log.i(TAG, "execute()");
                     }
-//                    }
                 }
 
-
-//                ChatMessageVO vo  = list.get(count).getPhone();
-//                for(int i = 0; i < selectedList.size(); i++) {
-//                    ChatMessageVO vo = list.get(i);
-//                    sendData(vo);
-//                }
-
-
-
-                    // FAB에서는 startActivityForResult() 호출
-                    // setResult()...
-                    // finish()
-
             }
+
         });
     }
 
@@ -107,18 +92,17 @@ public class EditChatListActivity extends AppCompatActivity
         @Override
         protected String doInBackground(ChatMessageVO... params) {
             String result = deleteChatRoom(params[0]);
+
             return result;
         }
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equals("1")){
-                Log.i(TAG, "삭제 완료");
-            }
-//            setResult(RESULT_OK, getIntent());
+
             finish();
         }
-
 
     }
 
@@ -131,7 +115,7 @@ public class EditChatListActivity extends AppCompatActivity
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        Log.i(TAG, "vo"+ vo.getPhone() + vo.getChatroom_name());
+//        Log.i(TAG, "deleteChatRoom()// vo: "+ vo.getPhone() +"\t" + vo.getChatroom_name());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("chatroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
 
@@ -160,7 +144,6 @@ public class EditChatListActivity extends AppCompatActivity
             while ((line = bufferdReader.readLine()) != null) {
 
                 stringBuffer.append(line + "\n");
-                Log.i(TAG, "line: " + line);
             }
 
             result = stringBuffer.toString();
@@ -180,9 +163,9 @@ public class EditChatListActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> intList) {
-        Log.i(TAG, "position: " + position);
-        this.intList = intList;
+    public void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> positions) {
+        Log.i(TAG, "EditChatListActivity// itemSelected()// position.size(): " + positions.size());
+        this.positions = positions;
         this.position = position;
         this.count = count;
         textEditChatCount.setText(String.valueOf(count));
