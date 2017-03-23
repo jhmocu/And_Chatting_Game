@@ -62,18 +62,18 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private String[] member_phones = {};
 
     private ListView listView;
-    private ChatMessageLab lab;
-    private ArrayList<ChatMessageVO> chatMessageVOArrayList;
+    private ChatMessageReceiveLab lab;
+    private ArrayList<ChatMessageReceiveVO> chatMessageList;
 
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
 
-    class ChatMessageAdapter extends ArrayAdapter<ChatMessageVO> {
+    class ChatMessageAdapter extends ArrayAdapter<ChatMessageReceiveVO> {
 
-        private List<ChatMessageVO> list;
+        private List<ChatMessageReceiveVO> list;
 
-        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageVO> objects) {
+        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageReceiveVO> objects) {
             super(context, resource, objects);
             this.list = objects;
         }
@@ -81,23 +81,28 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//            Log.i(TAG, "getView()");
+            my_phone = getIntent().getExtras().getString("key_my_phone");
+
             View view = convertView;
 //            if(내 메세지){
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                if (position % 3 == 0) { /** 내 메세지 */
-                    view = inflater.inflate(R.layout.content_my_message, parent, false);
-                    textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                    textMyMsg.setText(list.get(position).getLast_msg());
+                for (ChatMessageReceiveVO vo : chatMessageList) {
 
-                } else { /** 상대 메세지 */
-                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-                    textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
+                        view = inflater.inflate(R.layout.content_my_message, parent, false);
+                        textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                        textMyMsg.setText(list.get(position).getMsg());
 
-                }
-            }
+                    } else { /** 상대 메세지 */
+                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                        textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                        textYourMsg.setText(list.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
+                    }
+
+                }// end for
+            }// end if(view)
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -110,8 +115,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-
-       //TODO:채팅방 글자크기 배경색변경
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+        //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
        if (extra != null) {
             int Color = extra.getInt("color");
@@ -123,8 +128,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         }
 
 
-
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);

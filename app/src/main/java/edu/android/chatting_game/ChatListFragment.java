@@ -42,8 +42,8 @@ public class ChatListFragment extends Fragment {
     private EditText editText;
     private FloatingActionButton floatingEditChatList, floatingBtnChatAdd, floatingBtnBase;
     private boolean isFABOpen;
-    private ArrayList<ChatMessageVO> list;
-    private ChatMessageLab lab;
+    private ArrayList<ChatRoomVO> list;
+    private ChatRoomLab lab;
     private String my_phone;
 
     //private colorChangeListener listener;
@@ -195,20 +195,20 @@ public class ChatListFragment extends Fragment {
     public void updateChatList(String s) {
         Log.i("result", "updateChatList()\n String s=" + s);
         Gson gson = new Gson();
-        TypeToken<ArrayList<ChatMessageVO>> typeToken = new TypeToken<ArrayList<ChatMessageVO>>() {};
+        TypeToken<ArrayList<ChatRoomVO>> typeToken = new TypeToken<ArrayList<ChatRoomVO>>() {};
         Type type = typeToken.getType();
-//        Type type = new TypeToken<ArrayList<ChatMessageVO>>(){}.getType();
+//        Type type = new TypeToken<ArrayList<ChatRoomVO>>(){}.getType();
         list = gson.fromJson(s, type);
         Log.i("result", "updateChatList()\n list=" + list.toString());
         if (list != null) {
-            lab = ChatMessageLab.getInstance();
-            lab.setChatMessageVOList(list);
+            lab = ChatRoomLab.getInstance();
+            lab.setChatRoomVOList(list);
         }
         attachChatRecyclerView();
     }// end updateChatList()
 
     public void attachChatRecyclerView() {
-        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
+        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment(my_phone);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_chat_recyclerView, fragment);
