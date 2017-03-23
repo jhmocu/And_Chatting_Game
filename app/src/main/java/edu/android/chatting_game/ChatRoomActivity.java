@@ -48,9 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback
+{
 
     public static final String TAG = "edu.android.chatting";
+
 
     private EditText writeMsg;
     private TextView textMyMsg, textYourMsg;
@@ -83,6 +85,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             my_phone = getIntent().getExtras().getString("key_my_phone");
 
             View view = convertView;
+//            if(내 메세지){
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
@@ -116,14 +119,13 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
         //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
-        if (extra != null) {
-            int Color = extra.getInt("Background");
+       if (extra != null) {
+            int Color = extra.getInt("color");
             ListView chat = (ListView) findViewById(R.id.chatMessageListView);
-            chat.setBackgroundColor(Color);
-//            Float Size=extra.getFloat("fontChange");
-//            textYourMsg.setTextSize(Size);
-//            textMyMsg.setTextSize(Size);
-
+           chat.setBackgroundColor(Color);
+//            float font=extra.getFloat("size");
+//            textYourMsg.setTextSize(font);
+//            textMyMsg.setTextSize(font);
         }
 
 
@@ -162,8 +164,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        lab = ChatMessageReceiveLab.getInstance();
-        chatMessageList = lab.getChatMessageList();
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
 
         // 채팅방 정보 받아오기기
         Bundle chatExtras = getIntent().getExtras();
@@ -176,6 +178,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //          member_phones = chatExtras.getStringArrayList(); // 여러명 채팅할 때 번호값 //key값:"otherPhones"
         }
 
+        title = name;
+        actionBar.setTitle(title);
 
         Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
         // 처음 시작할 때 채팅방 정보들을 DB에 넘겨준다.
@@ -213,9 +217,14 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         }
 
         // title: 대화상대로 set
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
+        Bundle extraas = getIntent().getExtras();
+        if (extraas != null) {
+            // 값가져오기
+            my_phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
+            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
+        }
 
-        // title = chatMessageList.get(0).getChatroom_name(); <- 이렇게 하는 게 어때요.
         title = my_phone;
         actionBar.setTitle(title);
     }// end onCreate()
@@ -238,10 +247,10 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
-//        ChatMessageReceiveVO vo = new ChatMessageReceiveVO();
-//        vo.setMsg(msg);
-//        chatMessageList = ChatMessageReceiveLab.getInstance().getChatMessageList();
-//        chatMessageList.add(vo);
+//        ChatMessageVO chatMessage = new ChatMessageVO();
+////        chatMessage.setMessage(msg);
+//        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
+//        chatMessageVOArrayList.add(chatMessage);
 //        writeMsg.clearFocus();
 //        writeMsg.setText("");
     }
