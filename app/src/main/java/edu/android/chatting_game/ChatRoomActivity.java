@@ -52,6 +52,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     public static final String TAG = "edu.android.chatting";
 
+
     private EditText writeMsg;
     private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
