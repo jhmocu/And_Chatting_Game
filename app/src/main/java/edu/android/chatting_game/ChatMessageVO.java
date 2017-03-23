@@ -1,12 +1,10 @@
 package edu.android.chatting_game;
 
-import java.util.ArrayList;
-
 /**
  * Created by stu on 2017-03-13.
  */
 
-public class ChatMessageVO extends ArrayList<Integer> {
+public class ChatMessageVO {
     private String phone, chatroom_name, last_msg, chat_date, checked_read, member_count;
 
     public ChatMessageVO(){}

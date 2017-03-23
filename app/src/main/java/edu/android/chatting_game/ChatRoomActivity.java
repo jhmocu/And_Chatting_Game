@@ -218,7 +218,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         Bundle extraas = getIntent().getExtras();
         if (extraas != null) {
             // 값가져오기
-            name = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_NAME);
             my_phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
             String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
         }
