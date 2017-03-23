@@ -186,8 +186,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         HttpConnectAsyncTask task = new HttpConnectAsyncTask();
         task.execute(all_phone);
 
-        lab = ChatMessageLab.getInstance();
-        chatMessageVOArrayList = lab.getChatMessageVOList();
 
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
@@ -248,13 +246,12 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
-        Log.i(TAG, "onClickBtnSend\nmsg:\n" + msg);
-        ChatMessageVO chatMessage = new ChatMessageVO();
-//        chatMessage.setMessage(msg);
-        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
-        chatMessageVOArrayList.add(chatMessage);
-        writeMsg.clearFocus();
-        writeMsg.setText("");
+//        ChatMessageVO chatMessage = new ChatMessageVO();
+////        chatMessage.setMessage(msg);
+//        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
+//        chatMessageVOArrayList.add(chatMessage);
+//        writeMsg.clearFocus();
+//        writeMsg.setText("");
     }
 
     public void mapOpen() {
