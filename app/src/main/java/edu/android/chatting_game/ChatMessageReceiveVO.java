@@ -72,4 +72,12 @@ public class ChatMessageReceiveVO {
     public void setChat_date(String chat_date) {
         this.chat_date = chat_date;
     }
+
+    /**Log 확인용*/
+    @Override
+    public String toString() {
+        String str = "my_phone: " + my_phone + "|chat_member: " + chat_member + "|checked: " + checked +
+                "|chatroom_name: " + chatroom_name + "|msg: " + msg + "|chat_date: " + chat_date;
+        return str;
+    }
 }

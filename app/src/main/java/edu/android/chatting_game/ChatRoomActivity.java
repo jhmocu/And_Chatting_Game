@@ -61,18 +61,18 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private String[] member_phones = {};
 
     private ListView listView;
-    private ChatMessageLab lab;
-    private ArrayList<ChatMessageVO> chatMessageVOArrayList;
+    private ChatMessageReceiveLab lab;
+    private ArrayList<ChatMessageReceiveVO> chatMessageList;
 
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
 
-    class ChatMessageAdapter extends ArrayAdapter<ChatMessageVO> {
+    class ChatMessageAdapter extends ArrayAdapter<ChatMessageReceiveVO> {
 
-        private List<ChatMessageVO> list;
+        private List<ChatMessageReceiveVO> list;
 
-        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageVO> objects) {
+        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageReceiveVO> objects) {
             super(context, resource, objects);
             this.list = objects;
         }
@@ -80,23 +80,27 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//            Log.i(TAG, "getView()");
+            my_phone = getIntent().getExtras().getString("key_my_phone");
+
             View view = convertView;
-//            if(내 메세지){
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                if (position % 3 == 0) { /** 내 메세지 */
-                    view = inflater.inflate(R.layout.content_my_message, parent, false);
-                    textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                    textMyMsg.setText(list.get(position).getLast_msg());
+                for (ChatMessageReceiveVO vo : chatMessageList) {
 
-                } else { /** 상대 메세지 */
-                    view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-                    textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
+                        view = inflater.inflate(R.layout.content_my_message, parent, false);
+                        textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                        textMyMsg.setText(list.get(position).getMsg());
 
-                }
-            }
+                    } else { /** 상대 메세지 */
+                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+                        textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+                        textYourMsg.setText(list.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
+                    }
+
+                }// end for
+            }// end if(view)
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -109,6 +113,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
         //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
         if (extra != null) {
@@ -122,8 +127,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         }
 
 
-
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageVOArrayList);
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -159,8 +162,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
+        lab = ChatMessageReceiveLab.getInstance();
+        chatMessageList = lab.getChatMessageList();
 
         // 채팅방 정보 받아오기기
         Bundle chatExtras = getIntent().getExtras();
@@ -173,8 +176,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //          member_phones = chatExtras.getStringArrayList(); // 여러명 채팅할 때 번호값 //key값:"otherPhones"
         }
 
-        title = name;
-        actionBar.setTitle(title);
 
         Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
         // 처음 시작할 때 채팅방 정보들을 DB에 넘겨준다.
@@ -182,8 +183,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         HttpConnectAsyncTask task = new HttpConnectAsyncTask();
         task.execute(all_phone);
 
-        lab = ChatMessageLab.getInstance();
-        chatMessageVOArrayList = lab.getChatMessageVOList();
 
         writeMsg = (EditText) findViewById(R.id.writeMsg);
         btnOption = (ImageButton) findViewById(R.id.btnOption);
@@ -214,14 +213,9 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         }
 
         // title: 대화상대로 set
-        actionBar = getSupportActionBar();
-        Bundle extraas = getIntent().getExtras();
-        if (extraas != null) {
-            // 값가져오기
-            my_phone = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER);
-            String msg = extraas.getString(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE);
-        }
+        ActionBar actionBar = getSupportActionBar();
 
+        // title = chatMessageList.get(0).getChatroom_name(); <- 이렇게 하는 게 어때요.
         title = my_phone;
         actionBar.setTitle(title);
     }// end onCreate()
@@ -244,13 +238,12 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
-        Log.i(TAG, "onClickBtnSend\nmsg:\n" + msg);
-        ChatMessageVO chatMessage = new ChatMessageVO();
-//        chatMessage.setMessage(msg);
-        chatMessageVOArrayList = ChatMessageLab.getInstance().getChatMessageVOList();
-        chatMessageVOArrayList.add(chatMessage);
-        writeMsg.clearFocus();
-        writeMsg.setText("");
+//        ChatMessageReceiveVO vo = new ChatMessageReceiveVO();
+//        vo.setMsg(msg);
+//        chatMessageList = ChatMessageReceiveLab.getInstance().getChatMessageList();
+//        chatMessageList.add(vo);
+//        writeMsg.clearFocus();
+//        writeMsg.setText("");
     }
 
     public void mapOpen() {
