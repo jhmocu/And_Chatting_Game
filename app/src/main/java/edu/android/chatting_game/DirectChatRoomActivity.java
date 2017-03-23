@@ -48,11 +48,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ChatRecyclerViewFragment 에서 호출하는 Activity
+ * 친구 프로필에서 호출되는 채팅방 액티비티
  * */
 
-
-public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class DirectChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
 
     public static final String TAG = "edu.android.chatting";
     public static final String TASK_CYCLE = "task_cycle";
@@ -256,12 +255,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     /***/
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
-//        ChatMessageReceiveVO vo = new ChatMessageReceiveVO();
-//        vo.setMsg(msg);
-//        chatMessageList = ChatMessageReceiveLab.getInstance().getChatMessageList();
-//        chatMessageList.add(vo);
-//        writeMsg.clearFocus();
-//        writeMsg.setText("");
         HttpSendChatMessageAsyncTask task = new HttpSendChatMessageAsyncTask();
         task.execute(msg);
     }

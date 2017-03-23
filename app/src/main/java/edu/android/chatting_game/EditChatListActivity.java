@@ -3,7 +3,6 @@ package edu.android.chatting_game;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.AndroidHttpClient;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -77,7 +75,7 @@ public class EditChatListActivity extends AppCompatActivity
                 if (info != null && info.isAvailable()) {
 //                    for(int i = 0; i < count; i++) {
                     for(int i = 0; i < intList.size(); i++) {
-                        ChatMessageVO vo = ChatMessageLab.getInstance().getChatMessageVOList().get(position);
+                        ChatRoomVO vo = ChatRoomLab.getInstance().getChatRoomVOList().get(position);
                         list.add(vo);
                         HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
                         // 여기부터 하기 !!task.execute();
@@ -85,28 +83,15 @@ public class EditChatListActivity extends AppCompatActivity
 //                    }
                 }
 
-
-//                ChatMessageVO vo  = list.get(count).getPhone();
-//                for(int i = 0; i < selectedList.size(); i++) {
-//                    ChatMessageVO vo = list.get(i);
-//                    sendData(vo);
-//                }
-
-
-
-                    // FAB에서는 startActivityForResult() 호출
-                    // setResult()...
-                    // finish()
-
             }
         });
     }
 
-    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatMessageVO, Void, String> {
+    private class HttpDeleteChatRoomAsyncTask extends AsyncTask<ChatRoomVO, Void, String> {
 
         @Override
-        protected String doInBackground(ChatMessageVO... params) {
-            String result = deleteChatRoom(params[0]);
+        protected String doInBackground(ChatRoomVO... params) {
+            String result = sendData(params[0]);
             return result;
         }
         @Override

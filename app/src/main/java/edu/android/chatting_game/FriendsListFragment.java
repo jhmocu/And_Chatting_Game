@@ -61,7 +61,7 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("chat_list", "FriendsListFragment// onResume()");
+        Log.i("cycle", "FriendsListFragment// onResume()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {

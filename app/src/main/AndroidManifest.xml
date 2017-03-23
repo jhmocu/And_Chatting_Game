@@ -36,16 +36,17 @@
             android:name=".Long_Click_name_Update"
             android:label="@string/title_activity_long__click_name__update"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StatusEditActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AddFriendsActivity"
+        <activity
+            android:name=".StatusEditActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddFriendsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ChatRoomActivity" />
         <activity android:name=".NoticeActivity" />
         <activity android:name=".FontChangeActivity" />
         <activity android:name=".BackgroundColorChangeActivity" />
         <activity android:name=".VersionActivity" />
-
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -65,7 +66,8 @@
 
         <!-- <activity android:name=".VersionActivity"></activity> -->
         <activity android:name=".EditChatListActivity" />
-        <activity android:name=".StartAppActivity"
+        <activity
+            android:name=".StartAppActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,20 +75,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AuthActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".InsertProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".AuthActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InsertProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".MultiAddChatActivity"></activity>
-
+        <activity android:name=".MultiAddChatActivity" />
+        <activity android:name=".DeleteChatRoomActivity" />
         <activity
-            android:name=".DeleteChatRoomActivity"></activity>
+            android:name=".DirectChatRoomActivity"
+            android:label="@string/title_activity_direct_chat_room"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
