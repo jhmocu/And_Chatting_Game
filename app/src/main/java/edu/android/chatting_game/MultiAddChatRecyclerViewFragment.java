@@ -2,6 +2,7 @@ package edu.android.chatting_game;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import it.sephiroth.android.library.picasso.Picasso;
 
 
 /**
@@ -51,6 +54,7 @@ public class MultiAddChatRecyclerViewFragment extends Fragment {
         @Override
         public void onBindViewHolder(MultiAddViewHolder holder, int position) {
             Friend vo = list.get(position);
+            Picasso.with(holder.itemView.getContext()).load(Uri.parse(vo.getPic_url())).resize(100, 100).centerCrop().into(holder.imageView);
             holder.textName.setText(vo.getfName());
             holder.textPhone.setText(vo.getPhone());
             selectedList.add(false);
