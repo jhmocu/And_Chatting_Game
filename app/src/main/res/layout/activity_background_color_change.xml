@@ -23,42 +23,40 @@
 
     <Button
         android:id="@+id/btngreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="11dp"
         android:background="@android:color/holo_green_light"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="82dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_alignBaseline="@+id/btnredlight"
-        android:layout_alignBottom="@+id/btnredlight"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        tools:layout_editor_absoluteY="82dp" />
 
     <Button
         android:id="@+id/btnredlight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@android:color/holo_red_light"
         tools:layout_editor_absoluteX="133dp"
         tools:layout_editor_absoluteY="82dp"
-        android:layout_alignBaseline="@+id/btnorange"
-        android:layout_alignBottom="@+id/btnorange"
+        android:layout_alignTop="@+id/btngreen"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnorange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@android:color/holo_orange_light"
         tools:layout_editor_absoluteX="251dp"
         tools:layout_editor_absoluteY="82dp"
-        android:layout_marginTop="75dp"
-        android:layout_below="@+id/my_toolbar"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_alignTop="@+id/btnredlight"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/toolbar_title"
