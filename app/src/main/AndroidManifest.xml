@@ -64,7 +64,8 @@
             android:label="@string/title_activity_maps" />
 
         <!-- <activity android:name=".VersionActivity"></activity> -->
-        <activity android:name=".EditChatListActivity" />
+        <activity android:name=".EditChatListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".StartAppActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -83,7 +84,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".MultiAddChatActivity"></activity>
+        <activity android:name=".MultiAddChatActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".DeleteChatRoomActivity"></activity>

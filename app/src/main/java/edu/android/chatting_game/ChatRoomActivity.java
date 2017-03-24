@@ -117,22 +117,22 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         inflater.inflate(R.menu.menu_chat_room, menu);
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
-        //TODO:채팅방 글자크기 배경색변경
-        Bundle extra=getIntent().getExtras();
-       if (extra != null) {
-            int Color = extra.getInt("color");
-            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
-           chat.setBackgroundColor(Color);
-//            float font=extra.getFloat("size");
-//            textYourMsg.setTextSize(font);
-//            textMyMsg.setTextSize(font);
-        }
 
 
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         Log.i(TAG, ProfileInfoActivity.class.getName());
+
+        //TODO:채팅방 글자크기 배경색변경
+        Bundle extra=getIntent().getExtras();
+        if (extra != null) {
+            int Color = extra.getInt("color");
+            listView.setBackgroundColor(Color);
+//            float font=extra.getFloat("size");
+//            textYourMsg.setTextSize(font);
+//            textMyMsg.setTextSize(font);
+        }
 
         // 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
         adapter.registerDataSetObserver(new DataSetObserver() {
