@@ -3,6 +3,7 @@ package edu.android.chatting_game;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import it.sephiroth.android.library.picasso.Picasso;
 
 
 /**
@@ -70,6 +72,7 @@ public class ProfileSendFragment extends DialogFragment {
             public void onBindViewHolder(ProfileSendViewHolder holder, int position) {
                 Friend friend = list.get(position);
 //                holder.image.setImageResource(friend.getImageId());
+                Picasso.with(holder.itemView.getContext()).load(Uri.parse(friend.getPic_url())).resize(100, 100).centerCrop().into(holder.image);
                 holder.name.setText(friend.getfName());
                 holder.phone.setText(friend.getPhone());
             }

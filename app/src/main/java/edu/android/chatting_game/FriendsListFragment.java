@@ -61,7 +61,7 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("chat_list", "FriendsListFragment// onResume()");
+        Log.i("cycle", "FriendsListFragment// onResume()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
@@ -172,6 +172,21 @@ public class FriendsListFragment extends Fragment {
         return result;
     }// end selectProfile()
 
+//    // TODO: 친구이름 검색 진행중
+//    private void onClickBtnSearchFriend() {
+//        ArrayList<FriendVO> newList = new ArrayList<>();
+//        list = FriendLab.getInstance().getFriendList();
+//        String a = editNameSearch.getText().toString();
+//              for(String a : list) {
+//            if(a.contains(list.toString())) {
+//                    newList.add(a);
+//                }
+//            }
+//        }
+//        if(editNameSearch)
+
+
+
     private void updateFriendsList() {
         FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
@@ -179,4 +194,6 @@ public class FriendsListFragment extends Fragment {
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
     }// end updateFriendsList()
+
+
 }// end class FriendsListFragment

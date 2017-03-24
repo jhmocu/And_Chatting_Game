@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f09e11</color>
+    <color name="colorPrimary">#6a96d4</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#9dceff</color>
-    <color name="green">#AAD7A5</color>
+    <color name="green">#b8f3b1</color>
     <color name="orange">#FFE08C</color>
-    <color name="redlight">#FFA7A7</color>
+    <color name="redlight">#dbf39797</color>
 
 </resources>

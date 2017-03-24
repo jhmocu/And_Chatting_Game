@@ -42,10 +42,12 @@ public class ChatListFragment extends Fragment {
     private EditText editText;
     private FloatingActionButton floatingEditChatList, floatingBtnChatAdd, floatingBtnBase;
     private boolean isFABOpen;
-    private ArrayList<ChatMessageVO> list;
-    private ChatMessageLab lab;
+    private ArrayList<ChatRoomVO> list;
+    private ChatRoomLab lab;
     private String my_phone;
     private String dataPassed;
+
+    //private colorChangeListener listener;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -56,10 +58,11 @@ public class ChatListFragment extends Fragment {
         this.my_phone = my_phone;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("chat_list", "ChatListFragment// onResume()");
+        Log.i("cycle", "ChatListFragment// onResume()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
@@ -68,9 +71,11 @@ public class ChatListFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         editText = (EditText) view.findViewById(R.id.editNameSearch);
         floatingEditChatList = (FloatingActionButton) view.findViewById(R.id.floatingEditChatList);
@@ -193,20 +198,20 @@ public class ChatListFragment extends Fragment {
     public void updateChatList(String s) {
         Log.i("result", "updateChatList()\n String s=" + s);
         Gson gson = new Gson();
-        TypeToken<ArrayList<ChatMessageVO>> typeToken = new TypeToken<ArrayList<ChatMessageVO>>() {};
+        TypeToken<ArrayList<ChatRoomVO>> typeToken = new TypeToken<ArrayList<ChatRoomVO>>() {};
         Type type = typeToken.getType();
-//        Type type = new TypeToken<ArrayList<ChatMessageVO>>(){}.getType();
+//        Type type = new TypeToken<ArrayList<ChatRoomVO>>(){}.getType();
         list = gson.fromJson(s, type);
         Log.i("result", "updateChatList()\n list=" + list.toString());
         if (list != null) {
-            lab = ChatMessageLab.getInstance();
-            lab.setChatMessageVOList(list);
+            lab = ChatRoomLab.getInstance();
+            lab.setChatRoomVOList(list);
         }
         attachChatRecyclerView();
     }// end updateChatList()
 
     public void attachChatRecyclerView() {
-        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment();
+        ChatRecyclerViewFragment fragment = new ChatRecyclerViewFragment(my_phone);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container_chat_recyclerView, fragment);

@@ -46,6 +46,7 @@ public class Main2Activity extends AppCompatActivity
      */
     private ViewPager mViewPager;
     public String my_phone;
+    public int Color;
 
     private static final String TAG = "edu.android.chatting";
 
