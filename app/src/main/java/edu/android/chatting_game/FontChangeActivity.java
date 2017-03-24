@@ -2,6 +2,7 @@ package edu.android.chatting_game;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -28,13 +29,11 @@ public class FontChangeActivity extends Activity{
 
         seekBar.setMax(30);
         seekBar.setProgress(size);
-        text.setTextSize((float)15);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar arg0, int progress, boolean arg2) {
             text.setTextSize(progress);
-
             }
 
             @Override
@@ -51,9 +50,10 @@ public class FontChangeActivity extends Activity{
         selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float textSize=text.getTextSize();
+                Float textSize=text.getTextSize();
                 FontChangeVO.getInstance().setTextSize(textSize);
                 finish();
+                Log.i("ii","text"+textSize);
             }
         });
 
