@@ -25,4 +25,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_long_click_delete_friend">LongClickDeleteFriendActivity</string>
     <string name="title_activity_delete_chat_room">DeleteChatRoomActivity</string>
+    <string name="title_activity_direct_chat_room">DirectChatRoomActivity</string>
 </resources>
