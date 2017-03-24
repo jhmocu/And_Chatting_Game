@@ -77,6 +77,7 @@ public class MultiAddChatActivity extends AppCompatActivity
                 Toast.makeText(MultiAddChatActivity.this, "phones = " + phones, Toast.LENGTH_LONG).show();
                 Log.i(TAG, "ㅋㅇㅌ:" + count + "////phones:" + phones + "position:" + positions);
                 startActivity(intent);
+                finish();
             }
         });
     }
