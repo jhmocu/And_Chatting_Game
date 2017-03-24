@@ -17,22 +17,18 @@ import java.io.InputStreamReader;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
-public class ProfileInfoActivity
-        extends AppCompatActivity {
-    private static final String TAG = "edu.android.chatting";
+public class ProfileInfoActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private TextView textName, textPhone, textMsg;
     private ImageButton btnCall, btnMessage; // 수정
-    String name;
-    String phoneNumber;
-    String message;
-    String my_phone ;
+    private String name, phoneNumber, message, my_phone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_info);
-        Log.i(TAG, "ProfileInfoActivity/onCreate()");
+        Log.i("cycle", "ProfileInfoActivity/onCreate()");
 
         imageView = (ImageView) findViewById(R.id.imageView_ProfileInfo);
         textName = (TextView) findViewById(R.id.textName);
@@ -81,18 +77,18 @@ public class ProfileInfoActivity
         }
     }
     private void onClickBtnMessage() {
-        // TODO: 2017-03-14 친구 프로필에서 채팅 연결하기
+        // 친구 프로필에서 채팅 연결하기 --> Direct
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
-        Intent intent = new Intent(ProfileInfoActivity.this, ChatRoomActivity.class);
+        Intent intent = new Intent(ProfileInfoActivity.this, DirectChatRoomActivity.class);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME, name);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_PHONENUMBER, phoneNumber);
         intent.putExtra(FriendsRecyclerViewFragment.KEY_EXTRA_MESSAGE, message);
         intent.putExtra(my_phone, my_phone);
         startActivity(intent);
-        Log.i(TAG, "ProfileInfoActivity/ name:" + name);
-        Log.i(TAG, "ProfileInfoActivity/ phoneNum:" + phoneNumber);
-        Log.i(TAG, "ProfileInfoActivity/ message:" + message);
-        Log.i(TAG, "ProfileInfoActivity/ my_phone:" + my_phone);
+//        Log.i(TAG, "ProfileInfoActivity/ name:" + name);
+//        Log.i(TAG, "ProfileInfoActivity/ phoneNum:" + phoneNumber);
+//        Log.i(TAG, "ProfileInfoActivity/ message:" + message);
+//        Log.i(TAG, "ProfileInfoActivity/ my_phone:" + my_phone);
     }
 
     public String readFromFile(String filename) {
@@ -123,7 +119,6 @@ public class ProfileInfoActivity
                 e.printStackTrace();
             }
         }
-        Log.i("gg", buffer.toString());
         return  buffer.toString();
     }
 }

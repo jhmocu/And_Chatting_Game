@@ -46,7 +46,7 @@ public class ChatRecyclerViewFragment extends Fragment {
     private ArrayList<ChatRoomVO> chatRoomList;
     private ArrayList<ChatMessageReceiveVO> chatMessageList;
     private int listPosition;
-    private String my_phone;
+    private String my_phone, chatroom_name;
 
 
 
@@ -75,7 +75,9 @@ public class ChatRecyclerViewFragment extends Fragment {
                     intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
                     startActivity(intent);
                     listPosition = getAdapterPosition();
+                    Log.i(TAG, "ChatRecyclerView// onClick()// position:" + listPosition);
                     ChatRoomVO vo = chatRoomList.get(listPosition);
+                    Log.i(TAG, "ChatRecyclerView// onClick()// vo:" + vo.toString());
 
                     HttpSelectMessageAsyncTask task = new HttpSelectMessageAsyncTask();
                     task.execute(vo);
@@ -172,13 +174,14 @@ public class ChatRecyclerViewFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.i("selecttask", "onPostExecute() result:\n" + s);
+            Log.i(TAG, "ChatRecyclerView// selectTask// onPostExecute() String s:" + s);
             Gson gson = new Gson();
             TypeToken<ArrayList<ChatMessageReceiveVO>> typeToken = new TypeToken<ArrayList<ChatMessageReceiveVO>>() {
             };
             Type type = typeToken.getType();
             chatMessageList = gson.fromJson(s, type);
             ChatMessageReceiveLab.getInstance().setChatMessageList(chatMessageList);
+            Log.i(TAG, "ChatRecyclerView// seletTask// onPostExecute()// chatMessageList.size()=" + chatMessageList.size());
             if (!chatMessageList.isEmpty()) {
                 for (ChatMessageReceiveVO vo : chatMessageList) {
                     String chatroome_name = vo.getChatroom_name();
@@ -189,6 +192,8 @@ public class ChatRecyclerViewFragment extends Fragment {
 
             Intent intent = new Intent(getContext(), ChatRoomActivity.class);
             intent.putExtra("key_my_phone", my_phone);
+            intent.putExtra("key_room_name", chatroom_name);
+
             startActivity(intent);
             // TODO: 2017-03-22 데이터 넘기기
         }
@@ -200,8 +205,10 @@ public class ChatRecyclerViewFragment extends Fragment {
         String requestURL = "http://192.168.11.11:8081/Test3/SelectChatReceive";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        chatroom_name = vo.getChatroom_name();
 
-        Log.i("selecttask", "my_phone:" + vo.getPhone() + "\tchecked:" + checked + "\tchatroom_name:" + vo.getChatroom_name());
+        Log.i(TAG, "ChatRecyclerView// selectTask// selectMyMessage()// chatroom_name:" + chatroom_name);
+        Log.i(TAG, "ChatRecyclerView// selectTask// selectMyMessage()// vo=" + vo.toString());
 
         builder.addTextBody("my_phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
@@ -227,7 +234,6 @@ public class ChatRecyclerViewFragment extends Fragment {
             StringBuffer stringBuffer = new StringBuffer();
             String line = null;
             while ((line = bufferdReader.readLine()) != null) {
-                Log.i("selecttask", "String line:\n" + line);
                 stringBuffer.append(line + "\n");
             }
 
@@ -243,30 +249,9 @@ public class ChatRecyclerViewFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        Log.i("selecttask", "selectMyMessage() result:\n" + result);
+
+        Log.i(TAG, "ChatRecyclerView// selectTask// selectMyMessage() result:" + result);
         return result;
 
     }
 }// end class ChatRecyclerViewFragment
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
