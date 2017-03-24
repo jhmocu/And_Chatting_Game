@@ -63,11 +63,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private EditText writeMsg;
     private TextView textMyMsg, textYourMsg;
     private ImageButton btnOption, btnSend;
-    private String chatroom_name;
-    private String name, my_phone;
-//    private String[] member_phone = new String[1];
-//    private String[] member_phones = {};
-    private String all_phone;
+    private String name, my_phone, all_phone, chatroom_name;
 
     private ListView listView;
     private ChatMessageReceiveLab lab;
@@ -107,20 +103,19 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                for (ChatMessageReceiveVO vo : chatMessageList) {
-
-                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
+//                for (ChatMessageReceiveVO vo : chatMessageList) {
+//
+//                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
                         view = inflater.inflate(R.layout.content_my_message, parent, false);
                         textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
                         textMyMsg.setText(list.get(position).getMsg());
 
-                    } else { /** 상대 메세지 */
-                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
-                        textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
-                        textYourMsg.setText(list.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
-                    }
-
-                }// end for
+//                    } else { /** 상대 메세지 */
+//                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
+//                        textYourMsg = (TextView) view.findViewById(R.id.textYourMsg);
+//                        textYourMsg.setText(list.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
+//                    }
+//                }// end for
             }// end if(view)
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
@@ -135,22 +130,19 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         inflater.inflate(R.menu.menu_chat_room, menu);
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+
         //TODO:채팅방 글자크기 배경색변경
+        listView = (ListView) findViewById(R.id.chatMessageListView);
+        listView.setAdapter(adapter);
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         Bundle extra=getIntent().getExtras();
        if (extra != null) {
             int Color = extra.getInt("color");
-            ListView chat = (ListView) findViewById(R.id.chatMessageListView);
-           chat.setBackgroundColor(Color);
+           listView.setBackgroundColor(Color);
 //            float font=extra.getFloat("size");
 //            textYourMsg.setTextSize(font);
 //            textMyMsg.setTextSize(font);
         }
-
-
-        listView = (ListView) findViewById(R.id.chatMessageListView);
-        listView.setAdapter(adapter);
-        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        Log.i(TAG, ProfileInfoActivity.class.getName());
 
         // 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
 //        adapter.registerDataSetObserver(new DataSetObserver() {
@@ -301,20 +293,19 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     }
 
     /** --> onClickBtnSend */
-    private class HttpSendChatMessageAsyncTask extends AsyncTask<String, String, String> {
-        // TODO: 2017-03-23 :: 2nd parameter :: Void
+    private class HttpSendChatMessageAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
             Log.i(TASK_CYCLE, "SendTask// doInBackground()");
             String result = sendChatMsgData(params[0]);
-            return null;
+            return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.i(TASK_CYCLE, "SendTask// onPostExecute()// Send 완료");
+            Log.i(TASK_CYCLE, "ChatRoom// SendTask// onPostExecute()// Send 완료");
             // TODO: 2017-03-23 서버에 메세지 보내기 완료 이후
             // receive 실행 task
 //            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
@@ -330,8 +321,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE); // 내 번호
-//        String all_phone = createAllPhone(member_phone, member_phones); // 참여자 번호
-//        String all_phone = "";
         Log.i(TAG, "sendChatMsgData() all_phone" + all_phone);
         Log.i("allphone_file", "sendChatMsgData() all_phone" + all_phone);
 
@@ -376,10 +365,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
                 e.printStackTrace();
             }
         }
-
         return result;
     }// end sendChatMsgData()
-
 
     private class HttpReceiveChatMessageAsyncTask extends AsyncTask<String, String, String> {
         // TODO: 2017-03-23 :: 2nd parameter :: Void

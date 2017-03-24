@@ -146,6 +146,7 @@ public class ChatListFragment extends Fragment {
             updateChatList(s);
         }
     }// end class HttpSelectChatListAsyncTask
+
     public String selectChatList(String phone) {
         String result = "";
         String requestURL = "http://192.168.11.11:8081/Test3/SelectChatList";
