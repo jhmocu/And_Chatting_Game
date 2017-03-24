@@ -194,7 +194,11 @@ public class ChatRecyclerViewFragment extends Fragment {
             intent.putExtra("key_my_phone", my_phone);
             intent.putExtra("key_room_name", chatroom_name);
             intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
-            intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
+            if (FontChangeVO.getInstance().getTextSize() != 0) {
+                intent.putExtra("Size", FontChangeVO.getInstance().getTextSize());
+            } else {
+                intent.putExtra("Size", 15f);
+            }
 
             startActivity(intent);
             // TODO: 2017-03-22 데이터 넘기기
