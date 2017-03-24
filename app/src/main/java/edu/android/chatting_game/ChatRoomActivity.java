@@ -69,6 +69,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //    private String[] member_phones = {};
     private String all_phone;
 
+
     private ListView listView;
     private ChatMessageReceiveLab lab;
     private ArrayList<ChatMessageReceiveVO> chatMessageList;
