@@ -73,7 +73,7 @@ public class ChatRecyclerViewFragment extends Fragment {
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
                     intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
                     intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
-                    startActivity(intent);
+
                     listPosition = getAdapterPosition();
                     Log.i(TAG, "ChatRecyclerView// onClick()// position:" + listPosition);
                     ChatRoomVO vo = chatRoomList.get(listPosition);
