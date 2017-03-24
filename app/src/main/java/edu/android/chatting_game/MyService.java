@@ -368,7 +368,7 @@ public class MyService extends Service implements Runnable {
                 .setContentTitle(vo.getChat_member())
                 .setContentText(vo.getMsg())
                 .setTicker("알림 발생시 잠깐 나오는 텍스트 - 실제 디바이스에서만 나옴")
-                .setSmallIcon(R.drawable.p2)
+                .setSmallIcon(R.drawable.p1)
                 .setContentIntent(contentIntent)/**알림 터치시 실행할 작업 인텐트*/
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE) /**알림 발생시 진동, 사운드등 설정*/
                 .setAutoCancel(true)/**알림 터치시 자동 삭제*/
