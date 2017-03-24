@@ -162,7 +162,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
 
-        // 채팅방 정보 받아오기기
+        // 채팅방 정보 받아오기
         Bundle chatExtras = getIntent().getExtras();
         if(chatExtras != null){
             // 값가져오기

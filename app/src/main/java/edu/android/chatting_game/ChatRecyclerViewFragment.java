@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,15 +25,21 @@ public class ChatRecyclerViewFragment extends Fragment {
 
     private static final String TAG = "edu.android.chatting";
     private RecyclerView recyclerView;
-    private ArrayList<ChatMessageVO> list;
+    private static ArrayList<ChatMessageVO> templist;
+    private static ArrayList<ChatMessageVO> list;
     private int listPosition;
+    private static ChattingAdapter chattingAdapter;
+
+//    public ReceiveMsg receiveMsg;
 
     class ChattingViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView txtRoom, txtLastMsg, txtFriendCount, txtTime, txtMsgCount;
 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public ChattingViewHolder(View itemView) {
             super(itemView);
+
 
             imageView = (ImageView) itemView.findViewById(R.id.imageRoom);
             imageView.setBackground(new ShapeDrawable(new OvalShape()));
@@ -41,6 +49,13 @@ public class ChatRecyclerViewFragment extends Fragment {
             txtFriendCount = (TextView) itemView.findViewById(R.id.txtFriendCount);
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
             txtMsgCount = (TextView) itemView.findViewById(R.id.txtMsgCont);
+
+//            Intent intent = new Intent(getActivity(), Main2Activity.class);
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction(Main2Activity.ACTION_SEND_TO_SIGN);
+//            getActivity().registerReceiver(receiveMsg, intentFilter);
+//            getActivity().startActivity(intent);
+
 
             // 아이템 클릭 -> ChatRoomActivity 실행
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +80,10 @@ public class ChatRecyclerViewFragment extends Fragment {
     } // end class ChattingViewHolder
 
     class ChattingAdapter extends RecyclerView.Adapter<ChattingViewHolder> {
+        public ChattingAdapter() {
+        }
 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public ChattingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -88,23 +106,28 @@ public class ChatRecyclerViewFragment extends Fragment {
         public int getItemCount() {
             return list.size();
         }
-    }
+    } // end class ChattingAdapter
+
     public ChatRecyclerViewFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_recycler_view, container, false);
+
         list = ChatMessageLab.getInstance().getChatMessageVOList();
+
         recyclerView = (RecyclerView) view.findViewById(R.id.chatlist_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ChattingAdapter());
+        chattingAdapter = new ChattingAdapter();
+        recyclerView.setAdapter(chattingAdapter);
         return view;
     }
 
@@ -122,6 +145,16 @@ public class ChatRecyclerViewFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
+//    public void changeData(){
+//        templist = ChatMessageLab.getInstance().getChatMessageVOList();
+//        Log.i("Test", templist.toString());
+//        list.clear();
+//        list = templist;
+//
+//        Log.i("Test", list.toString());
+//        chattingAdapter.notifyDataSetChanged();
+//    }
 
 }// end class ChatRecyclerViewFragment
 

@@ -24,7 +24,8 @@ public class ChatMessageLab {
         return chatMessageVOList;
     }
 
-    public void setChatMessageVOList(ArrayList<ChatMessageVO> chatMessageVOList) {
+    public  ArrayList<ChatMessageVO> setChatMessageVOList(ArrayList<ChatMessageVO> chatMessageVOList) {
         this.chatMessageVOList = chatMessageVOList;
+        return chatMessageVOList;
     }
 }

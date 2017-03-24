@@ -45,6 +45,7 @@ public class ChatListFragment extends Fragment {
     private ArrayList<ChatMessageVO> list;
     private ChatMessageLab lab;
     private String my_phone;
+    private String dataPassed;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -140,7 +141,9 @@ public class ChatListFragment extends Fragment {
             super.onPostExecute(s);
             updateChatList(s);
         }
+
     }// end class HttpSelectChatListAsyncTask
+
     public String selectChatList(String phone) {
         String result = "";
         String requestURL = "http://192.168.11.11:8081/Test3/SelectChatList";
@@ -209,5 +212,13 @@ public class ChatListFragment extends Fragment {
         transaction.replace(R.id.container_chat_recyclerView, fragment);
         transaction.commit();
     }
+
+//    // TODO: public 메소드를 생성해서 데이터 값들을 불러오는 기능을 넣어준다.
+//    public void callChatListFragment() {
+//
+//        ChatRecyclerViewFragment chatRecyclerViewFragment = new ChatRecyclerViewFragment();
+//        chatRecyclerViewFragment.changeData();
+//
+//    }
 
 }// end class ChatListFragment
