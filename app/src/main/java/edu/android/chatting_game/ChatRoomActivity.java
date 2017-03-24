@@ -131,14 +131,17 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
 
-        //TODO:채팅방 글자크기 배경색변경
+
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        Log.i(TAG, ProfileInfoActivity.class.getName());
+
+        //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
-       if (extra != null) {
+        if (extra != null) {
             int Color = extra.getInt("color");
-           listView.setBackgroundColor(Color);
+            listView.setBackgroundColor(Color);
 //            float font=extra.getFloat("size");
 //            textYourMsg.setTextSize(font);
 //            textMyMsg.setTextSize(font);

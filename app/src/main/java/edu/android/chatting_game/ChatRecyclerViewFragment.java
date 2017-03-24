@@ -71,8 +71,8 @@ public class ChatRecyclerViewFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
-                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
-                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
+//                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
+//                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
 
                     listPosition = getAdapterPosition();
                     Log.i(TAG, "ChatRecyclerView// onClick()// position:" + listPosition);
@@ -193,6 +193,8 @@ public class ChatRecyclerViewFragment extends Fragment {
             Intent intent = new Intent(getContext(), ChatRoomActivity.class);
             intent.putExtra("key_my_phone", my_phone);
             intent.putExtra("key_room_name", chatroom_name);
+            intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
+            intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
 
             startActivity(intent);
             // TODO: 2017-03-22 데이터 넘기기

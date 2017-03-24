@@ -172,6 +172,23 @@ public class FriendsListFragment extends Fragment {
         return result;
     }// end selectProfile()
 
+//    // TODO: 친구이름 검색 진행중
+//    private void onClickBtnSearchFriend() {
+//        ArrayList<FriendVO> newList = new ArrayList<>();
+//        list = FriendLab.getInstance().getFriendList();
+//        String a = editNameSearch.getText().toString();
+//            if(a.contains(list.toString())) {
+//                for(String a : list) {
+//                    newList.add(a);
+//                }
+//
+//
+//            }
+//        }
+//        if(editNameSearch)
+
+
+
     private void updateFriendsList() {
         FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
         FragmentManager fm = getChildFragmentManager();
@@ -179,4 +196,6 @@ public class FriendsListFragment extends Fragment {
         transaction.replace(R.id.container_recyclerView, fragment);
         transaction.commit();
     }// end updateFriendsList()
+
+
 }// end class FriendsListFragment

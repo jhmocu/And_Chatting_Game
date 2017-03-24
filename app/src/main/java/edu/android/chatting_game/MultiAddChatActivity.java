@@ -1,11 +1,13 @@
 package edu.android.chatting_game;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,15 +38,22 @@ public class MultiAddChatActivity extends AppCompatActivity
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_multi_add_chat);
+
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = fm.findFragmentById(R.id.frameLayout);
-
             btnBack = (Button) findViewById(R.id.btnBack);
         btnMultiChat = (Button) findViewById(R.id.addChatBtn);
         textCount = (TextView) findViewById(R.id.textCount);
         multiChatBox = (CheckBox) findViewById(R.id.checkBoxMultiAddChat);
 
         textCount.setText(String.valueOf(count));
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
