@@ -41,14 +41,18 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 친구 프로필에서 호출되는 채팅방 액티비티
+ * 친구 프로필에서 실행하는 채팅방 액티비티
  * */
 
 public class DirectChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
@@ -128,7 +132,6 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
 //            Float Size=extra.getFloat("fontChange");
 //            textYourMsg.setTextSize(Size);
 //            textMyMsg.setTextSize(Size);
-
         }
 
 
@@ -168,6 +171,7 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         Log.i("cycle", "onStart()");
     }
 
+
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -194,6 +198,9 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         }
 
         Log.i(TAG, "chatroomactivity : member_phone :" + member_phone[0] );
+
+        /** ///////////////////////////////////////////////////////////////////////////////////////////*/
+        /***/
         // 처음 시작할 때 채팅방 정보들을 DB에 넘겨준다.
         String all_phone = createAllPhone(member_phone, member_phones);
         HttpConnectAsyncTask task = new HttpConnectAsyncTask();
@@ -229,10 +236,9 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
 
         // title: 대화상대로 set
         ActionBar actionBar = getSupportActionBar();
-
         // title = chatMessageList.get(0).getChatroom_name(); <- 이렇게 하는 게 어때요.
-        title = my_phone;
-        actionBar.setTitle(title);
+//        title = my_phone;
+        actionBar.setTitle("대화방");
     }// end onCreate()
 
     @Override
@@ -251,8 +257,6 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         }
     }
 
-    /***/
-    /***/
     private void onClickBtnSend() {
         String msg = writeMsg.getText().toString();
         HttpSendChatMessageAsyncTask task = new HttpSendChatMessageAsyncTask();
@@ -311,17 +315,68 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
     public String createAllPhone(String[] member_phone, String[] member_phones){
         Gson gson = new Gson();
         String json = "";
+        String fileName = "";
         if(member_phone != null) {
 
             json = gson.toJson(member_phone);
+
+            // 파일에 쓰기
+            fileName = createFileName(member_phone);
+            writeToFile(json, fileName);
         } else if(member_phones != null){
+
             json = gson.toJson(member_phones);
+
+            // 파일에 쓰기
+            fileName = createFileName(member_phone);
+            writeToFile(json, fileName);
         }
+
+        Log.i("allphone_file", "Direct// createAllPhone()// json:" + json + "|fileName:" + fileName);
 
         Log.i(TAG, "chatroomActivity : createAllPhone: " + json);
 
         return json;
     }
+
+    /** 파일 이름 생성 */
+    private String createFileName(String[] phones) {
+        String fileName = "";
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < phones.length; i++) {
+            buffer.append(phones[i]).append(", ");
+        }
+        fileName = buffer.toString();
+
+        Log.i("allphone_file", "Direct// createFileName() fileName:" + fileName);
+        return fileName;
+    }
+
+    /** 파일에 쓰기 */
+    private void writeToFile(String phones, String fileName) {
+        Log.i("allphone_file", "Direct// writeToFile() fileName:" + fileName);
+        Log.i("allphone_file", "Direct// writeToFile() phones:" + phones);
+        OutputStream out = null; // file output stream
+        OutputStreamWriter writer = null; // 인코딩된 문자열을 쓰기
+        BufferedWriter bw = null;
+        try {
+            out = openFileOutput(fileName, MODE_PRIVATE);
+            writer = new OutputStreamWriter(out);
+            bw = new BufferedWriter(writer);
+            bw.write(String.valueOf(phones));
+            Toast.makeText(this, "all_phones 파일 생성 성공", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }// end writeToFile()
 
     // 채팅방 생성 정보 넘기기
     public String sendChatListData(String all_phone) {
@@ -393,13 +448,15 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             // TODO: 2017-03-23 서버에 메세지 보내기 완료 이후
+
             // receive 실행 task
-            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
-            task.execute();
+//            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
+//            task.execute();
         }
     } // end class HttpSendChatMessageAsyncTask
-    /***/
 
+
+    // TODO: 2017-03-24 코드 수정 예정
     // 채팅 메시지 보내기
     public String sendChatMsgData(String msg) {
         String requestURL = "http://192.168.11.11:8081/Test3/UpdateChatInfo";
@@ -415,7 +472,6 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("last_msg", msg, ContentType.create("Multipart/related", "UTF-8"));
-//        builder.addTextBody("chat_date", chat_date, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         HttpClient httpClient = null; //
@@ -476,12 +532,9 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
 
 
     // TODO: 2017-03-23 메세지 받기
-    /***/
-    /***/
-    /***/
     // 채팅 메시지 받기
     public String receiveChatMsgData(String all_phone) {
-        String requestURL = "http://192.168.11.11:8081/Test3/InsertChatInfo";
+        String requestURL = "http://192.168.11.11:8081/Test3/ /**InsertChatInfo";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);

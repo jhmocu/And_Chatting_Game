@@ -70,4 +70,11 @@ public class ChatRoomVO {
     public void setMember_count(String member_count) {
         this.member_count = member_count;
     }
+
+    @Override
+    public String toString() {
+        String str = "phone:" + phone + "|chatroom_name:" + chatroom_name + "|last_msg:" + last_msg;
+
+        return str;
+    }
 }
