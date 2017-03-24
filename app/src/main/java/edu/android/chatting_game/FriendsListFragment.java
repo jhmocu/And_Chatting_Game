@@ -93,7 +93,7 @@ public class FriendsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-16 친구 이름으로 검색
-//                onClickBtnSearchFriend();
+                onClickBtnSearchFriend();
             }
         });
         getActivity().getWindow().setSoftInputMode(
@@ -171,6 +171,19 @@ public class FriendsListFragment extends Fragment {
         }
         return result;
     }// end selectProfile()
+
+    // TODO: 친구이름 검색 진행중
+    private void onClickBtnSearchFriend() {
+        list = FriendLab.getInstance().getFriendList();
+        for(int i = 0; i < list.size(); i++) {
+            if(editNameSearch.equals(list.get(i))) {
+
+            }
+
+        }
+//        if(editNameSearch)
+    }
+
 
     private void updateFriendsList() {
         FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();
