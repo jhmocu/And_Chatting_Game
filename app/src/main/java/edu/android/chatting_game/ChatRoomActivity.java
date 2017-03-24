@@ -53,10 +53,12 @@ import java.util.List;
  */
 
 
-public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback
+{
 
     public static final String TAG = "edu.android.chatting";
     public static final String TASK_CYCLE = "task_cycle";
+
 
     private EditText writeMsg;
     private TextView textMyMsg, textYourMsg;
@@ -74,11 +76,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
-    public ChatRoomActivity() {
-//        Bundle extras = getIntent().getExtras();
-//        my_phone = extras.getString("key_my_phone");
-//        chatroom_name = extras.getString("key_room_name");
-    }
 
     class ChatMessageAdapter extends ArrayAdapter<ChatMessageReceiveVO> {
 
@@ -102,9 +99,9 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //            Bundle extras = getIntent().getExtras();
 //            my_phone = extras.getString("key_my_phone");
 //            chatroom_name = extras.getString("key_room_name");
-
-            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
-            task.execute();
+//
+//            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
+//            task.execute();
 
             View view = convertView;
             if (view == null) {
@@ -138,16 +135,15 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         inflater.inflate(R.menu.menu_chat_room, menu);
 
         final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
-        // 채팅방 글자크기 배경색변경
-        Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            int Color = extra.getInt("Background");
+        //TODO:채팅방 글자크기 배경색변경
+        Bundle extra=getIntent().getExtras();
+       if (extra != null) {
+            int Color = extra.getInt("color");
             ListView chat = (ListView) findViewById(R.id.chatMessageListView);
-            chat.setBackgroundColor(Color);
-//            Float Size=extra.getFloat("fontChange");
-//            textYourMsg.setTextSize(Size);
-//            textMyMsg.setTextSize(Size);
-
+           chat.setBackgroundColor(Color);
+//            float font=extra.getFloat("size");
+//            textYourMsg.setTextSize(font);
+//            textMyMsg.setTextSize(font);
         }
 
 
@@ -180,18 +176,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
                 break;
         }
         return true;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("cycle", "onStart()");
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Log.i("cycle", "onPostResume()");
     }
 
     @Override

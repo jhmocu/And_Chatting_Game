@@ -21,17 +21,20 @@ import java.util.ArrayList;
  */
 public class EditChatRecyclerViewFragment extends Fragment {
 
-    ArrayList<Integer> intList;
+
     private onSelectedListener listener;
     private ArrayList<Boolean> selectedList = new ArrayList<>();
+    private ArrayList<Integer> positions = new ArrayList<>();
+
     private ArrayList<ChatRoomVO> list = new ArrayList<>();
+
     private int count;
     private static final String KEY_CHAT_NAME = "key_chat_name";
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof onSelectedListener){
+        if (context instanceof onSelectedListener) {
             listener = (onSelectedListener) context;
         }
     }
@@ -54,6 +57,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
         private int position;
 
 
+
         public EditChattingViewHolder(final View itemView) {
             super(itemView);
 
@@ -69,25 +73,26 @@ public class EditChatRecyclerViewFragment extends Fragment {
                 public void onClick(View v) {
                     if (editChatcheckBox.isChecked()) {
                         selectedList.set(position, true);
-                        intList.add(position);
+                        positions.add(position);
                         count++;
-                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
-                        Log.i(TAG, "position = " + position);
-                        listener.itemSelected(count, position, selectedList, intList);
+                        listener.itemSelected(count, position, selectedList, positions);
+//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+//                        Log.i(TAG, "position = " + position);
+//                        Log.i(TAG, "checkBox.onClick()//\tpositions.size = " + positions.size());
                     } else {
                         selectedList.set(position, false);
-                        intList.add(position);
                         count--;
-                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
-                        listener.itemSelected(count, position, selectedList, intList);
+                        listener.itemSelected(count, position, selectedList, positions);
+//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
                     }
+
                 }
             });
         } // end class EditChattingViewHolder
     }
 
-    class EditChattingAdapter extends RecyclerView.Adapter<EditChattingViewHolder>{
-//        public EditChattingAdapter() {
+    class EditChattingAdapter extends RecyclerView.Adapter<EditChattingViewHolder> {
+        //        public EditChattingAdapter() {
 //            for (int i = 0; i < getItemCount(); i++) {
 //                selectedList.add(false);
 //            }
@@ -115,6 +120,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
             return list.size();
         }
     }
+
     public EditChatRecyclerViewFragment() {
     }
 
@@ -135,6 +141,6 @@ public class EditChatRecyclerViewFragment extends Fragment {
     }
 
     public interface onSelectedListener {
-        void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> intList);
+        void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> positions);
     }
 }

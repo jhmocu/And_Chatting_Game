@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -69,7 +70,10 @@ public class ChatRecyclerViewFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
+                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
+                    startActivity(intent);
                     listPosition = getAdapterPosition();
                     Log.i(TAG, "ChatRecyclerView// onClick()// position:" + listPosition);
                     ChatRoomVO vo = chatRoomList.get(listPosition);
@@ -182,7 +186,7 @@ public class ChatRecyclerViewFragment extends Fragment {
                 for (ChatMessageReceiveVO vo : chatMessageList) {
                     String chatroome_name = vo.getChatroom_name();
                     String msg = vo.getMsg();
-//                    Log.i(TAG, "ChatMessageReceiveVO: " + vo.toString());
+                    Log.i("selecttask", "vo:\n" + vo.toString());
                 }
             }
 

@@ -37,8 +37,8 @@ public class EditChatListActivity extends AppCompatActivity
     private CheckBox editChatcheckBox;
     private int position;
     private int count;
-    private ArrayList<Integer> intList;
-    private ArrayList<Boolean> selectedList;
+    private ArrayList<Integer> positions = new ArrayList<>();
+    private ArrayList<Boolean> selectedList = new ArrayList<>();
     private ArrayList<ChatRoomVO> list = new ArrayList<>();
 
     @Override
@@ -73,17 +73,16 @@ public class EditChatListActivity extends AppCompatActivity
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo info = connMgr.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
-//                    for(int i = 0; i < count; i++) {
-                    for(int i = 0; i < intList.size(); i++) {
-                        ChatRoomVO vo = ChatRoomLab.getInstance().getChatRoomVOList().get(position);
-                        list.add(vo);
+                    for (int p : positions) {
+                        Log.i(TAG, "EditChatListActivity// onClickBtnEditFinish() size: " + positions.size());
+                        ChatRoomVO vo = ChatRoomLab.getInstance().getChatRoomVOList().get(p);
                         HttpDeleteChatRoomAsyncTask task = new HttpDeleteChatRoomAsyncTask();
-                        // 여기부터 하기 !!task.execute();
+                        task.execute(vo);
+                        Log.i(TAG, "execute()");
                     }
-//                    }
                 }
-
             }
+
         });
     }
 
@@ -91,32 +90,30 @@ public class EditChatListActivity extends AppCompatActivity
 
         @Override
         protected String doInBackground(ChatRoomVO... params) {
-            String result = sendData(params[0]);
+            String result = deleteChatRoom(params[0]);
             return result;
         }
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equals("1")){
-                Log.i(TAG, "삭제 완료");
-            }
-//            setResult(RESULT_OK, getIntent());
+
             finish();
         }
-
 
     }
 
     private void setResult() {
     }
 
-    public String sendData(ChatRoomVO vo) {
+    public String deleteChatRoom(ChatRoomVO vo) {
         String requestURL = "http://192.168.11.11:8081/Test3/DeleteChatList";
         String result = "";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        Log.i(TAG, "vo"+ vo.getPhone() + vo.getChatroom_name());
+//        Log.i(TAG, "deleteChatRoom()// vo: "+ vo.getPhone() +"\t" + vo.getChatroom_name());
         builder.addTextBody("phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("chatroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
 
@@ -143,10 +140,12 @@ public class EditChatListActivity extends AppCompatActivity
             String line = null;
 
             while ((line = bufferdReader.readLine()) != null) {
+
                 stringBuffer.append(line + "\n");
             }
 
             result = stringBuffer.toString();
+            Log.i(TAG, "result: " + result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -162,9 +161,9 @@ public class EditChatListActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> intList) {
-        Log.i(TAG, "position: " + position);
-        this.intList = intList;
+    public void itemSelected(int count, int position, ArrayList<Boolean> selectedList, ArrayList<Integer> positions) {
+        Log.i(TAG, "EditChatListActivity// itemSelected()// position.size(): " + positions.size());
+        this.positions = positions;
         this.position = position;
         this.count = count;
         textEditChatCount.setText(String.valueOf(count));
