@@ -177,12 +177,10 @@ public class FriendsListFragment extends Fragment {
 //        ArrayList<FriendVO> newList = new ArrayList<>();
 //        list = FriendLab.getInstance().getFriendList();
 //        String a = editNameSearch.getText().toString();
+//              for(String a : list) {
 //            if(a.contains(list.toString())) {
-//                for(String a : list) {
 //                    newList.add(a);
 //                }
-//
-//
 //            }
 //        }
 //        if(editNameSearch)

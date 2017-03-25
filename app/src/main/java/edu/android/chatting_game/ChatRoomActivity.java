@@ -107,9 +107,10 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //                for (ChatMessageReceiveVO vo : chatMessageList) {
 //
 //                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
-                view = inflater.inflate(R.layout.content_my_message, parent, false);
-                textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
-                textMyMsg.setText(list.get(position).getMsg());
+                        view = inflater.inflate(R.layout.content_my_message, parent, false);
+                        textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
+                        textMyMsg.setText(list.get(position).getMsg());
+                        textMyMsg.setTextSize(font);
 
 //                    } else { /** 상대 메세지 */
 //                        view = LayoutInflater.from(getContext()).inflate(R.layout.content_your_message, parent, false);
@@ -118,8 +119,12 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //                    }
 //                }// end for
             }// end if(view)
+            else {
+                Log.i("app_cycle", "convertView not null!");
+            }
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
+
 
             return view;
         }// end getView()
@@ -130,23 +135,28 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+//        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+//
+//
+//        listView = (ListView) findViewById(R.id.chatMessageListView);
+//        listView.setAdapter(adapter);
+//        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        Log.i(TAG, ProfileInfoActivity.class.getName());
 
 
-        listView = (ListView) findViewById(R.id.chatMessageListView);
-        listView.setAdapter(adapter);
-        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        Log.i(TAG, ProfileInfoActivity.class.getName());
-
-        //TODO:채팅방 글자크기 배경색변경
-        Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            int Color = extra.getInt("color");
-            listView.setBackgroundColor(Color);
-//            float font=extra.getFloat("size");
-//            textYourMsg.setTextSize(font);
+//        //TODO:채팅방 글자크기 배경색변경
+//        Bundle extra=getIntent().getExtras();
+//        if (extra != null) {
+//            int Color = extra.getInt("color");
+//            listView.setBackgroundColor(Color);
+//           float font=extra.getFloat("Size");
+////            textYourMsg.setTextSize(font);
 //            textMyMsg.setTextSize(font);
-        }
+//        }
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
         // 메시지가 추가됐을 때, 마지막 메시지로 스크롤 --> 보류
 //        adapter.registerDataSetObserver(new DataSetObserver() {
@@ -178,6 +188,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+
         Log.i("cycle", "onCreate()");
         Bundle bundle = getIntent().getExtras();
         my_phone = bundle.getString("key_my_phone");
@@ -232,7 +243,30 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         // todo title: 대화상대로 set
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(chatroom_name);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+        listView = (ListView) findViewById(R.id.chatMessageListView);
+        listView.setAdapter(adapter);
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        Log.i(TAG, ProfileInfoActivity.class.getName());
+        Bundle extra=getIntent().getExtras();
+        if (extra != null) {
+            int Color = extra.getInt("color");
+            listView.setBackgroundColor(Color);
+            font=extra.getFloat("Size");
+        }
+
     }// end onCreate()
+
+    private float font;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     public void optionItemSelected(int which) {
@@ -461,7 +495,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //        Log.i(TASK_CYCLE, "ReceiveTask// receiveChatMsgData()// String s:" + s + "|checked:" + checked + "|chatroom_name:" + chatroom_name);
         builder.addTextBody("my_phone", "01090429548", ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("chatroom_name", "01097319427, ", ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("chatroom_name", chatroom_name, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         AndroidHttpClient androidHttpClient = null; //
@@ -499,7 +533,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
                 e.printStackTrace();
             }
         }
-//        Log.i(TASK_CYCLE, "ReceiveTask// receiveChatMsgData()// result:" + result);
+
         return result;
     }
 
