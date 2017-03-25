@@ -71,8 +71,6 @@ public class ChatRecyclerViewFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ChatRoomActivity.class);
-//                    intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
-//                    intent.putExtra("size",FontChangeVO.getInstance().getTextSize());
 
                     listPosition = getAdapterPosition();
                     Log.i(TAG, "ChatRecyclerView// onClick()// position:" + listPosition);
@@ -212,7 +210,7 @@ public class ChatRecyclerViewFragment extends Fragment {
         Log.i(TAG, "ChatRecyclerView// selectTask// selectMyMessage()// chatroom_name:" + chatroom_name);
         Log.i(TAG, "ChatRecyclerView// selectTask// selectMyMessage()// vo=" + vo.toString());
 
-        builder.addTextBody("my_phone", vo.getPhone(), ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("my_phone", "01090429548"/**vo.getPhone()*/, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("chatroom_name", vo.getChatroom_name(), ContentType.create("Multipart/related", "UTF-8"));
 

@@ -127,7 +127,7 @@ public class MyService extends Service implements Runnable {
         } else {
             Log.d("PersistentService", "run(), mIsRunning is true");
             Log.d("PersistentService", "run(), alarm repeat after few minutes");
-            function();
+//            function();
             mHandler.postDelayed(this, UPDATE_DELAY);
             mIsRunning = true;
         }
