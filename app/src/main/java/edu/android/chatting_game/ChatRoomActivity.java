@@ -4,6 +4,8 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
@@ -53,8 +55,7 @@ import java.util.List;
  */
 
 
-public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback
-{
+public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFragment.optionItemSelectedListener, ProfileSendFragment.ProfileSendCallback {
 
     public static final String TAG = "edu.android.chatting";
     public static final String TASK_CYCLE = "task_cycle";
@@ -322,22 +323,57 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     }
 
     private void onClickBtnSend() {
-        String msg = writeMsg.getText().toString();
-        HttpSendChatMessageAsyncTask task = new HttpSendChatMessageAsyncTask();
-        task.execute(msg);
-        writeMsg.clearFocus();
-        writeMsg.setText("");
+
+        /***/
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo info = connMgr.getActiveNetworkInfo();
+        if (info != null && info.isAvailable()) {
+            /** receive */
+//            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
+//            task.execute("01090429548");
+
+            String msg = writeMsg.getText().toString();
+            HttpSendChatMessageAsyncTask task = new HttpSendChatMessageAsyncTask();
+            task.execute(msg);
+            writeMsg.clearFocus();
+            writeMsg.setText("");
+        }
+        /***/
+
     }
 
-    /** --> onClickBtnSend */
-    private class HttpSendChatMessageAsyncTask extends AsyncTask<String, Void, String> {
+    /**
+     * --> onClickBtnSend
+     */
+    private class HttpSendChatMessageAsyncTask extends AsyncTask<String, Integer, String> {
+        private int progress;
 
         @Override
         protected String doInBackground(String... params) {
             Log.i(TASK_CYCLE, "SendTask// doInBackground()");
             String result = sendChatMsgData(params[0]);
+
+//            while (!isCancelled()) {
+//                progress++;
+//                publishProgress(progress);
+//                Log.i(TASK_CYCLE, "SendTask// doInBackground()// progress:" + progress);
+//                if (progress == 3) { /** 임의 */
+//                    break;
+//                }
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             return result;
         }
+
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//            Log.i(TASK_CYCLE, "SendTask// onProgressUpdate");
+//        }
 
         @Override
         protected void onPostExecute(String s) {
@@ -346,11 +382,18 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             // TODO: 2017-03-23 서버에 메세지 보내기 완료 이후
             // receive 실행 task
 //            HttpReceiveChatMessageAsyncTask task = new HttpReceiveChatMessageAsyncTask();
-//            task.execute(); ==> 안 됨.
+//            task.execute(); // ==> 안 됨.
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
         }
     } // end class HttpSendChatMessageAsyncTask
 
-    /** 채팅 메시지 보내기 */
+    /**
+     * 채팅 메시지 보내기
+     */
     public String sendChatMsgData(String msg) {
         String requestURL = "http://192.168.11.11:8081/Test3/UpdateChatInfo";
         String result = "";
@@ -362,8 +405,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         Log.i("allphone_file", "sendChatMsgData() all_phone" + all_phone);
 
         // 데이터 넣는 부분
-        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("my_phone", "01097319427", ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8")); //all_phone: ["01090429548"]
         builder.addTextBody("last_msg", msg, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
@@ -405,15 +448,14 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         return result;
     }// end sendChatMsgData()
 
-    private class HttpReceiveChatMessageAsyncTask extends AsyncTask<String, String, String> {
-        // TODO: 2017-03-23 :: 2nd parameter :: Void
+    private class HttpReceiveChatMessageAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
             Log.i(TASK_CYCLE, "ReceiveTask// doInBackground()");
             String result = receiveChatMsgData(params[0]);
 
-            Log.i(TASK_CYCLE, "ReceiveTask// doInBackground() result:" + result);
+            Log.i(TASK_CYCLE, "ReceiveTask// doInBackground()// result:" + result);
             return result;
         }
 
@@ -427,27 +469,31 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             TypeToken<ArrayList<ChatMessageReceiveVO>> typeToken = new TypeToken<ArrayList<ChatMessageReceiveVO>>() {
             };
             Type type = typeToken.getType();
+
             chatMessageList = gson.fromJson(s, type);
             ChatMessageReceiveLab.getInstance().setChatMessageList(chatMessageList);
             if (!chatMessageList.isEmpty()) {
                 for (ChatMessageReceiveVO vo : chatMessageList) {
                     String chatroome_name = vo.getChatroom_name();
                     String msg = vo.getMsg();
-//                    Log.i(TAG, "onPostExecute()//\tChatMessageReceiveVO: " + vo.toString());
+                  Log.i(TASK_CYCLE, "vo:" + vo.toString());
                 }
             }
-        }
+        }// end onPostExecute()
     }// end class HttpReceiveChatMessageAsyncTask
 
-    /** receive_info table select 해서 메세지 불러오기 */
-    public String receiveChatMsgData(String nonParams/*chatroom_name*/) {
+    /**
+     * receive_info table select 해서 메세지 불러오기
+     */
+    public String receiveChatMsgData(String s) {
         String result = "";
-        String checked = "true"; /** false */
+        String checked = "false"; /** false */
         String requestURL = "http://192.168.11.11:8081/Test3/SelectChatReceive";
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
+//        Log.i(TASK_CYCLE, "ReceiveTask// receiveChatMsgData()// String s:" + s + "|checked:" + checked + "|chatroom_name:" + chatroom_name);
+        builder.addTextBody("my_phone", "01090429548", ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("chatroom_name", chatroom_name, ContentType.create("Multipart/related", "UTF-8"));
 
@@ -471,6 +517,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             StringBuffer stringBuffer = new StringBuffer();
             String line = null;
             while ((line = bufferdReader.readLine()) != null) {
+//                Log.i(TASK_CYCLE, "ReceiveTask// receiveChatMsgData()// String line != null, line=" + line);
                 stringBuffer.append(line + "\n");
             }
 
@@ -490,7 +537,9 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         return result;
     }
 
-    /** 이름이 chatroom_name 인 파일에서 all_phone 읽어오기 */
+    /**
+     * 이름이 chatroom_name 인 파일에서 all_phone 읽어오기
+     */
     private String getAllPhone(String fileName) {
         Log.i("allphone_file", "ChatRoom// setAllPhone()// fileName:" + fileName);
         String all_phone = readFromFile(fileName).toString();
