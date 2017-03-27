@@ -97,7 +97,8 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(receiver);
+        // TODO: 2017-03-27 에러 수정
+//        unregisterReceiver(receiver);
     }
 
     //    public void OnDestroy() {

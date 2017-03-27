@@ -156,6 +156,7 @@ public class ChatListFragment extends Fragment {
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         builder.addTextBody("phone", phone, ContentType.create("Multipart/related", "UTF-8"));
+
         InputStream inputStream = null;
         AndroidHttpClient androidHttpClient = null;
         HttpPost httpPost = null;

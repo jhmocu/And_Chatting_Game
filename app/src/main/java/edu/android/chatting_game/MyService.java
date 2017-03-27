@@ -99,8 +99,6 @@ public class MyService extends Service implements Runnable {
         mIsRunning = false;
     }
 
-
-
     /**
      * @see android.app.Service#onStart(android.content.Intent, int)
      * 서비스가 시작되었을때 run()이 실행되기까지 delay를 handler를 통해서 주고 있다.

@@ -61,7 +61,7 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("cycle", "FriendsListFragment// onResume()");
+        Log.i("app_cycle", "FriendsListFragment// onResume()");
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
@@ -93,7 +93,7 @@ public class FriendsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: 2017-03-16 친구 이름으로 검색
-//                onClickBtnSearchFriend();
+
             }
         });
         getActivity().getWindow().setSoftInputMode(
@@ -117,7 +117,7 @@ public class FriendsListFragment extends Fragment {
             TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
             list = gson.fromJson(s, type);
-            Log.i(TAG, "FriendsListFragment// HttpSelectFriendAsyncTask// onPostExecute(): list=" + list.toString());
+
             if (list != null) {
                 lab = FriendLab.getInstance();
                 lab.setFriendList(list);
@@ -134,7 +134,6 @@ public class FriendsListFragment extends Fragment {
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         builder.addTextBody("phone", s/** my_phone */, ContentType.create("Multipart/related", "UTF-8"));
-        Log.i("my_phone", "FriendsListFragment// HttpSelectFriendAsyncTask// selectProfile()// my_phone:" + my_phone);
         InputStream inputStream = null;
         AndroidHttpClient androidHttpClient = null;
         HttpPost httpPost = null;
@@ -172,21 +171,6 @@ public class FriendsListFragment extends Fragment {
         }
         return result;
     }// end selectProfile()
-
-//    // TODO: 친구이름 검색 진행중
-//    private void onClickBtnSearchFriend() {
-//        ArrayList<FriendVO> newList = new ArrayList<>();
-//        list = FriendLab.getInstance().getFriendList();
-//        String a = editNameSearch.getText().toString();
-//              for(String a : list) {
-//            if(a.contains(list.toString())) {
-//                    newList.add(a);
-//                }
-//            }
-//        }
-//        if(editNameSearch)
-
-
 
     private void updateFriendsList() {
         FriendsRecyclerViewFragment fragment = new FriendsRecyclerViewFragment();

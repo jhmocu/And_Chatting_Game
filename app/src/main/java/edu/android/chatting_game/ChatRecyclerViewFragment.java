@@ -176,7 +176,7 @@ public class ChatRecyclerViewFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// onPostExecute() String s:" + s);
+//            Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// onPostExecute() String s:" + s);
             Gson gson = new Gson();
             TypeToken<ArrayList<MessageVO>> typeToken = new TypeToken<ArrayList<MessageVO>>() {
             };
@@ -194,7 +194,6 @@ public class ChatRecyclerViewFragment extends Fragment {
 //
             if (!messageList.isEmpty()) {
                 for (MessageVO vo : messageList) {
-// TODO: 2017-03-25 하나씩 꺼낼 필요 있을까.
                     Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// onPostExecute() vo:\n" + vo.toString());
                 }
             }
@@ -207,6 +206,7 @@ public class ChatRecyclerViewFragment extends Fragment {
         Intent intent = new Intent(getContext(), ChatRoomActivity.class);
         intent.putExtra("key_my_phone", my_phone);
         intent.putExtra("key_room_name", chatroom_name);
+
         intent.putExtra("color",BackgroundChangeVO.getInstance().getColor());
         if (FontChangeVO.getInstance().getTextSize() != 0) {
             intent.putExtra("Size", FontChangeVO.getInstance().getTextSize());
@@ -227,11 +227,11 @@ public class ChatRecyclerViewFragment extends Fragment {
         chatroom_name = vo.getChatroom_name();
 
         Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// selectMyMessage()// chatroom_name:" + chatroom_name);
-        Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// selectMyMessage()// vo=" + vo.toString());
+//        Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// selectMyMessage()// vo=" + vo.toString());
 
 //        builder.addTextBody("my_phone", "01090429548"/**vo.getPhone()*/, ContentType.create("Multipart/related", "UTF-8")); // member = receiver
 //        builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("table_name", "a0109731942701090429548", ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("table_name", chatroom_name, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         AndroidHttpClient androidHttpClient = null; //
@@ -269,7 +269,7 @@ public class ChatRecyclerViewFragment extends Fragment {
             }
         }
 
-        Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// selectMyMessage() result:" + result);
+//        Log.i(TASK_CYCLE, "ChatRecyclerView// selectTask// selectMyMessage() result:" + result);
         return result;
     }// end selectMyMessage
 }// end class ChatRecyclerViewFragment
