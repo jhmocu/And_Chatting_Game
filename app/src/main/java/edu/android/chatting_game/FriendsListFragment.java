@@ -117,6 +117,7 @@ public class FriendsListFragment extends Fragment {
             TypeToken<ArrayList<Friend>> typeToken = new TypeToken<ArrayList<Friend>>() {};
             Type type = typeToken.getType();
             list = gson.fromJson(s, type);
+            Log.i(TAG, "FriendsListFragment// HttpSelectFriendAsyncTask// onPostExecute(): list=" + list.toString());
             if (list != null) {
                 lab = FriendLab.getInstance();
                 lab.setFriendList(list);

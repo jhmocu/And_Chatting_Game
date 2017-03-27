@@ -134,7 +134,7 @@ public class MyService extends Service implements Runnable {
     }
 
     private void function() {
-        // TODO: 2017-03-20 서비스가 실행할 일
+        // 서비스가 실행할 일
         Log.d(TAG_SERVICE, "========================");
         Log.d(TAG_SERVICE, "function()");
         Log.d(TAG_SERVICE, "========================");
@@ -142,7 +142,6 @@ public class MyService extends Service implements Runnable {
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
         HttpReceiveAsyncTask task = new HttpReceiveAsyncTask();
         task.execute(my_phone);
-
     }
 
     /**
@@ -194,9 +193,11 @@ public class MyService extends Service implements Runnable {
                 Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
                 for (int i = 0; i < list.size(); i++) {
                     ChatMessageReceiveVO vo = list.get(i);
+
                     Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
                     getMessage(getApplicationContext(), vo);
                     updateData(vo.getMy_phone(), vo.getChatroom_name());
+
                 }
             }
             return result;
@@ -346,13 +347,15 @@ public class MyService extends Service implements Runnable {
     }
 
     private void getMessage(Context context, ChatMessageReceiveVO vo) {
-        // TODO: 2017-03-20 메세지가 도착하면 상태바에 알림 띄우기
+        // 메세지가 도착하면 상태바에 알림 띄우기
         // 알림을 띄우기 위해 서비스 불러옴
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, ChatRoomActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); /**알림 터치했을 때 호출할 액티비티*/
+
         intent.putExtra("chat_member", vo.getChat_member());
         intent.putExtra("chatroom_name", vo.getChatroom_name());
+
         intent.putExtra("msg", vo.getMsg());
         intent.putExtra("chat_date", vo.getChat_date());
 

@@ -68,35 +68,47 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
     private String[] member_phones = {};
 
     private ListView listView;
-    private ChatMessageReceiveLab lab;
+//    private ChatMessageReceiveLab lab;
     private ArrayList<ChatMessageReceiveVO> chatMessageList;
+    private MessageLab lab;
+    private ArrayList<MessageVO> messageList;
+
+
 
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
 
 
-    class ChatMessageAdapter extends ArrayAdapter<ChatMessageReceiveVO> {
+    class ChatMessageAdapter extends ArrayAdapter<MessageVO> {
 
-        private List<ChatMessageReceiveVO> list;
+        private List<MessageVO> list;
 
-        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ChatMessageReceiveVO> objects) {
+        public ChatMessageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<MessageVO> objects) {
             super(context, resource, objects);
+//            list = ChatMessageReceiveLab.getInstance().getChatMessageList();
+
+
             this.list = objects;
+            if (objects != null) {
+                Log.i("getList", "adapter 생성자 object != null");
+                Log.i("getList", "adapter 생성자 list:" + list.size());
+            }
         }
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             Log.i("cycle", "getView()");
-            my_phone = getIntent().getExtras().getString("key_my_phone");
+//            my_phone = getIntent().getExtras().getString("key_my_phone");
+            my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
 
             View view = convertView;
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                for (ChatMessageReceiveVO vo : chatMessageList) {
+                for (MessageVO vo : messageList) {
 
-                    if (vo.getMy_phone().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
+                    if (vo.getSender().equals(my_phone)) { /** 내 메세지 */ /** list.get(position).getMy_phone()*/
                         view = inflater.inflate(R.layout.content_my_message, parent, false);
                         textMyMsg = (TextView) view.findViewById(R.id.textMyMsg);
                         textMyMsg.setText(list.get(position).getMsg());
@@ -121,7 +133,7 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat_room, menu);
 
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, chatMessageList);
+        final ChatMessageAdapter adapter = new ChatMessageAdapter(this, -1, messageList);
         //TODO:채팅방 글자크기 배경색변경
         Bundle extra=getIntent().getExtras();
         if (extra != null) {
@@ -182,8 +194,8 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         Log.i("cycle", "onCreate()");
-        lab = ChatMessageReceiveLab.getInstance();
-        chatMessageList = lab.getChatMessageList();
+        lab = MessageLab.getInstance();
+        messageList = lab.getMessageList();
 
         // 채팅방 정보 받아오기기
         Bundle chatExtras = getIntent().getExtras();
@@ -206,11 +218,11 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         }
         Log.i(TAG, "chatroomactivity : chatroom_name:" + chatroom_name);
 
-        // 채팅방 정보들을 DB에 넘겨준다.
         if(!this.getFileStreamPath(chatroom_name).exists()) {
             all_phone = createAllPhone(member_phone, member_phones);
         } else {
             all_phone = getAllPhone(chatroom_name);
+
         }
         HttpConnectAsyncTask task = new HttpConnectAsyncTask();
         task.execute(all_phone);
@@ -247,7 +259,7 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
         ActionBar actionBar = getSupportActionBar();
         // title = chatMessageList.get(0).getChatroom_name(); <- 이렇게 하는 게 어때요.
 //        title = my_phone;
-        actionBar.setTitle("대화방");
+        actionBar.setTitle(chatroom_name);
     }// end onCreate()
 
     private String getAllPhone(String chatroom_name) {
@@ -435,10 +447,9 @@ public class DirectChatRoomActivity extends AppCompatActivity implements OptionB
     /** 파일 이름 생성 */
     private String createFileName(String[] phones) {
         String fileName = "";
+        my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < phones.length; i++) {
-            buffer.append(phones[i]).append(", ");
-        }
+  buffer.append("a").append(my_phone).append(phones[0]);
         fileName = buffer.toString();
 
         Log.i("allphone_file", "Direct// createFileName() fileName:" + fileName);

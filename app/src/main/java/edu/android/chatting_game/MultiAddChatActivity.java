@@ -75,7 +75,8 @@ public class MultiAddChatActivity extends AppCompatActivity
         btnMultiChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
+//                Intent intent = new Intent(MultiAddChatActivity.this, ChatRoomActivity.class);
+                Intent intent = new Intent(MultiAddChatActivity.this, DirectChatRoomActivity.class);
 //                intent.putExtra("otherPhones", phone);
                 for (int p : positions){
                     Log.i(TAG, " size: " + positions.size());

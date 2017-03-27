@@ -17,6 +17,10 @@
         android:layout_height="460dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:divider="@null"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:layout_above="@+id/linearLayout2" />
 
     <RelativeLayout
