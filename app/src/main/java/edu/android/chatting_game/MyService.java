@@ -366,10 +366,11 @@ public class MyService extends Service implements Runnable {
         NotificationManager notificationManager =
               (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, ChatRoomActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); /**알림 터치했을 때 호출할 액티비티*/
-        intent.putExtra("chat_member", vo.getChat_member());
+        MessageVO mVO = new MessageVO(vo.getChat_member(), vo.getMsg(), vo.getChat_date());
+        intent.putExtra("chat_member", mVO.getSender());
         intent.putExtra("chatroom_name", vo.getChatroom_name());
-        intent.putExtra("msg", vo.getMsg());
-        intent.putExtra("chat_date", vo.getChat_date());
+        intent.putExtra("msg", mVO.getMsg());
+        intent.putExtra("chat_date", mVO.getChat_date());
 
         PendingIntent contentIntent = PendingIntent.getActivity/** OR getService() OR getBroadcastReceiver() */
                  (context, 0, intent,
@@ -377,8 +378,8 @@ public class MyService extends Service implements Runnable {
 
         Notification notification
                 = new Notification.Builder(context)
-                .setContentTitle(vo.getChat_member())
-                .setContentText(vo.getMsg())
+                .setContentTitle(mVO.getSender())
+                .setContentText(mVO.getMsg())
                 .setTicker("알림 발생시 잠깐 나오는 텍스트 - 실제 디바이스에서만 나옴")
                 .setSmallIcon(R.drawable.p1)
                 .setContentIntent(contentIntent)/**알림 터치시 실행할 작업 인텐트*/

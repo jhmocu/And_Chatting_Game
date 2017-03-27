@@ -224,7 +224,11 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         Log.i("cycle", "onCreate()");
         Bundle bundle = getIntent().getExtras();
         my_phone = bundle.getString("key_my_phone");
+
         chatroom_name = bundle.getString("key_room_name");
+        if (chatroom_name == null){
+            chatroom_name = bundle.getString("chatroom_name");
+        }
 
         // TODO: 2017-03-25 주석 처리 확인
         all_phone = getAllPhone(chatroom_name);
