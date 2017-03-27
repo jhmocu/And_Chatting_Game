@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class Main2Activity extends AppCompatActivity
 
 
     public static final int REQ_CODE = 1001;
+    private String receiveSign;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -49,8 +51,11 @@ public class Main2Activity extends AppCompatActivity
     private static final String TAG = "edu.android.chatting";
 
     // TODO: 2017-03-20 서비스 바인딩
-    BroadcastReceiver receiver;
+    private RestartService receiver;
     Intent intentMyService;
+
+    // 데이터 수신용 value
+    private String dataPassed = "noData";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,6 @@ public class Main2Activity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -77,16 +81,26 @@ public class Main2Activity extends AppCompatActivity
         intentMyService = new Intent(this, MyService.class);
         receiver = new RestartService();
 
-            // ????
-            IntentFilter mainFilter = new IntentFilter("edu.android.chatting");
-            // 리시버 저장
-            registerReceiver(receiver, mainFilter);
-            // 서비스 시작
-            startService(intentMyService);
+        // ????
+        IntentFilter mainFilter = new IntentFilter("edu.android.chatting");
+        mainFilter.addAction(MyService.MY_ACTION);
+
+        // 리시버 저장
+        registerReceiver(receiver, mainFilter);
+
+        // 서비스 시작
+        startService(intentMyService);
+
 
     }// end onCreate()
 
-//    public void OnDestroy() {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(receiver);
+    }
+
+    //    public void OnDestroy() {
 //
 //        // 리시버 삭세를 하지 않으면 에러
 //        Log.d("MpMainActivity", "Service Destroy");
@@ -155,14 +169,10 @@ public class Main2Activity extends AppCompatActivity
         startActivityForResult(intent, REQ_CODE);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode==REQ_CODE && resultCode==RESULT_OK){
-//            String msg=data.getStringExtra(FriendsRecyclerViewFragment.KEY_EXTRA_NAME2);
-//            Toast.makeText(this,"DB 업데이트"+msg,Toast.LENGTH_SHORT).show();
-//            //TODO:DB에서 처리함
-//        }
-//    }
+    // 앱이 실행 되었을 때 메시지가 오면 받아올 신호값
+    public void SendSignListener(String sendSign){
+        receiveSign = sendSign;
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -281,5 +291,44 @@ public class Main2Activity extends AppCompatActivity
         Log.i("gg", buffer.toString());
         return buffer.toString();
     }
+
+    class RestartService extends BroadcastReceiver {
+        public static final String ACTION_RESTART_PERSISTENTSERVICE
+                = "ACTION.Restart.PersistentService";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("Service", "service called!");
+            // 리시버가 뭔가를 받았을 때
+            dataPassed = intent.getStringExtra("DATAPASSED");
+            Log.d("Service", dataPassed);
+
+            // 신호를 받았을 때 chatListFragment의 메소드를 불러옴
+//            if(dataPassed.equals("receivedTrue")){
+//                ChatListFragment chatListFragment = new ChatListFragment();
+//                chatListFragment.callChatListFragment();
+//
+//            }
+
+
+        /* 서비스 죽일때 알람으로 다시 서비스 등록 */
+            if (intent.getAction().equals(ACTION_RESTART_PERSISTENTSERVICE)) {
+                Log.d("Service", "Service dead, but resurrection");
+
+                Intent i = new Intent(context, MyService.class);
+                context.startService(i);
+            }
+
+        /* 폰 재부팅할때 서비스 등록 */
+            if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+                Log.d("Service", "ACTION_BOOT_COMPLETED");
+
+                Intent i = new Intent(context, MyService.class);
+                context.startService(i);
+            }
+        }
+
+    }
+
 
 }

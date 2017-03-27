@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
             editChatTxtFriendCount = (TextView) itemView.findViewById(R.id.editChatTxtFriendCount);
             editChatcheckBox = (CheckBox) itemView.findViewById(R.id.editChatcheckBox);
 
-            // TODO: 클릭시 checkBox가 선택되도록 설정하기
+            // checkBox가 선택되도록 설정하기
             editChatcheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,14 +75,11 @@ public class EditChatRecyclerViewFragment extends Fragment {
                         positions.add(position);
                         count++;
                         listener.itemSelected(count, position, selectedList, positions);
-//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
-//                        Log.i(TAG, "position = " + position);
-//                        Log.i(TAG, "checkBox.onClick()//\tpositions.size = " + positions.size());
                     } else {
                         selectedList.set(position, false);
                         count--;
                         listener.itemSelected(count, position, selectedList, positions);
-//                        Log.i(TAG, "count = " + count + " selectList: " + selectedList);
+
                     }
 
                 }
@@ -92,11 +88,7 @@ public class EditChatRecyclerViewFragment extends Fragment {
     }
 
     class EditChattingAdapter extends RecyclerView.Adapter<EditChattingViewHolder> {
-        //        public EditChattingAdapter() {
-//            for (int i = 0; i < getItemCount(); i++) {
-//                selectedList.add(false);
-//            }
-//        }
+
         @Override
         public EditChattingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getContext());

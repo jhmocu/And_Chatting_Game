@@ -24,6 +24,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="133dp"
         android:layout_marginStart="133dp"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/textName" />
 
     <TextView
@@ -34,6 +36,7 @@
         android:layout_alignLeft="@+id/textPhone"
         android:layout_alignStart="@+id/textPhone"
         android:layout_marginTop="16dp"
+        android:textSize="18sp"
         android:id="@+id/textMsg" />
 
     <ImageButton
@@ -65,5 +68,6 @@
         android:id="@+id/textPhone"
         android:layout_below="@+id/textName"
         android:layout_alignLeft="@+id/textName"
-        android:layout_alignStart="@+id/textName" />
+        android:layout_alignStart="@+id/textName"
+        android:textSize="18sp"/>
 </RelativeLayout>
