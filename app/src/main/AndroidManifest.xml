@@ -40,7 +40,9 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".AddFriendsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ChatRoomActivity" />
+        <activity android:name=".ChatRoomActivity">
+        </activity>
+
         <activity android:name=".DirectChatRoomActivity" />
         <activity android:name=".NoticeActivity" />
         <activity android:name=".FontChangeActivity" />

@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -61,6 +62,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     public static final String TAG = "edu.android.chatting";
     public static final String TASK_CYCLE = "task_cycle";
+    public String dataPassed;
 
 
     private EditText writeMsg;
@@ -76,6 +78,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     private ProfileSendFragment profileSendFragment;
     private ChatMessageAdapter chatMessageAdapter;
+
+    public ReceiveMyService chatRoomReceiver;
 
     private Handler handler = new Handler() {
 
@@ -113,7 +117,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             super.handleMessage(msg);
         }
     };
-
 
     class ChatMessageAdapter extends ArrayAdapter<MessageVO> {
 
@@ -279,6 +282,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 //        actionBar.hide();
 
         chatMessageAdapter = new ChatMessageAdapter(this, -1, messageList);
+
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(chatMessageAdapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -706,5 +710,15 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
         return buffer.toString();
     }
+
+//    // Myservice에서 값 받아오기
+//    public class ReceiveMyService extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            dataPassed = intent.getStringExtra("DATAPASSED");
+//            Log.d("chatroom", dataPassed);
+//        }
+//    }
 
 } // end class ChatRoomActivity

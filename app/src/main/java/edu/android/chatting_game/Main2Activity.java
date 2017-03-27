@@ -58,6 +58,20 @@ public class Main2Activity extends AppCompatActivity
     private String dataPassed = "noData";
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // ????
+        IntentFilter mainFilter = new IntentFilter("edu.android.chatting");
+//        mainFilter.addAction(MyService.MY_ACTION);
+
+        // 리시버 저장
+        registerReceiver(receiver, mainFilter);
+
+        // 서비스 시작
+        startService(intentMyService);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
@@ -81,24 +95,14 @@ public class Main2Activity extends AppCompatActivity
         intentMyService = new Intent(this, MyService.class);
         receiver = new RestartService();
 
-        // ????
-        IntentFilter mainFilter = new IntentFilter("edu.android.chatting");
-        mainFilter.addAction(MyService.MY_ACTION);
-
-        // 리시버 저장
-        registerReceiver(receiver, mainFilter);
-
-        // 서비스 시작
-        startService(intentMyService);
 
 
     }// end onCreate()
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        // TODO: 2017-03-27 에러 수정
-//        unregisterReceiver(receiver);
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     //    public void OnDestroy() {

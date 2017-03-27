@@ -28,6 +28,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="name"
+        android:textSize="15sp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"/>
 
@@ -36,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="date"
+        android:textSize="15sp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/textYourMsg"
         android:layout_toEndOf="@+id/textYourMsg" />
