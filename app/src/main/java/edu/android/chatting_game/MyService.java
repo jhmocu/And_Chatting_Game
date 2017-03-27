@@ -1,11 +1,13 @@
 package edu.android.chatting_game;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
@@ -32,18 +34,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyService extends Service implements Runnable {
 
     public static final String TAG_SERVICE = "service";
+    public static final String SEND_SIGN_TAG = "sendMsg";
+    public static final String MY_ACTION = "MY_ACTION";
     public String my_phone = "";
     private ArrayList<ChatMessageReceiveVO> list = new ArrayList<>();
+
+    // 앱이 실행되어 있는지 확인
+    private boolean isRunningApp;
 
     // 서비스 종료시 재부팅 딜레이 시간, activity의 활성 시간 벌기 위함
     private static final int REBOOT_DELAY_TIMER = 5 * 1000;
 
     // 업데이트 주기
-    private static final int UPDATE_DELAY = 1 * 1000;
+    private static final int UPDATE_DELAY = 10 * 1000;
 
     private Handler mHandler;
     private boolean mIsRunning;
@@ -134,7 +142,7 @@ public class MyService extends Service implements Runnable {
     }
 
     private void function() {
-        // 서비스가 실행할 일
+        // TODO: 2017-03-20 서비스가 실행할 일
         Log.d(TAG_SERVICE, "========================");
         Log.d(TAG_SERVICE, "function()");
         Log.d(TAG_SERVICE, "========================");
@@ -142,6 +150,7 @@ public class MyService extends Service implements Runnable {
         my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
         HttpReceiveAsyncTask task = new HttpReceiveAsyncTask();
         task.execute(my_phone);
+
     }
 
     /**
@@ -152,8 +161,8 @@ public class MyService extends Service implements Runnable {
 
         Log.d("PersistentService", "registerRestartAlarm()");
 
-        Intent intent = new Intent(MyService.this, RestartService.class);
-        intent.setAction(RestartService.ACTION_RESTART_PERSISTENTSERVICE);
+        Intent intent = new Intent(MyService.this, Main2Activity.RestartService.class);
+        intent.setAction(Main2Activity.RestartService.ACTION_RESTART_PERSISTENTSERVICE);
         PendingIntent sender = PendingIntent.getBroadcast(MyService.this, 0, intent, 0);
 
         long firstTime = SystemClock.elapsedRealtime();
@@ -169,8 +178,8 @@ public class MyService extends Service implements Runnable {
     private void unregisterRestartAlarm() {
 
         Log.d("PersistentService", "unregisterRestartAlarm()");
-        Intent intent = new Intent(MyService.this, RestartService.class);
-        intent.setAction(RestartService.ACTION_RESTART_PERSISTENTSERVICE);
+        Intent intent = new Intent(MyService.this, Main2Activity.RestartService.class);
+        intent.setAction(Main2Activity.RestartService.ACTION_RESTART_PERSISTENTSERVICE);
         PendingIntent sender = PendingIntent.getBroadcast(MyService.this, 0, intent, 0);
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -189,15 +198,22 @@ public class MyService extends Service implements Runnable {
             Type type = typeToken.getType();
             Log.i(TAG_SERVICE, "MyService// onPostExecute()// String s" + result);
             list = gson.fromJson(result, type);
+
+            // 신호를 받았을 때
             if(!list.isEmpty()) {
                 Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
                 for (int i = 0; i < list.size(); i++) {
                     ChatMessageReceiveVO vo = list.get(i);
-
                     Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
+
                     getMessage(getApplicationContext(), vo);
                     updateData(vo.getMy_phone(), vo.getChatroom_name());
 
+                    Intent connMainIntent = new Intent();
+                    connMainIntent.setAction(MY_ACTION);
+                    connMainIntent.putExtra("DATAPASSED", "receivedTrue");
+                    sendBroadcast(connMainIntent);
+                    Log.i(TAG_SERVICE, "메시지 받은거 확인");
                 }
             }
             return result;
@@ -346,25 +362,20 @@ public class MyService extends Service implements Runnable {
         return buffer.toString();
     }
 
-    private void getMessage(Context context, ChatMessageReceiveVO vo) {
-        // 메세지가 도착하면 상태바에 알림 띄우기
+    public void getMessage(Context context, ChatMessageReceiveVO vo) {
+
         // 알림을 띄우기 위해 서비스 불러옴
         NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+              (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, ChatRoomActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); /**알림 터치했을 때 호출할 액티비티*/
-
         intent.putExtra("chat_member", vo.getChat_member());
         intent.putExtra("chatroom_name", vo.getChatroom_name());
-
         intent.putExtra("msg", vo.getMsg());
         intent.putExtra("chat_date", vo.getChat_date());
 
         PendingIntent contentIntent = PendingIntent.getActivity/** OR getService() OR getBroadcastReceiver() */
-                (context, 0, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // 메인 엑티비티를 띄워서 채팅 리스트를 다시 뿌려준다
-        Intent mainIntent = new Intent(context, Main2Activity.class);
+                 (context, 0, intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification
                 = new Notification.Builder(context)
@@ -380,6 +391,52 @@ public class MyService extends Service implements Runnable {
 
         // Send the notification.
         notificationManager.notify(22, notification);
+
+    }
+
+
+//    private Messenger messenger;
+//    // Send message to activity
+//    public void remoteSendMessage(String data){
+//        if (messenger != null) {
+//            Message msg = new Message();
+//            msg.what = 1;
+//            msg.obj = data;
+//            try {
+//                messenger.send(msg);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    // handler를 사용(메시지 보내기 위한 방법)
+//    private class RemoteHandler extends Handler {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what){
+//                case 0:
+//                    // Register activity hander
+//                    messenger = (Messenger) msg.obj;
+//                    break;
+//                default :
+//                    remoteSendMessage("msgReceived");
+//                    break;
+//            }
+//        }
+//    }
+
+    // 서비스에서 내 액티비티가 실행되는지 확인
+    public static boolean isForegroundActivity(Context context, Class<?> cls){
+        if(cls == null){
+            return false;
+        }
+
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo runningTaskInfo = info.get(0);
+        ComponentName componentName = runningTaskInfo.topActivity;
+        return cls.getName().equals(componentName.getClassName());
     }
 
 } // end class MyService

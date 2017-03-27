@@ -119,6 +119,7 @@ public class FriendsRecyclerViewFragment
         list = FriendLab.getInstance().getFriendList();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.invalidate();
         recyclerView.setAdapter(new FriendAdapter());
         Collections.reverse(list);
         return view;

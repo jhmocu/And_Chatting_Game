@@ -9,7 +9,9 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -271,3 +273,25 @@ public class ChatRecyclerViewFragment extends Fragment {
         return result;
     }// end selectMyMessage
 }// end class ChatRecyclerViewFragment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

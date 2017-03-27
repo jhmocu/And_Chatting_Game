@@ -45,6 +45,7 @@ public class ChatListFragment extends Fragment {
     private ArrayList<ChatRoomVO> list;
     private ChatRoomLab lab;
     private String my_phone;
+    private String dataPassed;
 
     //private colorChangeListener listener;
 
@@ -145,6 +146,7 @@ public class ChatListFragment extends Fragment {
             super.onPostExecute(s);
             updateChatList(s);
         }
+
     }// end class HttpSelectChatListAsyncTask
 
     public String selectChatList(String phone) {
@@ -215,5 +217,13 @@ public class ChatListFragment extends Fragment {
         transaction.replace(R.id.container_chat_recyclerView, fragment);
         transaction.commit();
     }
+
+//    // TODO: public 메소드를 생성해서 데이터 값들을 불러오는 기능을 넣어준다.
+//    public void callChatListFragment() {
+//
+//        ChatRecyclerViewFragment chatRecyclerViewFragment = new ChatRecyclerViewFragment();
+//        chatRecyclerViewFragment.changeData();
+//
+//    }
 
 }// end class ChatListFragment

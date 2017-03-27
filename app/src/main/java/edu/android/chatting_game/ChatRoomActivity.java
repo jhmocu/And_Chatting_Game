@@ -234,7 +234,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         lab = MessageLab.getInstance();
         messageList = lab.getMessageList();
 
-        // 채팅방 정보 받아오기기
+        // 채팅방 정보 받아오기
         Bundle chatExtras = getIntent().getExtras();
         if (chatExtras != null) {
             // 값가져오기
