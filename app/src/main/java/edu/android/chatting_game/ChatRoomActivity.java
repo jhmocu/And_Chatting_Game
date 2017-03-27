@@ -1,7 +1,6 @@
 package edu.android.chatting_game;
 
 import android.app.DialogFragment;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -78,8 +77,6 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     private ProfileSendFragment profileSendFragment;
     private ChatMessageAdapter chatMessageAdapter;
-
-    public ReceiveMyService chatRoomReceiver;
 
     private Handler handler = new Handler() {
 
