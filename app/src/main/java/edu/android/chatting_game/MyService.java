@@ -50,7 +50,7 @@ public class MyService extends Service implements Runnable {
     private static final int REBOOT_DELAY_TIMER = 5 * 1000;
 
     // 업데이트 주기
-    private static final int UPDATE_DELAY = 10 * 1000;
+    private static final int UPDATE_DELAY = 1 * 1000;
 
     private Handler mHandler;
     private boolean mIsRunning;
