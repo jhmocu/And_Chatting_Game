@@ -199,11 +199,14 @@ public class MyService extends Service implements Runnable {
             Type type = typeToken.getType();
             Log.i(TAG_SERVICE, "MyService// onPostExecute()// String s" + result);
             list = gson.fromJson(result, type);
+
+            // 신호를 받았을 때
             if(!list.isEmpty()) {
                 Log.i(TAG_SERVICE, "MyService// onPostExecute()// list" + list.toString());
                 for (int i = 0; i < list.size(); i++) {
                     ChatMessageReceiveVO vo = list.get(i);
                     Log.i(TAG_SERVICE, "MyService// for(list)// 메시지 수신" + vo.getChecked());
+
                     getMessage(getApplicationContext(), vo);
                     updateData(vo.getMy_phone(), vo.getChatroom_name());
 
