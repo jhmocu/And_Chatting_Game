@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,15 +30,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="전화 번호 입력"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/btnSendAuth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
-        android:onClick="onSendAuthNum"
-        android:text="인증 번호 보내기" />
+        android:inputType="text"
+        android:layout_above="@+id/btnCheckedAuth"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/inputAuthNum"
@@ -46,7 +41,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="인증 번호 입력"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_above="@+id/btnSendAuth"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnCheckedAuth"
@@ -54,6 +52,30 @@
         android:layout_height="wrap_content"
         android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:onClick="onCheckedAuth"
-        android:text="인증 번호 확인" />
+        android:text="인증 번호 확인"
+        android:layout_above="@+id/inputAuthNum"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/cats"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/btnSendAuth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:onClick="onSendAuthNum"
+        android:text="인증 번호 보내기"
+        android:layout_above="@+id/imageView6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="104dp" />
+
+</RelativeLayout>
