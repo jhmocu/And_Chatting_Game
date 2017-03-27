@@ -15,7 +15,6 @@ import android.widget.EditText;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -113,7 +112,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 builder.addTextBody("friend_phone", vo.getFriend_phone(), ContentType.create("Multipart/related", "UTF-8"));
 
                 InputStream inputStream = null;
-                HttpClient httpClient = null; //
+                AndroidHttpClient httpClient = null; //
                 HttpPost httpPost = null; //new HttpPost(requestURL);
                 HttpResponse httpResponse = null;
 

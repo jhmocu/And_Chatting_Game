@@ -1,6 +1,7 @@
 package edu.android.chatting_game;
 
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -63,6 +64,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
     public static final String TAG = "edu.android.chatting";
     public static final String TASK_CYCLE = "task_cycle";
+    public String dataPassed;
 
 
     private EditText writeMsg;
@@ -79,6 +81,8 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
     private Uri uri;
     private ProfileSendFragment profileSendFragment;
     private ChatMessageAdapter chatMessageAdapter;
+
+    public ReceiveMyService chatRoomReceiver;
 
     private Handler handler = new Handler() {
 
@@ -148,7 +152,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
             Log.i("app_cycle", "getView()");
             my_phone = readFromFile(StartAppActivity.MY_PHONE_FILE);
             View view = convertView;
-            if (view == null) {
+//            if (view == null) {
                 MessageVO vo = getItem(position);
                 LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -165,7 +169,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
                 textChatMessage = (TextView) view.findViewById(R.id.textChatMessage);
                 textChatMessage.setText(messageList.get(position).getMsg()); /** 임의!! 상대 메세지 select 찾아야함 */
 
-            }// end if(view)
+//            }// end if(view)
             writeMsg.setCursorVisible(true);
             writeMsg.requestFocus();
 
@@ -284,10 +288,15 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
         // todo title: 대화상대로 set
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle(chatroom_name);
-        actionBar.hide();
+        actionBar.setTitle(all_phone);
+//        actionBar.hide();
 
         chatMessageAdapter = new ChatMessageAdapter(this, -1, messageList);
+
+
+//            chatMessageAdapter.notifyDataSetChanged();
+
+        chatMessageAdapter.notifyDataSetInvalidated();
         listView = (ListView) findViewById(R.id.chatMessageListView);
         listView.setAdapter(chatMessageAdapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -493,7 +502,7 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
         Log.i(TAG, "sendChatMsgData() all_phone" + all_phone);
         Log.i("allphone_file", "sendChatMsgData() all_phone" + all_phone);
 
-        builder.addTextBody("my_phone", "01097319427", ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("my_phone", my_phone, ContentType.create("Multipart/related", "UTF-8"));
         builder.addTextBody("all_phone", all_phone, ContentType.create("Multipart/related", "UTF-8")); //all_phone: ["01090429548"] = receiver
         builder.addTextBody("last_msg", msg, ContentType.create("Multipart/related", "UTF-8"));
 
@@ -741,6 +750,16 @@ public class ChatRoomActivity extends AppCompatActivity implements OptionBtnFrag
 
         Log.i("uri", "readFromFile()// uri=" + uri);
         return buffer.toString();
+    }
+
+    // Myservice에서 값 받아오기
+    public class ReceiveMyService extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            dataPassed = intent.getStringExtra("DATAPASSED");
+            Log.d("chatroom", dataPassed);
+        }
     }
 
 } // end class ChatRoomActivity

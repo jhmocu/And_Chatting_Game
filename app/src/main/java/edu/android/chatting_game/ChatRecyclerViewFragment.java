@@ -231,7 +231,7 @@ public class ChatRecyclerViewFragment extends Fragment {
 
 //        builder.addTextBody("my_phone", "01090429548"/**vo.getPhone()*/, ContentType.create("Multipart/related", "UTF-8")); // member = receiver
 //        builder.addTextBody("checked", checked, ContentType.create("Multipart/related", "UTF-8"));
-        builder.addTextBody("table_name", "a0109731942701090429548", ContentType.create("Multipart/related", "UTF-8"));
+        builder.addTextBody("table_name", chatroom_name, ContentType.create("Multipart/related", "UTF-8"));
 
         InputStream inputStream = null;
         AndroidHttpClient androidHttpClient = null; //

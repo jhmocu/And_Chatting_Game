@@ -40,7 +40,6 @@ public class MyService extends Service implements Runnable {
 
     public static final String TAG_SERVICE = "service";
     public static final String SEND_SIGN_TAG = "sendMsg";
-    public static final String MY_ACTION = "MY_ACTION";
     public String my_phone = "";
     private ArrayList<ChatMessageReceiveVO> list = new ArrayList<>();
 
@@ -135,7 +134,7 @@ public class MyService extends Service implements Runnable {
         } else {
             Log.d("PersistentService", "run(), mIsRunning is true");
             Log.d("PersistentService", "run(), alarm repeat after few minutes");
-//            function();
+            function();
             mHandler.postDelayed(this, UPDATE_DELAY);
             mIsRunning = true;
         }
@@ -209,11 +208,12 @@ public class MyService extends Service implements Runnable {
                     getMessage(getApplicationContext(), vo);
                     updateData(vo.getMy_phone(), vo.getChatroom_name());
 
-                    Intent connMainIntent = new Intent();
-                    connMainIntent.setAction(MY_ACTION);
-                    connMainIntent.putExtra("DATAPASSED", "receivedTrue");
-                    sendBroadcast(connMainIntent);
-                    Log.i(TAG_SERVICE, "메시지 받은거 확인");
+                    if (isForegroundActivity(getApplicationContext(), ChatRoomActivity.class)) {
+                        Intent connMainIntent = new Intent("MY_CHAT_ACTION");
+                        connMainIntent.putExtra("DATAPASSED", "receivedTrue");
+                        sendBroadcast(connMainIntent);
+                        Log.i(TAG_SERVICE, "메시지 받은거 확인");
+                    }
                 }
             }
             return result;
